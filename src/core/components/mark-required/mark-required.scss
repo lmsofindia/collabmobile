@@ -1,0 +1,8 @@
+@import "~theme/globals";
+
+:host {
+    .core-input-required-asterisk {
+        vertical-align: top;
+        @include padding-horizontal(4px, null);
+    }
+}

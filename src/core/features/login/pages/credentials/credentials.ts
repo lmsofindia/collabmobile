@@ -33,6 +33,7 @@ import { CoreUserSupportConfig } from '@features/user/classes/support/support-co
 import { CoreUserGuestSupportConfig } from '@features/user/classes/support/guest-support-config';
 import { SafeHtml } from '@angular/platform-browser';
 import { CorePlatform } from '@services/platform';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 /**
  * Page to enter the user credentials.
@@ -41,6 +42,36 @@ import { CorePlatform } from '@services/platform';
     selector: 'page-core-login-credentials',
     templateUrl: 'credentials.html',
     styleUrls: ['../../login.scss'],
+    animations: [
+        trigger('hideShow', [
+            state('hide', style({
+                opacity: 0,
+                filter: 'blur(10px)',
+            })),
+            state('show', style({
+                opacity: 1,
+                filter: 'blur(0)',
+            })),
+            transition('hide => show', [
+                animate('0.6s'),
+            ]),
+            transition('show => hide', [
+                animate('0s'),
+            ]),
+        ]),
+        trigger('hideShowContent', [
+            state('show', style({
+                transform: 'translate3d(0, 0, 0)',
+                opacity: 1,
+            })),
+            state('hide', style({
+                transform: 'translate3d(0, 110%, 0)',
+                opacity: 0,
+            })),
+            transition('show => hide', animate('250ms ease')),
+            transition('hide => show', animate('300ms ease')),
+        ]),
+    ],
 })
 export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
 
@@ -69,6 +100,34 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
     protected urlToOpen?: string;
     protected valueChangeSubscription?: Subscription;
 
+    showSplash = true;
+    hideSplashForAnimation = false;
+
+    splashScreens = [
+        {
+            title: 'Welcome to Collabera Academy',
+            description: 'A place to learn and grow',
+            image: 'assets/img/splash-screens/1.jpg',
+            active: true,
+        },
+        {
+            title: 'Learn from the best',
+            description: 'We have industry experts to teach you',
+            image: 'assets/img/splash-screens/2.jpg',
+            active: false,
+        },
+        {
+            title: 'Wide range of courses',
+            description: 'We have courses from various domains with industry standard content',
+            image: 'assets/img/splash-screens/3.jpg',
+            active: false,
+        },
+    ];
+
+    currentSplashScreen = {};
+
+    showNextButton = false;
+
     constructor(
         protected fb: FormBuilder,
     ) {}
@@ -77,6 +136,14 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
      * @inheritdoc
      */
     async ngOnInit(): Promise<void> {
+        this.currentSplashScreen = this.splashScreens[0];
+        this.currentSplashScreen['active'] = true;
+        this.currentSplashScreen['isLast'] = this.splashScreens.length === 1;
+        this.hideSplashForAnimation = true;
+        setTimeout(() => {
+            this.hideSplashForAnimation = false;
+        }, 500);
+
         try {
             this.siteUrl = CoreNavigator.getRequiredRouteParam<string>('siteUrl');
             this.siteName = CoreNavigator.getRouteParam('siteName');
@@ -130,6 +197,43 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
                 }
             });
         }
+    }
+
+    /**
+     * Show next splash screen.
+     */
+    showNextSplashScreen(): void {
+        if (this.currentSplashScreen['isLast']) {
+            this.showSplash = false;
+
+            return;
+        }
+
+        const currentIndex = this.splashScreens.findIndex((splashScreen) => splashScreen['active']);
+
+        if (currentIndex === this.splashScreens.length - 1) {
+            this.showNextButton = true;
+
+            return;
+        }
+
+        this.hideSplashForAnimation = true;
+
+        this.splashScreens[currentIndex]['active'] = false;
+        this.splashScreens[currentIndex + 1]['active'] = true;
+        this.currentSplashScreen = this.splashScreens[currentIndex + 1];
+        this.currentSplashScreen['isLast'] = this.splashScreens.length === currentIndex + 2;
+
+        setTimeout(() => {
+            this.hideSplashForAnimation = false;
+        }, 500);
+    }
+
+    /**
+     * Go to login page.
+     */
+    goToLogin(): void {
+        this.showSplash = false;
     }
 
     /**

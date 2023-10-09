@@ -21,6 +21,7 @@ import { CoreRedirectGuard } from '@guards/redirect';
 import { CoreLoginCronHandler } from './services/handlers/cron';
 import { CoreCronDelegate } from '@services/cron';
 import { CoreEvents } from '@singletons/events';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const CORE_LOGIN_SERVICES = [
     CoreLoginHelperProvider,
@@ -38,6 +39,7 @@ const appRoutes: Routes = [
 @NgModule({
     imports: [
         AppRoutingModule.forChild(appRoutes),
+        BrowserAnimationsModule,
     ],
     providers: [
         {

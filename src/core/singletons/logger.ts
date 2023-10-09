@@ -67,6 +67,9 @@ export class CoreLogger {
      * @returns Instance.
      */
     static getInstance(className: string): CoreLogger {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        const muted = () => {};
+
         // Disable log on production and testing.
         if (
             !CoreBrowser.hasDevelopmentSetting('LoggingEnabled') &&
@@ -76,23 +79,16 @@ export class CoreLogger {
                 warnLogsDisabled();
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            const muted = () => {};
-
             return new CoreLogger(muted, muted, muted, muted, muted);
         }
 
         className = className || '';
 
         return new CoreLogger(
-            // eslint-disable-next-line no-console
-            CoreLogger.prepareLogFn((...data) => console.log(...data), className),
-            // eslint-disable-next-line no-console
-            CoreLogger.prepareLogFn((...data) => console.info(...data), className),
-            // eslint-disable-next-line no-console
-            CoreLogger.prepareLogFn((...data) => console.warn(...data), className),
-            // eslint-disable-next-line no-console
-            CoreLogger.prepareLogFn((...data) => console.debug(...data), className),
+            muted,
+            muted,
+            muted,
+            muted,
             // eslint-disable-next-line no-console
             CoreLogger.prepareLogFn((...data) => console.error(...data), className),
         );

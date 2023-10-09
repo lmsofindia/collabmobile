@@ -29,10 +29,12 @@
                     <img *ngIf="!logoUrl" src="assets/img/login_logo.png" role="presentation" alt="">
                 </div>
 
-                <p *ngIf="siteName" class="ion-padding core-sitename">
-                    <core-format-text [text]="siteName" [filter]="false"></core-format-text>
-                </p>
-                <p class="core-siteurl">{{siteUrl}}</p>
+                <div style="display: none;">
+                    <p *ngIf="siteName" class="ion-padding core-sitename">
+                        <core-format-text [text]="siteName" [filter]="false"></core-format-text>
+                    </p>
+                    <p class="core-siteurl">{{siteUrl}}</p>
+                </div>
 
                 <ion-card *ngIf="!isLoggedOut" class="core-danger-card core-login-reconnect-warning">
                     <ion-item>

@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [text]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <h1>{{ title }}</h1>
+        </ion-title>
+        <ion-buttons slot="end">
+            <core-user-menu-button></core-user-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="limited-width">
+    <ion-refresher slot="fixed" [disabled]="!loaded" (ionRefresh)="refresh($event.target)">
+        <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
+    </ion-refresher>
+    <core-loading [hideUntil]="loaded">
+        <h2 class="main-sub-title">You have spent <span>20 hours</span> in June 2023</h2>
+        <ion-card class="statistics-block mock-block">
+            <ion-card-header>
+                <ion-card-title>Statistics</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <div class="data">
+                    <div class="item" *ngFor="let statistic of statistics">
+                        <ion-icon [name]="statistic.icon" [style]="'color: ' + statistic.color"></ion-icon>
+                        <div class="details">
+                            <div class="title">{{ statistic.title }}</div>
+                            <div class="value">{{ statistic.value }}</div>
+                        </div>
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <h3 class="section-title">
+            <span>My Trainings</span>
+            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
+                <ion-label>Veiw All</ion-label>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-button>
+        </h3>
+        <div style="padding: 40px 0;"></div>
+        <h3 class="section-title">
+            <span>My Programs</span>
+            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
+                <ion-label>Veiw All</ion-label>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-button>
+        </h3>
+        <div style="padding: 40px 0;"></div>
+        <h3 class="section-title">
+            <span>Recommended Courses</span>
+            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
+                <ion-label>Veiw All</ion-label>
+                <ion-icon name="arrow-forward"></ion-icon>
+            </ion-button>
+        </h3>
+        <div style="padding: 40px 0;"></div>
+    </core-loading>
+</ion-content>

@@ -14,7 +14,7 @@
 
 import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
 import { Routes } from '@angular/router';
-import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
+// import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { CoreMainMenuRoutingModule } from '../mainmenu/mainmenu-routing.module';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { CoreTagMainMenuHandler, CoreTagMainMenuHandlerService } from './services/handlers/mainmenu';
@@ -51,7 +51,7 @@ const routes: Routes = [
             provide: APP_INITIALIZER,
             multi: true,
             useValue: () => {
-                CoreMainMenuDelegate.registerHandler(CoreTagMainMenuHandler.instance);
+                // CoreMainMenuDelegate.registerHandler(CoreTagMainMenuHandler.instance);
                 CoreContentLinksDelegate.registerHandler(CoreTagIndexLinkHandler.instance);
                 CoreContentLinksDelegate.registerHandler(CoreTagSearchLinkHandler.instance);
             },

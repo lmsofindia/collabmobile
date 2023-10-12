@@ -221,6 +221,18 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
         });
     }
 
+    async openSettings(event: Event): Promise<void> {
+        if (CoreNavigator.currentRouteCanBlockLeave()) {
+            await CoreDomUtils.showAlert(undefined, Translate.instant('core.cannotlogoutpageblocks'));
+
+            return;
+        }
+
+        await this.close(event);
+
+        CoreNavigator.navigateToSitePath('settings');
+    }
+
     /**
      * Show account selector.
      *

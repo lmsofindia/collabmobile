@@ -16,7 +16,7 @@ import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
 import { Routes } from '@angular/router';
 import { CoreMainMenuRoutingModule } from '@features/mainmenu/mainmenu-routing.module';
 
-import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
+// import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { CoreCronDelegate } from '@services/cron';
 import { CoreContentLinksDelegate } from '@features/contentlinks/services/contentlinks-delegate';
 import { AddonCalendarViewLinkHandler } from './services/handlers/view-link';
@@ -65,7 +65,7 @@ const mainMenuChildrenRoutes: Routes = [
             multi: true,
             useValue: async () => {
                 CoreContentLinksDelegate.registerHandler(AddonCalendarViewLinkHandler.instance);
-                CoreMainMenuDelegate.registerHandler(AddonCalendarMainMenuHandler.instance);
+                // CoreMainMenuDelegate.registerHandler(AddonCalendarMainMenuHandler.instance);
                 CoreCronDelegate.register(AddonCalendarSyncCronHandler.instance);
 
                 await AddonCalendar.initialize();

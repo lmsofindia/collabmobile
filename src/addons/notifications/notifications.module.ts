@@ -16,7 +16,7 @@ import { APP_INITIALIZER, NgModule, Type } from '@angular/core';
 import { Routes } from '@angular/router';
 
 import { CoreCronDelegate } from '@services/cron';
-import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
+// import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { CoreMainMenuRoutingModule } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { CorePushNotificationsDelegate } from '@features/pushnotifications/services/push-delegate';
@@ -62,7 +62,7 @@ const preferencesRoutes: Routes = [
             provide: APP_INITIALIZER,
             multi: true,
             useValue: () => {
-                CoreMainMenuDelegate.registerHandler(AddonNotificationsMainMenuHandler.instance);
+                // CoreMainMenuDelegate.registerHandler(AddonNotificationsMainMenuHandler.instance);
                 CoreCronDelegate.register(AddonNotificationsCronHandler.instance);
                 CorePushNotificationsDelegate.registerClickHandler(AddonNotificationsPushClickHandler.instance);
                 CoreSettingsDelegate.registerHandler(AddonNotificationsSettingsHandler.instance);

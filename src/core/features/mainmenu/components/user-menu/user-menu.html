@@ -15,8 +15,8 @@
 <ion-content>
     <core-loading [hideUntil]="siteLogoLoaded && handlersLoaded">
         <ion-list>
-            <ion-item button class="core-usermenu-siteinfo ion-text-wrap" *ngIf="siteInfo" lines="full" detail="false" [href]="siteUrl"
-                core-link auto-login="yes">
+            <ion-item button class="core-usermenu-siteinfo ion-text-wrap" style="display: none;" *ngIf="siteInfo" lines="full"
+                detail="false" [href]="siteUrl" core-link auto-login="yes">
                 <ion-label>
                     <!-- Show site logo. -->
                     <img class="core-usermenu-site-logo" *ngIf="siteLogo && siteLogoLoaded" [src]="siteLogo" role="presentation" alt=""
@@ -78,6 +78,12 @@
     </core-loading>
 </ion-content>
 <ion-footer>
+    <ion-item button lines="full" (click)="openSettings($event)" detail="true" class="ion-text-wrap">
+        <ion-icon name="fas-gears" slot="start" aria-hidden="true"></ion-icon>
+        <ion-label>
+            <p class="item-heading">{{ 'core.settings.appsettings' | translate }}</p>
+        </ion-label>
+    </ion-item>
     <ion-item *ngIf="displaySwitchAccount" button lines="full" (click)="switchAccounts($event)" detail="true" class="ion-text-wrap">
         <ion-icon name="fas-right-left" slot="start" aria-hidden="true"></ion-icon>
         <ion-label>

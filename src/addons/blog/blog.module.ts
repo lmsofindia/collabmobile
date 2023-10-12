@@ -19,7 +19,7 @@ import { CoreCourseIndexRoutingModule } from '@features/course/course-routing.mo
 import { CoreCourseOptionsDelegate } from '@features/course/services/course-options-delegate';
 import { CoreMainMenuRoutingModule } from '@features/mainmenu/mainmenu-routing.module';
 import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-routing.module';
-import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
+// import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { CoreTagAreaDelegate } from '@features/tag/services/tag-area-delegate';
 import { CoreUserDelegate } from '@features/user/services/user-delegate';
 import { AddonBlogProvider } from './services/blog';
@@ -53,7 +53,7 @@ const routes: Routes = [
             multi: true,
             useValue: () => {
                 CoreContentLinksDelegate.registerHandler(AddonBlogIndexLinkHandler.instance);
-                CoreMainMenuDelegate.registerHandler(AddonBlogMainMenuHandler.instance);
+                // CoreMainMenuDelegate.registerHandler(AddonBlogMainMenuHandler.instance);
                 CoreUserDelegate.registerHandler(AddonBlogUserHandler.instance);
                 CoreTagAreaDelegate.registerHandler(AddonBlogTagAreaHandler.instance);
                 CoreCourseOptionsDelegate.registerHandler(AddonBlogCourseOptionHandler.instance);

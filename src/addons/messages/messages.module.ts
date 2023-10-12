@@ -18,7 +18,7 @@ import { Routes } from '@angular/router';
 import { CoreMainMenuRoutingModule } from '@features/mainmenu/mainmenu-routing.module';
 import { MESSAGES_OFFLINE_SITE_SCHEMA } from './services/database/messages';
 import { CORE_SITE_SCHEMAS } from '@services/sites';
-import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
+// import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { AddonMessagesMainMenuHandler, AddonMessagesMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreCronDelegate } from '@services/cron';
 import { CoreSettingsDelegate } from '@features/settings/services/settings-delegate';
@@ -76,7 +76,7 @@ const preferencesRoutes: Routes = [
             multi: true,
             useValue: () => {
                 // Register handlers.
-                CoreMainMenuDelegate.registerHandler(AddonMessagesMainMenuHandler.instance);
+                // CoreMainMenuDelegate.registerHandler(AddonMessagesMainMenuHandler.instance);
                 CoreCronDelegate.register(AddonMessagesMainMenuHandler.instance);
                 CoreCronDelegate.register(AddonMessagesSyncCronHandler.instance);
                 CoreSettingsDelegate.registerHandler(AddonMessagesSettingsHandler.instance);

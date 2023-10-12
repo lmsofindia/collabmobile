@@ -83,6 +83,19 @@ ion-tab-bar {
             position: absolute;
             z-index: 1;
         }
+
+        ion-label {
+            display: block;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 4px;
+            margin-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            line-height: 1;
+        }
     }
 }
 
@@ -105,7 +118,9 @@ ion-tabs.placement-bottom {
             visibility: visible !important;
             transform: translateY(0) !important;
         }
-    } @else {
+    }
+
+    @else {
         &.tabshidden ion-tab-bar {
             pointer-events: none;
 
@@ -133,13 +148,15 @@ ion-tabs.placement-side {
         ion-tab-button {
             --padding-start: 0;
             --padding-end: 0;
+
             ion-badge.core-tab-badge {
                 @include position(null, 1px, null, auto);
             }
         }
 
 
-        ion-tab-button, core-user-menu-button {
+        ion-tab-button,
+        core-user-menu-button {
             width: 100%;
             min-height: var(--menutabbar-size);
             flex: 0;

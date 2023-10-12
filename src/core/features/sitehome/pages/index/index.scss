@@ -14,3 +14,28 @@ ion-item ion-icon {
 core-spacer {
     --spacer-horizontal: 10px;
 }
+
+.slider {
+    height: 200px;
+    margin: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.short-videos {
+    .short-video {
+        --width: min(80%, 400px);
+        min-width: var(--width);
+        width: var(--width);
+        height: 400px;
+        background: black;
+        margin-right: 14px;
+        border-radius: 12px;
+    }
+}

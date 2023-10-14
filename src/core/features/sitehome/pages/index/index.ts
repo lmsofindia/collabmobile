@@ -20,14 +20,10 @@ import { CoreSite, CoreSiteConfig } from '@classes/site';
 import { CoreCourse, CoreCourseWSSection } from '@features/course/services/course';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreSites } from '@services/sites';
-import { CoreSiteHome } from '@features/sitehome/services/sitehome';
 import { CoreCourses } from '@features//courses/services/courses';
 import { CoreEventObserver, CoreEvents } from '@singletons/events';
 import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
-import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
-import { CoreCourseModulePrefetchDelegate } from '@features/course/services/module-prefetch-delegate';
 import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
-import { CoreBlockHelper } from '@features/block/services/block-helper';
 import { CoreUtils } from '@services/utils/utils';
 
 /**
@@ -55,6 +51,15 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
 
     protected updateSiteObserver: CoreEventObserver;
     protected fetchSuccess = false;
+
+    sliders: string | null = null;
+
+    shorts: [] = [];
+
+    cacheKeys = {
+        sliders: 'sitehome:theme_slideshows',
+        shorts: 'sitehome:shorts',
+    };
 
     constructor() {
         // Refresh the enabled flags if site is updated.
@@ -96,47 +101,9 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      * @returns Promise resolved when done.
      */
     protected async loadContent(): Promise<void> {
-        this.hasContent = false;
-
-        const config = this.currentSite.getStoredConfig() || { numsections: 1, frontpageloggedin: undefined };
-
-        this.items = await CoreSiteHome.getFrontPageItems(config.frontpageloggedin);
-        this.hasContent = this.items.length > 0;
-
-        // Get the news forum.
-        if (this.items.includes('NEWS_ITEMS')) {
-            try {
-                const forum = await CoreSiteHome.getNewsForum(this.siteHomeId);
-                this.newsForumModule = await CoreCourse.getModule(forum.cmid, forum.course);
-                this.newsForumModule.handlerData = await CoreCourseModuleDelegate.getModuleDataFor(
-                    this.newsForumModule.modname,
-                    this.newsForumModule,
-                    this.siteHomeId,
-                    undefined,
-                    true,
-                );
-            } catch {
-                // Ignore errors.
-            }
-        }
-
         try {
-            const sections = await CoreCourse.getSections(this.siteHomeId, false, true);
-
-            // Check "Include a topic section" setting from numsections.
-            this.section = config.numsections ? sections.find((section) => section.section == 1) : undefined;
-            if (this.section) {
-                const result = await CoreCourseHelper.addHandlerDataForModules(
-                    [this.section],
-                    this.siteHomeId,
-                    undefined,
-                    undefined,
-                    true,
-                );
-
-                this.section.hasContent = result.hasContent;
-                this.hasContent = result.hasContent || this.hasContent;
-            }
+            this.getSliders();
+            this.getShorts();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -150,8 +117,6 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         } catch (error) {
             CoreDomUtils.showErrorModalDefault(error, 'core.course.couldnotloadsectioncontent', true);
         }
-
-        this.hasBlocks = await CoreBlockHelper.hasCourseBlocks(this.siteHomeId);
     }
 
     /**
@@ -162,7 +127,6 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     doRefresh(refresher?: IonRefresher): void {
         const promises: Promise<unknown>[] = [];
 
-        promises.push(CoreCourse.invalidateSections(this.siteHomeId));
         promises.push(this.currentSite.invalidateConfig().then(async () => {
             // Config invalidated, fetch it again.
             const config: CoreSiteConfig = await this.currentSite.getConfig();
@@ -171,17 +135,55 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             return;
         }));
 
-        promises.push(CoreCourse.invalidateCourseBlocks(this.siteHomeId));
-
-        if (this.section && this.section.modules) {
-            // Invalidate modules prefetch data.
-            promises.push(CoreCourseModulePrefetchDelegate.invalidateModules(this.section.modules, this.siteHomeId));
-        }
-
         Promise.all(promises).finally(async () => {
+            // invalidate all caches.
+            Object.keys(this.cacheKeys).forEach((key) => {
+                this.currentSite.invalidateWsCacheForKey(this.cacheKeys[key]);
+            });
+
             await this.loadContent().finally(() => {
                 refresher?.complete();
             });
+        });
+    }
+
+    /**
+     * Get sliders
+     */
+    getSliders(): void {
+        this.currentSite.read<string>('local_collab_function_get_sliders', {}, {
+            updateFrequency: CoreSite.FREQUENCY_RARELY,
+            getFromCache: true,
+            saveToCache: true,
+            cacheKey: this.cacheKeys.sliders,
+            component: 'sitehome',
+            componentId: this.siteHomeId,
+        }).then((data) => {
+            this.sliders = data['html'];
+
+            return this.sliders;
+        }).catch(() => {
+            // Ignore errors.
+        });
+    }
+
+    /**
+     * Get shorts
+     */
+    getShorts(): void {
+        this.currentSite.read<[]>('local_course_catalogue_get_shorts', {}, {
+            updateFrequency: CoreSite.FREQUENCY_OFTEN,
+            getFromCache: true,
+            saveToCache: true,
+            cacheKey: this.cacheKeys.shorts,
+            component: 'sitehome',
+            componentId: this.siteHomeId,
+        }).then((data) => {
+            this.shorts = data['shorts'] || [];
+
+            return this.shorts;
+        }).catch(() => {
+            // Ignore errors.
         });
     }
 

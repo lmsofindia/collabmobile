@@ -24,3 +24,49 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+.theme-mb2sliders {
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 20px;
+
+        li {
+            --offset: 50px;
+            --height: 200px;
+            --width: calc(100vw - var(--offset));
+
+            height: var(--height);
+            min-width: var(--width);
+            border-radius: 12px;
+            overflow: hidden;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            margin-right: 16px;
+
+            img {
+                height: var(--height);
+                width: var(--width);
+                object-fit: cover;
+            }
+
+            .mb2slides-caption {
+                display: none;
+            }
+
+            @media (min-width: 768px) {
+                --offset: calc(80px + var(--menutabbar-size, 0));
+                --height: 300px;
+            }
+
+        }
+    }
+}

@@ -23,6 +23,7 @@ export class AddonDashboardProvider {
 
     static readonly ENTRIES_PER_PAGE = 10;
     static readonly COMPONENT = 'addondashboard';
+    static readonly ROOT_CACHE_KEY = 'addonDashboard:dashboard';
 
     async isPluginEnabled(): Promise<boolean> {
         return true;

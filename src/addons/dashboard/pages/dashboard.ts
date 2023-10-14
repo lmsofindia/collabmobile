@@ -13,8 +13,10 @@
 // limitations under the License.
 
 import { Component, OnInit } from '@angular/core';
+import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
+import { AddonDashboardProvider } from '../services/dashboard';
 
 @Component({
     selector: 'page-addon-dashboard',
@@ -27,45 +29,62 @@ export class AddonDashboardPage implements OnInit {
 
     protected siteHomeId: number;
 
+    protected site: CoreSite | undefined;
+
     loaded = false;
     currentUserId: number;
+
+    preSets: CoreSiteWSPreSets;
 
     statistics: StatisticItem[] = [
         {
             title: 'Time Spent',
             value: '0 Hours',
-            icon: 'time',
+            icon: 'fas-clock',
             color: '#0a9396',
         },
         {
             title: 'Badges',
             value: 0,
-            icon: 'trophy',
+            icon: 'fas-trophy',
             color: '#00bbf9',
         },
         {
             title: 'Course Completed',
             value: 0,
-            icon: 'checkmark-circle',
+            icon: 'fas-book',
             color: '#6a994e',
         },
         {
             title: 'Certificates',
             value: 0,
-            icon: 'document-text',
+            icon: 'fas-certificate',
             color: '#4361ee',
         },
         {
             title: 'Programs Completed',
             value: 0,
-            icon: 'ribbon',
+            icon: 'fas-graduation-cap',
             color: '#bc4749',
         },
     ];
 
+    cacheKeys = {
+        statistics: ':statistics',
+    };
+
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
+        this.site = CoreSites.getCurrentSite();
+        this.preSets = {
+            cacheKey: AddonDashboardProvider.ROOT_CACHE_KEY,
+            updateFrequency: CoreSite.FREQUENCY_OFTEN,
+            component: AddonDashboardProvider.COMPONENT,
+            componentId: this.siteHomeId,
+            getFromCache: true,
+            saveToCache: true,
+        };
     }
 
     /**
@@ -85,10 +104,41 @@ export class AddonDashboardPage implements OnInit {
      */
     protected async fetchData(refresh: boolean = false): Promise<void> {
         if (refresh) {
-            // this.pageLoaded = 0;
+            // invalidate statistics cache.
+            Object.keys(this.cacheKeys).forEach((key) => {
+                this.site?.invalidateWsCacheForKey(this.preSets.cacheKey + this.cacheKeys[key]);
+            });
         }
 
+        this.fetchStatistics();
+
         this.loaded = true;
+    }
+
+    protected async fetchStatistics(): Promise<void> {
+        this.site?.read('block_user_intro_get_statistics', {
+        }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
+
+            this.statistics = data.map((statistic) => ({
+                ...statistic,
+                icon: statistic.icon.replace('fa fa-', 'fas-'),
+            }));
+
+            return this.statistics;
+
+        }).catch(() => {
+            // Ignore errors.
+        });
+    }
+
+    protected buildPreset(key: string, frequency?: number | undefined): CoreSiteWSPreSets {
+        const newKey = this.preSets.cacheKey + ':' + key;
+
+        return {
+            ...this.preSets,
+            cacheKey: newKey,
+            updateFrequency: frequency || this.preSets.updateFrequency,
+        };
     }
 
     /**

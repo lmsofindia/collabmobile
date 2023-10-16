@@ -171,7 +171,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      * Get shorts
      */
     getShorts(): void {
-        this.currentSite.read<[]>('local_course_catalogue_get_shorts', {}, {
+        this.currentSite.read<[]>('local_course_catalogue_get_shorts', {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            per_page: 8,
+        }, {
             updateFrequency: CoreSite.FREQUENCY_OFTEN,
             getFromCache: true,
             saveToCache: true,

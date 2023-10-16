@@ -78,6 +78,10 @@ core-loading {
 
             ion-icon {
                 font-size: 1.5rem;
+
+                &.active {
+                    color: var(--primary);
+                }
             }
 
             ion-label {

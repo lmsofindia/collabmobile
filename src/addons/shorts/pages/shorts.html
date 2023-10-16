@@ -1,29 +1,29 @@
 <ion-content class="limited-width">
     <core-loading [hideUntil]="loaded">
-        <div class="shorts-container">
-            <div class="short-wrapper">
-                <video src="https://collabera.mooconline.co.in/pluginfile.php/1/local_short_video/short_video/4/SampleVideo_testv.mp4"
-                    autoplay="off" preload="auto" playsinline="true" webkit-playsinline="true" loop="true" muted></video>
+        <div class="shorts-container" *ngIf="shorts.length">
+            <div class="short-wrapper" *ngFor="let short of shorts; let i = index">
+                <video autoplay="off" preload="auto" playsinline="true" webkit-playsinline="true" loop="true" (click)="toggleState($event)"
+                    [attr.data-src]="short.video"></video>
                 <div class="content">
-                    <div class="title">Chap-1</div>
+                    <div class="title">{{short.fullname}}</div>
                     <div class="profile">
                         <div class="avatar">
-                            <img src="https://collabera.mooconline.co.in/pluginfile.php/5/user/icon/mb2nl/f2?rev=1293" alt="" />
+                            <img [src]="short.profilepic" [alt]="short.userfullname" />
                         </div>
-                        <div class="name">Admin User</div>
+                        <div class="name">{{short.userfullname}}</div>
                     </div>
                 </div>
                 <div class="buttons">
-                    <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
+                    <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="toggleLike(short)">
                         <div class="btn-inner">
-                            <ion-icon name="thumbs-up"></ion-icon>
-                            <ion-label>100</ion-label>
+                            <ion-icon name="thumbs-up" [class.active]="short.is_liked"></ion-icon>
+                            <ion-label>{{short.likes}}</ion-label>
                         </div>
                     </ion-button>
-                    <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
+                    <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="toggleDislike(short)">
                         <div class="btn-inner">
-                            <ion-icon name="thumbs-down"></ion-icon>
-                            <ion-label>100</ion-label>
+                            <ion-icon name="thumbs-down" [class.active]="short.is_disliked"></ion-icon>
+                            <ion-label>{{short.dislikes}}</ion-label>
                         </div>
                     </ion-button>
                     <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
@@ -35,5 +35,7 @@
                 </div>
             </div>
         </div>
+        <core-empty-box *ngIf="!shorts.length" icon="alert-circle" message="No shorts found">
+        </core-empty-box>
     </core-loading>
 </ion-content>

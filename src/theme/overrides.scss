@@ -11,7 +11,22 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
     font-weight: 500;
     letter-spacing: 0.0125em;
     text-align: start;
-    color: var(--gray-200);
+}
+
+.courses-wrapper {
+    core-collab-course {
+        display: block;
+        margin: 10px;
+        margin-bottom: 14px;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .horizontal-scroll-wrapper {
@@ -23,6 +38,25 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
     flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
+
+    &.courses-wrapper {
+        core-collab-course {
+            --width: min(82%, 480px);
+            min-width: var(--width);
+            width: var(--width);
+            display: block;
+            margin: 0;
+            margin-right: 14px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &[viewmode="list"] {
+                --width: min(94%, 500px);
+            }
+        }
+    }
 }
 
 .theme-mb2sliders {
@@ -47,10 +81,11 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
             height: var(--height);
             min-width: var(--width);
             border-radius: 12px;
-            overflow: hidden;
             scroll-snap-align: center;
             scroll-snap-stop: always;
             margin-right: 16px;
+            position: relative;
+            overflow: hidden;
 
             img {
                 height: var(--height);
@@ -59,7 +94,37 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
             }
 
             .mb2slides-caption {
-                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background: #00000061;
+                padding: 1.2rem;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .mb2slides-title {
+                    margin-top: 0;
+                    margin-bottom: 0.5rem;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    line-height: 1.2;
+                }
+
+                p {
+                    margin-top: 0;
+                    margin-bottom: 0.5rem;
+                    font-size: 0.875rem;
+                    font-weight: 400;
+                    color: var(--gray-300);
+                }
+
+                a {
+                    display: none;
+                }
             }
 
             @media (min-width: 768px) {
@@ -69,4 +134,14 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
 
         }
     }
+}
+
+.wrap-text {
+    --lines: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    -webkit-line-clamp: var(--lines);
 }

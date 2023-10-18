@@ -16,6 +16,7 @@ import { Component, OnInit } from '@angular/core';
 import { CoreSite } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
+import { CoreDomUtils } from '@services/utils/dom';
 
 @Component({
     selector: 'page-addon-shorts',
@@ -132,25 +133,36 @@ export class AddonShortsPage implements OnInit {
         });
     }
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     toggleLike(short: any): void {
-        if(short.is_liked) {
-            short.likes--;
-            short.is_liked = false;
-        } else {
-            short.likes++;
-            short.is_liked = true;
-        }
+        this.likeDislike(short, 1);
     }
 
     toggleDislike(short: any): void {
-        if(short.is_disliked) {
-            short.dislikes--;
-            short.is_disliked = false;
-        } else {
-            short.dislikes++;
-            short.is_disliked = true;
-        }
+        this.likeDislike(short, 0);
+    }
+
+    likeDislike(short: any, likeflag: number): void {
+        this.currentSite.read('local_course_catalogue_toggle_short_like', {
+            short_id: short.id,
+            likeflag,
+        }, {
+            updateFrequency: CoreSite.FREQUENCY_USUALLY,
+            getFromCache: false,
+            saveToCache: false,
+        }).then((data: ShortLikeDislikeResponse) => {
+            if(data['success']) {
+                short.likes = data['likes'];
+                short.is_liked = data['is_liked'];
+                short.is_disliked = data['is_disliked'];
+                short.dislikes = data['dislikes'];
+
+                CoreDomUtils.showAlert(undefined, data['message']);
+            }
+
+            return;
+        }).catch(() => {
+            // do nothing
+        });
     }
 
     /**
@@ -169,3 +181,12 @@ export class AddonShortsPage implements OnInit {
     }
 
 }
+
+type ShortLikeDislikeResponse = {
+    success: boolean;
+    likes: number;
+    is_liked: boolean;
+    is_disliked: boolean;
+    dislikes: number;
+    message: string;
+};

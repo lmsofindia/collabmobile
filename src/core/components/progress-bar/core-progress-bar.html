@@ -2,7 +2,7 @@
     <progress max="100" [value]="progress" role="progressbar" [attr.aria-valuenow]="progress" [attr.aria-valuetext]="progressBarValueText"
         [attr.aria-describedby]="ariaDescribedBy">
     </progress>
-    <div class="core-progress-text">
+    <div class="core-progress-text" *ngIf="showText">
         <span class="sr-only" *ngIf="a11yText">{{ a11yText | translate }}</span>
         {{ text }}
     </div>

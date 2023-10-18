@@ -100,34 +100,7 @@ const appConfig = {
 
             }
         ],
-        '@typescript-eslint/naming-convention': [
-            'error',
-            {
-                selector: 'property',
-                format: ['camelCase'],
-            },
-            {
-                selector: 'property',
-                modifiers: ['public', 'readonly'],
-                format: ['UPPER_CASE'],
-            },
-            {
-                selector: 'property',
-                modifiers: ['protected', 'readonly'],
-                format: ['UPPER_CASE'],
-            },
-            {
-                selector: 'property',
-                modifiers: ['private', 'readonly'],
-                format: ['UPPER_CASE'],
-            },
-            {
-                selector: 'property',
-                modifiers: ['private'],
-                format: ['camelCase'],
-                leadingUnderscore: 'allow',
-            },
-        ],
+        '@typescript-eslint/naming-convention': 'off',
         '@typescript-eslint/no-empty-function': 'error',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/no-explicit-any': 'warn',

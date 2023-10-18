@@ -35,6 +35,7 @@ export class CoreProgressBarComponent implements OnInit, OnChanges {
     @Input() a11yText?: string; // Accessibility text to read before the percentage.
     @Input() ariaDescribedBy?: string; // ID of the element that described the progress, if any.
     @Input() color = '';
+    @Input() showText = true;
 
     width?: SafeStyle;
     progressBarValueText?: string;

@@ -71,7 +71,14 @@ export class AddonDashboardPage implements OnInit {
 
     cacheKeys = {
         statistics: ':statistics',
+        matrixBoxes: ':matrixBoxes',
     };
+
+    myCourses: [] = [];
+
+    recommendedCourses: [] = [];
+
+    matrixBoxes: MatrixBoxes[] = [];
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -110,11 +117,22 @@ export class AddonDashboardPage implements OnInit {
             });
         }
 
-        this.fetchStatistics();
+        await this.fetchStatistics();
+
+        await this.fetchMatrixBoxes();
+
+        await this.fetchMyCourses();
+
+        await this.fetchRecommendedCourses();
 
         this.loaded = true;
     }
 
+    /**
+     * Fetch the statistics.
+     *
+     * @returns Promise resolved when done.
+     */
     protected async fetchStatistics(): Promise<void> {
         this.site?.read('block_user_intro_get_statistics', {
         }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
@@ -131,6 +149,66 @@ export class AddonDashboardPage implements OnInit {
         });
     }
 
+    /**
+     * Fetch the matrix boxes.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchMatrixBoxes(): Promise<void> {
+        this.site?.read('block_user_intro_get_trainingmatrices', {
+        }, this.buildPreset(this.cacheKeys.matrixBoxes)).then((data: MatrixBoxes[] ) => {
+            this.matrixBoxes = data || [];
+
+            return;
+        }).catch(() => {
+            this.matrixBoxes = [];
+        });
+    }
+
+    /**
+     * Fetch the my courses.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchMyCourses(): Promise<void> {
+        this.site?.read('local_course_catalogue_get_my', {
+            filters: {
+                learning_type : 'course',
+            },
+            page: 1,
+            per_page: 12,
+        }).then((data: CatalogueResponse) => {
+            this.myCourses = data.courses || [];
+
+            return;
+        }).catch(() => {
+            this.myCourses = [];
+        });
+    }
+
+    /**
+     * Fetch the recommended courses.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchRecommendedCourses(): Promise<void> {
+        this.site?.read('local_course_catalogue_get_recommended_courses', {})
+            .then((data: { courses: [] }) => {
+                this.recommendedCourses = data.courses || [];
+
+                return;
+            }).catch(() => {
+                this.recommendedCourses = [];
+            });
+    }
+
+    /**
+     * Build a common preset of WS options for all the requests.
+     *
+     * @param key Cache key to use.
+     * @param frequency Update frequency.
+     * @returns CoreSiteWSPreSets
+     */
     protected buildPreset(key: string, frequency?: number | undefined): CoreSiteWSPreSets {
         const newKey = this.preSets.cacheKey + ':' + key;
 
@@ -162,5 +240,25 @@ type StatisticItem = {
     title: string;
     value: string|number;
     icon: string;
+    color: string;
+};
+
+type CatalogueResponse = {
+    courses: [];
+    programs: [];
+    pagination: {
+        page: number;
+        has_next: boolean;
+        has_prev: boolean;
+        total: number;
+        total_pages: number;
+    };
+};
+
+type MatrixBoxes = {
+    title: string;
+    value: string|number;
+    percentage: string|number;
+    percentage_int: number;
     color: string;
 };

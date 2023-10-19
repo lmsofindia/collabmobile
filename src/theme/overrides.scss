@@ -2,6 +2,25 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
     display: none !important;
 }
 
+.core-header-logo {
+    max-height: var(--core-mainpage-headerlogo-maxheight);
+    display: var(--core-mainpage-headerlogo-display);
+}
+
+.core-header-logo.logo-dark {
+    display: none;
+}
+
+html.dark {
+    .core-header-logo.logo-light {
+        display: none;
+    }
+
+    .core-header-logo.logo-dark {
+        display: block;
+    }
+}
+
 .section-title {
     display: flex;
     align-items: center;
@@ -105,13 +124,18 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                color: #fff;
 
                 .mb2slides-title {
                     margin-top: 0;
-                    margin-bottom: 0.5rem;
+                    margin-bottom: 0;
                     font-size: 1rem;
                     font-weight: 500;
                     line-height: 1.2;
+                }
+
+                .mb2slides-description {
+                    display: none;
                 }
 
                 p {

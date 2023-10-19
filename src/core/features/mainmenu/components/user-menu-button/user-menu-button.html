@@ -1,4 +1,11 @@
-<core-user-avatar *ngIf="(alwaysShow || isMainScreen) && siteInfo" [user]="siteInfo" class="core-bar-button-image clickable"
-    [linkProfile]="false" (ariaButtonClick)="openUserMenu($event)" [userTour]="userTour"
-    [attr.aria-label]="'core.user.useraccount' | translate">
-</core-user-avatar>
+<ion-buttons slot="end" *ngIf="(alwaysShow || isMainScreen) && siteInfo">
+    <ion-button [attr.aria-label]="'core.courses.searchcourses' | translate" (click)="openSearch()">
+        <ion-icon name="fas-magnifying-glass" slot="icon-only" aria-hidden="true"></ion-icon>
+    </ion-button>
+    <ion-button [attr.aria-label]="'addon.notifications.notifications' | translate" (click)="openNotifications()">
+        <ion-icon name="fas-bell" slot="icon-only" aria-hidden="true"></ion-icon>
+    </ion-button>
+    <core-user-avatar [user]="siteInfo" class="core-bar-button-image clickable" [linkProfile]="false"
+        (ariaButtonClick)="openUserMenu($event)" [userTour]="userTour" [attr.aria-label]="'core.user.useraccount' | translate">
+    </core-user-avatar>
+</ion-buttons>

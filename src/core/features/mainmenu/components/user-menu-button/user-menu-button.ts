@@ -22,6 +22,7 @@ import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreMainMenuUserMenuTourComponent } from '../user-menu-tour/user-menu-tour';
 import { CoreMainMenuUserMenuComponent } from '../user-menu/user-menu';
+import { CoreNavigator } from '@services/navigator';
 
 /**
  * Component to display an avatar on the header to open user menu.
@@ -70,6 +71,18 @@ export class CoreMainMenuUserButtonComponent implements OnInit {
         CoreDomUtils.openSideModal<void>({
             component: CoreMainMenuUserMenuComponent,
         });
+    }
+
+    /**
+     * Open search page
+     *
+     */
+    openSearch(): void {
+        CoreNavigator.navigateToSitePath('courses/list', { params : { mode: 'search' } });
+    }
+
+    openNotifications(): void {
+        CoreNavigator.navigateToSitePath('notifications');
     }
 
 }

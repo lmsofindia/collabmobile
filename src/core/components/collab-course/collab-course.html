@@ -9,13 +9,11 @@
     <div class="content">
         <span class="content-type">COURSE</span>
         <h3 class="title wrap-text">{{course['fullname']}}</h3>
-        <div class="teacher wrap-text">
-            <span *ngFor="let teacher of course['teachers']">{{teacher['fullname']}}</span>
+        <div class="category_name">
+            <span class="wrap-text">{{course['category_name']}}</span>
         </div>
+        <div class="teacher wrap-text">{{getTeacherName()}}</div>
         <div class="course-rating"></div>
-        <div class="description wrap-text">
-            {{course['shortdescription']}}
-        </div>
         <div *ngIf="course['progress'] == -1 || course['progress'] == null" style="height: 20px;"></div>
         <core-progress-bar [progress]="course['progress']"
             *ngIf="course['progress'] != null && course['progress'] != -1"></core-progress-bar>

@@ -1,15 +1,28 @@
 /*
- * App CUSTOM theme SCSS
- * ----------------------------------------------------------------------------
- * Place here custom styles.
- */
-
-/*
  * Light Theme
  * -------------------------------------------
  */
 html {
+    --ion-card-horizontal-margin: 1rem;
 
+    --box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 10%), 0px 1px 3px 0px rgb(0 0 0 / 8%);
+    --box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 14%);
+    --box-shadow-darker: 5px 20px 40px rgba(0, 0, 0, .3);
+    --box-shadow-hover: 8px 30px 40px 0 rgba(0, 0, 0, .2);
+    --box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0 / 30%);
+
+
+    --core-mainpage-headerlogo-display: block;
+    --core-mainpage-sitename-display: none;
+
+    --ion-card-border-width: 0;
+}
+
+html,
+html.md,
+html.ios,
+html.wp {
+    --ion-default-font: "Poppins", "Roboto", "Helvetica Neue", sans-serif;
 }
 
 /*
@@ -18,4 +31,30 @@ html {
  */
 html.dark {
 
+    --primary: #3c73ff;
+    --primary-rgb: 60, 115, 255;
+    --primary-contrast: #fff;
+    --primary-contrast-rgb: 255, 255, 255;
+    --primary-shade: #3461d1;
+    --primary-tint: #4c82ff;
+
+    --gray-900: #121212;
+    --ion-background-color: #121212;
+    --ion-background-color-rgb: 28, 28, 28;
+
+    --ion-toolbar-background: #1f1f1f;
+    --ion-toolbar-background-rgb: 31, 31, 31;
+
+    --core-header-toolbar-background: var(--ion-toolbar-background);
+
+    --ion-item-background: #121212;
+    --ion-item-background-rgb: 31, 31, 31;
+
+    --ion-card-background: #1f1f1f;
+
+    --core-bottom-tabs-background: var(--ion-toolbar-background);
+
+    --box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 77%), 0px 1px 3px 0px rgb(0 0 0 / 36%);
+    --box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 80%);
+    --box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0);
 }

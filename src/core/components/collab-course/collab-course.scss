@@ -1,12 +1,13 @@
 .course {
-    background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
+    background: var(--ion-card-background, var(--ion-background-color, #fff));
     color: var(--ion-card-color, var(--ion-item-color, var(--ion-color-step-550, #737373)));
     border-radius: 12px;
     overflow: hidden;
     display: flex;
     position: relative;
-    border: 1px solid var(--ion-card-border-color);
+    border: var(--ion-card-border-width) solid var(--ion-card-border-color);
     flex-direction: column;
+    box-shadow: var(--box-shadow);
 
     .img-wrapper {
         width: 100%;
@@ -44,22 +45,38 @@
 
         .content-type {
             font-size: 0.7rem;
-            color: var(--gray-500);
+            color: var(--ion-color-step-500);
             margin-left: 2px;
             line-height: 1;
         }
 
+        .category_name {
+            font-size: 0.76rem;
+            line-height: 1;
+            background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--ion-color-primary);
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
         .title {
+            --lines: 1;
+            --font-size: 1rem;
+            --line-height: 1.1;
+
             margin-top: 6px;
             margin-bottom: 10px;
-            font-size: 1.05rem;
-            line-height: 1.1;
-            height: calc(1.05rem * 1.1);
+            font-size: var(--font-size);
+            line-height: var(--line-height);
+            height: calc(var(--font-size) * var(--line-height) * var(--lines));
         }
 
         .teacher {
             font-size: 0.9rem;
-            color: var(--gray-500);
+            color: var(--ion-color-step-500);
             margin-left: 2px;
             line-height: 1;
             height: calc(0.9rem * 1);
@@ -93,10 +110,14 @@
                 gap: 5px;
 
                 span {
-                    color: var(--gray-500);
+                    color: var(--ion-color-step-500);
                     font-size: 0.7rem;
                 }
             }
+        }
+
+        core-progress-bar {
+            --progressbar-background: var(--ion-color-step-200);
         }
     }
 
@@ -112,11 +133,15 @@
         .content {
             padding: 0.8rem;
 
+            .title {
+                --lines: 2;
+            }
+
             .description {
                 display: block;
                 --lines: 4;
                 font-size: 0.9rem;
-                color: var(--gray-500);
+                color: var(--ion-color-step-500);
                 margin-left: 2px;
                 line-height: 1.1;
                 height: calc(0.9rem * 1.1 * var(--lines));

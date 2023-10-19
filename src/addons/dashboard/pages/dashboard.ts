@@ -17,6 +17,7 @@ import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { AddonDashboardProvider } from '../services/dashboard';
+import { CoreUser, CoreUserProfile } from '@features/user/services/user';
 
 @Component({
     selector: 'page-addon-dashboard',
@@ -38,30 +39,28 @@ export class AddonDashboardPage implements OnInit {
 
     statistics: StatisticItem[] = [
         {
-            title: 'Time Spent',
-            value: '0 Hours',
-            icon: 'fas-clock',
-            color: '#0a9396',
-        },
-        {
+            id: 'badges',
             title: 'Badges',
             value: 0,
             icon: 'fas-trophy',
             color: '#00bbf9',
         },
         {
+            id: 'coursecompleted',
             title: 'Course Completed',
             value: 0,
             icon: 'fas-book',
             color: '#6a994e',
         },
         {
+            id: 'certificates',
             title: 'Certificates',
             value: 0,
             icon: 'fas-certificate',
             color: '#4361ee',
         },
         {
+            id: 'programscompleted',
             title: 'Programs Completed',
             value: 0,
             icon: 'fas-graduation-cap',
@@ -78,7 +77,35 @@ export class AddonDashboardPage implements OnInit {
 
     recommendedCourses: [] = [];
 
-    matrixBoxes: MatrixBoxes[] = [];
+    matrixBoxes: MatrixBoxes[] = [
+        {
+            title: 'To do',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#0072BC',
+        },
+        {
+            title: 'Overdue',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#E74C31',
+        },
+        {
+            title: 'Completed',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#17C167',
+        },
+    ];
+
+    timeSpent = '0 hours';
+
+    user?: CoreUserProfile;
+
+    thisMonthYear = new Date().toLocaleString('en-us', { month: 'long', year: 'numeric' });
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -99,6 +126,15 @@ export class AddonDashboardPage implements OnInit {
      */
     async ngOnInit(): Promise<void> {
         this.title = 'Dashboard';
+
+        try {
+            this.user = await CoreUser.getProfile(this.currentUserId);
+        } catch {
+            this.user = {
+                id: this.currentUserId,
+                fullname: 'User',
+            };
+        }
 
         await this.fetchData();
     }
@@ -137,10 +173,18 @@ export class AddonDashboardPage implements OnInit {
         this.site?.read('block_user_intro_get_statistics', {
         }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
 
-            this.statistics = data.map((statistic) => ({
+            let statistics = data.map((statistic) => ({
                 ...statistic,
                 icon: statistic.icon.replace('fa fa-', 'fas-'),
             }));
+
+            // get time spent.
+            this.timeSpent = statistics.find((statistic) => statistic.id === 'timespent')?.value as string;
+
+            // popout time spent.
+            statistics = statistics.filter((statistic) => statistic.id !== 'timespent');
+
+            this.statistics = statistics;
 
             return this.statistics;
 
@@ -237,6 +281,7 @@ export class AddonDashboardPage implements OnInit {
 }
 
 type StatisticItem = {
+    id: string;
     title: string;
     value: string|number;
     icon: string;

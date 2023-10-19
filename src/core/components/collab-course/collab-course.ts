@@ -79,6 +79,14 @@ export class CoreCollabCourseComponent {
         }
     }
 
+    getTeacherName(): string {
+        if (this.course['teachers'] && this.course['teachers'].length > 0) {
+            return this.course['teachers'][0]['fullname'];
+        }
+
+        return '';
+    }
+
 }
 
 type ViewMode = 'card' | 'list';

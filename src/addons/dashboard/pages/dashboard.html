@@ -4,7 +4,8 @@
             <ion-back-button [text]="'core.back' | translate"></ion-back-button>
         </ion-buttons>
         <ion-title>
-            <h1>{{ title }}</h1>
+            <img src="assets/img/top_logo.png" class="core-header-logo logo-light" [alt]="'core.sitehome' | translate">
+            <img src="assets/img/top_logo_dark.png" class="core-header-logo logo-dark" [alt]="'core.sitehome' | translate">
         </ion-title>
         <ion-buttons slot="end">
             <core-user-menu-button></core-user-menu-button>
@@ -16,25 +17,24 @@
         <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
     </ion-refresher>
     <core-loading [hideUntil]="loaded">
-        <h2 class="main-sub-title">You have spent <span>20 hours</span> in June 2023</h2>
-        <ion-card class="statistics-block mock-block">
-            <ion-card-header>
-                <ion-card-title>Statistics</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <div class="data">
-                    <div class="item" *ngFor="let statistic of statistics">
-                        <ion-icon [name]="statistic.icon" [style]="'color: ' + statistic.color"></ion-icon>
-                        <div class="details">
-                            <div class="title">{{ statistic.title }}</div>
-                            <div class="value">{{ statistic.value }}</div>
-                        </div>
+        <h1 class="greetings">Welcome back, {{user?.fullname}}</h1>
+        <h2 class="greetings-sub-title">You have spent <span>{{ timeSpent }}</span> in {{ thisMonthYear }}</h2>
+        <h3 class="section-title">
+            <span>Statistics</span>
+        </h3>
+        <div class="statistics-block mock-block">
+            <div class="data">
+                <div class="item" *ngFor="let statistic of statistics">
+                    <ion-icon [name]="statistic.icon" [style]="'color: ' + statistic.color"></ion-icon>
+                    <div class="details">
+                        <div class="title">{{ statistic.title }}</div>
+                        <div class="value">{{ statistic.value }}</div>
                     </div>
                 </div>
-            </ion-card-content>
-        </ion-card>
+            </div>
+        </div>
         <div class="matrix-boxes mock-block">
-            <div class="matrix-box" [style]="'background-color: '+ matrix.color" *ngFor="let matrix of matrixBoxes">
+            <div class="matrix-box" [style]="'--color: '+ matrix.color" *ngFor="let matrix of matrixBoxes">
                 <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 53 52" fill="none">
                     <path opacity="0.3" d="M1.50586 2C10.31 24.9071 32.5668 65.3634 51.161 43.9317" stroke="#FFF" stroke-width="3"
                         stroke-linecap="round"></path>

@@ -1,22 +1,23 @@
 <div [className]="'course ' + viewmode" (click)="goToCourse()">
     <div class="img-wrapper">
-        <img [src]="course['image']" [alt]="course['shortname']">
+        <img [src]="course['image']" [alt]="course['shortname']" core-external-content>
         <button type="button" class="bookmark-btn" [disabled]="bookmarkBtnDisabled" (click)="toggleBookmark($event)"
-            [class.active]="course['bookmarked'] ? true : false">
+            [class.active]="course['bookmarked'] ? true : false" *ngIf="contentType === 'course'">
             <ion-icon [name]="course['bookmarked'] ? 'bookmark' : 'bookmark-outline'"></ion-icon>
         </button>
     </div>
     <div class="content">
-        <span class="content-type">COURSE</span>
+        <span class="content-type" *ngIf="contentType === 'course'">COURSE</span>
+        <span class="content-type" *ngIf="contentType === 'program'">PROGRAM</span>
         <h3 class="title wrap-text">{{course['fullname']}}</h3>
-        <div class="category_name">
+        <div class="category_name" *ngIf="contentType === 'course'">
             <span class="wrap-text">{{course['category_name']}}</span>
         </div>
         <div class="teacher wrap-text">{{getTeacherName()}}</div>
         <div class="course-rating"></div>
-        <div *ngIf="course['progress'] == -1 || course['progress'] == null" style="height: 20px;"></div>
-        <core-progress-bar [progress]="course['progress']"
-            *ngIf="course['progress'] != null && course['progress'] != -1"></core-progress-bar>
+        <div *ngIf="contentType === 'course' && course['progress'] == -1 || course['progress'] == null" style="height: 20px;"></div>
+        <core-progress-bar [progress]="course['progress']" *ngIf="course['progress'] != null && course['progress'] != -1">
+            *ngIf="contentType === 'course'"</core-progress-bar>
         <div class="course-footer">
             <div class="meta-item">
                 <ion-icon name="people-outline"></ion-icon>

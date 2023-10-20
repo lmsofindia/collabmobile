@@ -19,6 +19,9 @@ import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 
+type ViewMode = 'card' | 'list';
+
+type ContentTypes = 'course' | 'program';
 @Component({
     selector: 'core-collab-course',
     templateUrl: 'collab-course.html',
@@ -29,6 +32,8 @@ export class CoreCollabCourseComponent {
     @Input() course = {};
 
     @Input() viewmode: ViewMode = 'card';
+
+    @Input() contentType: ContentTypes = 'course';
 
     bookmarkBtnDisabled = false;
 
@@ -88,8 +93,3 @@ export class CoreCollabCourseComponent {
     }
 
 }
-
-type ViewMode = 'card' | 'list';
-
-// type Course = {
-// };

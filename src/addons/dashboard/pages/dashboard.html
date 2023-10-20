@@ -17,58 +17,5 @@
         <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
     </ion-refresher>
     <core-loading [hideUntil]="loaded">
-        <h1 class="greetings">Welcome back, {{user?.fullname}}</h1>
-        <h2 class="greetings-sub-title">You have spent <span>{{ timeSpent }}</span> in {{ thisMonthYear }}</h2>
-        <h3 class="section-title">
-            <span>Statistics</span>
-        </h3>
-        <div class="statistics-block mock-block">
-            <div class="data">
-                <div class="item" *ngFor="let statistic of statistics">
-                    <ion-icon [name]="statistic.icon" [style]="'color: ' + statistic.color"></ion-icon>
-                    <div class="details">
-                        <div class="title">{{ statistic.title }}</div>
-                        <div class="value">{{ statistic.value }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="matrix-boxes mock-block">
-            <div class="matrix-box" [style]="'--color: '+ matrix.color" *ngFor="let matrix of matrixBoxes">
-                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 53 52" fill="none">
-                    <path opacity="0.3" d="M1.50586 2C10.31 24.9071 32.5668 65.3634 51.161 43.9317" stroke="#FFF" stroke-width="3"
-                        stroke-linecap="round"></path>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" viewBox="0 0 78 49" fill="none">
-                    <path opacity="0.3" d="M1.67822 2C16.6478 32.0115 52.5017 77.2596 76.161 18.16" stroke="#FFF" stroke-width="3"
-                        stroke-linecap="round"></path>
-                </svg>
-                <div class="matrix-title">{{matrix.title}}</div>
-                <span class="matrix-count">{{matrix.value}}</span>
-                <core-progress-bar [progress]="matrix.percentage_int" class="progress" [showText]="false"></core-progress-bar>
-                <div class="progress-percent">{{matrix.percentage}}</div>
-            </div>
-        </div>
-        <h3 class="section-title" *ngIf="myCourses.length">
-            <span>My Trainings</span>
-            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
-                <ion-label>View All</ion-label>
-                <ion-icon name="arrow-forward"></ion-icon>
-            </ion-button>
-        </h3>
-        <div class="courses-wrapper" *ngIf="myCourses.length">
-            <core-collab-course *ngFor="let course of myCourses" [course]="course" viewmode="list"></core-collab-course>
-        </div>
-        <h3 class="section-title" *ngIf="recommendedCourses.length">
-            <span>Recommended Courses</span>
-            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
-                <ion-label>View All</ion-label>
-                <ion-icon name="arrow-forward"></ion-icon>
-            </ion-button>
-        </h3>
-        <div class="courses-wrapper horizontal-scroll-wrapper" *ngIf="recommendedCourses.length">
-            <core-collab-course *ngFor="let course of recommendedCourses" [course]="course" viewmode="card"></core-collab-course>
-        </div>
-        <div style="padding: 15px;"></div>
     </core-loading>
 </ion-content>

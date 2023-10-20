@@ -16,7 +16,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { Params } from '@angular/router';
 
-import { CoreSite, CoreSiteConfig } from '@classes/site';
+import { CoreSite, CoreSiteConfig, CoreSiteWSPreSets } from '@classes/site';
 import { CoreCourse, CoreCourseWSSection } from '@features/course/services/course';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreSites } from '@services/sites';
@@ -25,6 +25,24 @@ import { CoreEventObserver, CoreEvents } from '@singletons/events';
 import { CoreCourseHelper, CoreCourseModuleData } from '@features/course/services/course-helper';
 import { CoreNavigationOptions, CoreNavigator } from '@services/navigator';
 import { CoreUtils } from '@services/utils/utils';
+import { CoreUser, CoreUserProfile } from '@features/user/services/user';
+import { AddonBadgesUserBadge } from '@addons/badges/services/badges';
+
+type StatisticItem = {
+    id: string;
+    title: string;
+    value: string|number;
+    icon: string;
+    color: string;
+};
+
+type MatrixBoxes = {
+    title: string;
+    value: string|number;
+    percentage: string|number;
+    percentage_int: number;
+    color: string;
+};
 
 /**
  * Page that displays site home index.
@@ -52,30 +70,121 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     protected updateSiteObserver: CoreEventObserver;
     protected fetchSuccess = false;
 
+    protected preSets: CoreSiteWSPreSets;
+
+    currentUserId: number;
+
     sliders: string | null = null;
 
-    shorts: [] = [];
-
     cacheKeys = {
-        sliders: 'sitehome:theme_slideshows',
-        shorts: 'sitehome:shorts',
+        sliders: ':theme_slideshows',
+        statistics: ':statistics',
+        matrixBoxes: ':matrixBoxes',
+        badges: ':badges',
     };
+
+    recommendedCourses: [] = [];
+
+    myPrograms: [] = [];
+
+    statistics: StatisticItem[] = [
+        {
+            id: 'badges',
+            title: 'Badges',
+            value: 0,
+            icon: 'fas-trophy',
+            color: '#00bbf9',
+        },
+        {
+            id: 'coursecompleted',
+            title: 'Course Completed',
+            value: 0,
+            icon: 'fas-book',
+            color: '#6a994e',
+        },
+        {
+            id: 'certificates',
+            title: 'Certificates',
+            value: 0,
+            icon: 'fas-certificate',
+            color: '#4361ee',
+        },
+        {
+            id: 'programscompleted',
+            title: 'Programs Completed',
+            value: 0,
+            icon: 'fas-graduation-cap',
+            color: '#bc4749',
+        },
+    ];
+
+    matrixBoxes: MatrixBoxes[] = [
+        {
+            title: 'To do',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#0072BC',
+        },
+        {
+            title: 'Overdue',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#E74C31',
+        },
+        {
+            title: 'Completed',
+            value: '0 Courses',
+            percentage: '0%',
+            percentage_int: 0,
+            color: '#17C167',
+        },
+    ];
+
+    badges: AddonBadgesUserBadge[] = [];
+
+    timeSpent = '0 hours';
+
+    user?: CoreUserProfile;
+
+    thisMonthYear = new Date().toLocaleString('en-us', { month: 'long', year: 'numeric' });
 
     constructor() {
         // Refresh the enabled flags if site is updated.
         this.updateSiteObserver = CoreEvents.on(CoreEvents.SITE_UPDATED, () => {
             this.searchEnabled = !CoreCourses.isSearchCoursesDisabledInSite();
         }, CoreSites.getCurrentSiteId());
+
+        this.currentUserId = CoreSites.getCurrentSiteUserId();
+
+        this.preSets = {
+            cacheKey: 'CustomSiteHome',
+            updateFrequency: CoreSite.FREQUENCY_OFTEN,
+            component: 'customsitehome',
+            componentId: this.siteHomeId,
+            getFromCache: true,
+            saveToCache: true,
+        };
     }
 
     /**
      * @inheritdoc
      */
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
         this.searchEnabled = !CoreCourses.isSearchCoursesDisabledInSite();
 
         this.currentSite = CoreSites.getRequiredCurrentSite();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
+
+        try {
+            this.user = await CoreUser.getProfile(this.currentUserId);
+        } catch {
+            this.user = {
+                id: this.currentUserId,
+                fullname: 'User',
+            };
+        }
 
         const module = CoreNavigator.getRouteParam<CoreCourseModuleData>('module');
         if (module) {
@@ -103,7 +212,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     protected async loadContent(): Promise<void> {
         try {
             this.getSliders();
-            this.getShorts();
+            this.fetchStatistics();
+            this.fetchMatrixBoxes();
+            this.fetchRecommendedCourses();
+            this.fetchBadges();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -135,12 +247,12 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             return;
         }));
 
-        Promise.all(promises).finally(async () => {
-            // invalidate all caches.
-            Object.keys(this.cacheKeys).forEach((key) => {
-                this.currentSite.invalidateWsCacheForKey(this.cacheKeys[key]);
-            });
+        // invalidate all caches.
+        Object.keys(this.cacheKeys).forEach((key) => {
+            this.currentSite.invalidateWsCacheForKey(this.preSets.cacheKey + ':' + this.cacheKeys[key]);
+        });
 
+        Promise.all(promises).finally(async () => {
             await this.loadContent().finally(() => {
                 refresher?.complete();
             });
@@ -150,15 +262,12 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     /**
      * Get sliders
      */
-    getSliders(): void {
-        this.currentSite.read<string>('local_collab_function_get_sliders', {}, {
-            updateFrequency: CoreSite.FREQUENCY_RARELY,
-            getFromCache: true,
-            saveToCache: true,
-            cacheKey: this.cacheKeys.sliders,
-            component: 'sitehome',
-            componentId: this.siteHomeId,
-        }).then((data) => {
+    protected getSliders(): void {
+        this.currentSite.read<string>(
+            'local_collab_function_get_sliders',
+            {},
+            this.buildPreset(this.cacheKeys.sliders),
+        ).then((data) => {
             this.sliders = data['html'];
 
             return this.sliders;
@@ -168,27 +277,99 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     }
 
     /**
-     * Get shorts
+     * Fetch the statistics.
+     *
+     * @returns Promise resolved when done.
      */
-    getShorts(): void {
-        this.currentSite.read<[]>('local_course_catalogue_get_shorts', {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            per_page: 8,
-        }, {
-            updateFrequency: CoreSite.FREQUENCY_OFTEN,
-            getFromCache: true,
-            saveToCache: true,
-            cacheKey: this.cacheKeys.shorts,
-            component: 'sitehome',
-            componentId: this.siteHomeId,
-        }).then((data) => {
-            this.shorts = data['shorts'] || [];
+    protected async fetchStatistics(): Promise<void> {
+        this.currentSite.read('block_user_intro_get_statistics', {
+        }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
 
-            return this.shorts;
+            let statistics = data.map((statistic) => ({
+                ...statistic,
+                icon: statistic.icon.replace('fa fa-', 'fas-'),
+            }));
+
+            // get time spent.
+            this.timeSpent = statistics.find((statistic) => statistic.id === 'timespent')?.value as string;
+
+            // popout time spent.
+            statistics = statistics.filter((statistic) => statistic.id !== 'timespent');
+
+            this.statistics = statistics;
+
+            return this.statistics;
+
         }).catch(() => {
             // Ignore errors.
         });
     }
+
+    /**
+     * Fetch the matrix boxes.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchMatrixBoxes(): Promise<void> {
+        this.currentSite.read('block_user_intro_get_trainingmatrices', {
+        }, this.buildPreset(this.cacheKeys.matrixBoxes)).then((data: MatrixBoxes[] ) => {
+            this.matrixBoxes = data || [];
+
+            return;
+        }).catch(() => {
+            this.matrixBoxes = [];
+        });
+    }
+
+    /**
+     * Fetch the recommended courses.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchRecommendedCourses(): Promise<void> {
+        this.currentSite.read('local_course_catalogue_get_recommended_courses', {})
+            .then((data: { courses: [] }) => {
+                this.recommendedCourses = data.courses || [];
+
+                return;
+            }).catch(() => {
+                this.recommendedCourses = [];
+            });
+    }
+
+    /**
+     * Fetch the badges.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchBadges(): Promise<void> {
+        this.currentSite.read(
+            'core_badges_get_user_badges',
+            {
+                userid: this.currentUserId,
+                courseid: 0,
+            },
+            this.buildPreset(this.cacheKeys.badges),
+        ).then((data: { badges: AddonBadgesUserBadge[] }) => {
+            this.badges = data.badges || [];
+
+            return;
+        }).catch(() => {
+            this.badges = [];
+        });
+    }
+
+    goToBadges(uniquehash: string | null = null): void {
+        if (uniquehash) {
+            CoreNavigator.navigateToSitePath('badges/' + uniquehash, { params: { userId: this.currentUserId, courseId: 0 } });
+
+            return;
+        }
+
+        CoreNavigator.navigateToSitePath('badges', { params: { userId: this.currentUserId } });
+    }
+
+    // #region unused
 
     /**
      * Go to search courses.
@@ -216,6 +397,25 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      */
     openCourseCategories(): void {
         CoreNavigator.navigateToSitePath('courses/categories');
+    }
+
+    // #endregion unused
+
+    /**
+     * Build a common preset of WS options for all the requests.
+     *
+     * @param key Cache key to use.
+     * @param frequency Update frequency.
+     * @returns CoreSiteWSPreSets
+     */
+    protected buildPreset(key: string, frequency?: number | undefined): CoreSiteWSPreSets {
+        const newKey = this.preSets.cacheKey + ':' + key;
+
+        return {
+            ...this.preSets,
+            cacheKey: newKey,
+            updateFrequency: frequency || this.preSets.updateFrequency,
+        };
     }
 
     /**

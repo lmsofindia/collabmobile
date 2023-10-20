@@ -17,7 +17,6 @@ import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { AddonDashboardProvider } from '../services/dashboard';
-import { CoreUser, CoreUserProfile } from '@features/user/services/user';
 
 @Component({
     selector: 'page-addon-dashboard',
@@ -37,75 +36,7 @@ export class AddonDashboardPage implements OnInit {
 
     preSets: CoreSiteWSPreSets;
 
-    statistics: StatisticItem[] = [
-        {
-            id: 'badges',
-            title: 'Badges',
-            value: 0,
-            icon: 'fas-trophy',
-            color: '#00bbf9',
-        },
-        {
-            id: 'coursecompleted',
-            title: 'Course Completed',
-            value: 0,
-            icon: 'fas-book',
-            color: '#6a994e',
-        },
-        {
-            id: 'certificates',
-            title: 'Certificates',
-            value: 0,
-            icon: 'fas-certificate',
-            color: '#4361ee',
-        },
-        {
-            id: 'programscompleted',
-            title: 'Programs Completed',
-            value: 0,
-            icon: 'fas-graduation-cap',
-            color: '#bc4749',
-        },
-    ];
-
-    cacheKeys = {
-        statistics: ':statistics',
-        matrixBoxes: ':matrixBoxes',
-    };
-
-    myCourses: [] = [];
-
-    recommendedCourses: [] = [];
-
-    matrixBoxes: MatrixBoxes[] = [
-        {
-            title: 'To do',
-            value: '0 Courses',
-            percentage: '0%',
-            percentage_int: 0,
-            color: '#0072BC',
-        },
-        {
-            title: 'Overdue',
-            value: '0 Courses',
-            percentage: '0%',
-            percentage_int: 0,
-            color: '#E74C31',
-        },
-        {
-            title: 'Completed',
-            value: '0 Courses',
-            percentage: '0%',
-            percentage_int: 0,
-            color: '#17C167',
-        },
-    ];
-
-    timeSpent = '0 hours';
-
-    user?: CoreUserProfile;
-
-    thisMonthYear = new Date().toLocaleString('en-us', { month: 'long', year: 'numeric' });
+    cacheKeys = {};
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -127,15 +58,6 @@ export class AddonDashboardPage implements OnInit {
     async ngOnInit(): Promise<void> {
         this.title = 'Dashboard';
 
-        try {
-            this.user = await CoreUser.getProfile(this.currentUserId);
-        } catch {
-            this.user = {
-                id: this.currentUserId,
-                fullname: 'User',
-            };
-        }
-
         await this.fetchData();
     }
 
@@ -153,97 +75,7 @@ export class AddonDashboardPage implements OnInit {
             });
         }
 
-        await this.fetchStatistics();
-
-        await this.fetchMatrixBoxes();
-
-        await this.fetchMyCourses();
-
-        await this.fetchRecommendedCourses();
-
         this.loaded = true;
-    }
-
-    /**
-     * Fetch the statistics.
-     *
-     * @returns Promise resolved when done.
-     */
-    protected async fetchStatistics(): Promise<void> {
-        this.site?.read('block_user_intro_get_statistics', {
-        }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
-
-            let statistics = data.map((statistic) => ({
-                ...statistic,
-                icon: statistic.icon.replace('fa fa-', 'fas-'),
-            }));
-
-            // get time spent.
-            this.timeSpent = statistics.find((statistic) => statistic.id === 'timespent')?.value as string;
-
-            // popout time spent.
-            statistics = statistics.filter((statistic) => statistic.id !== 'timespent');
-
-            this.statistics = statistics;
-
-            return this.statistics;
-
-        }).catch(() => {
-            // Ignore errors.
-        });
-    }
-
-    /**
-     * Fetch the matrix boxes.
-     *
-     * @returns Promise resolved when done.
-     */
-    protected async fetchMatrixBoxes(): Promise<void> {
-        this.site?.read('block_user_intro_get_trainingmatrices', {
-        }, this.buildPreset(this.cacheKeys.matrixBoxes)).then((data: MatrixBoxes[] ) => {
-            this.matrixBoxes = data || [];
-
-            return;
-        }).catch(() => {
-            this.matrixBoxes = [];
-        });
-    }
-
-    /**
-     * Fetch the my courses.
-     *
-     * @returns Promise resolved when done.
-     */
-    protected async fetchMyCourses(): Promise<void> {
-        this.site?.read('local_course_catalogue_get_my', {
-            filters: {
-                learning_type : 'course',
-            },
-            page: 1,
-            per_page: 12,
-        }).then((data: CatalogueResponse) => {
-            this.myCourses = data.courses || [];
-
-            return;
-        }).catch(() => {
-            this.myCourses = [];
-        });
-    }
-
-    /**
-     * Fetch the recommended courses.
-     *
-     * @returns Promise resolved when done.
-     */
-    protected async fetchRecommendedCourses(): Promise<void> {
-        this.site?.read('local_course_catalogue_get_recommended_courses', {})
-            .then((data: { courses: [] }) => {
-                this.recommendedCourses = data.courses || [];
-
-                return;
-            }).catch(() => {
-                this.recommendedCourses = [];
-            });
     }
 
     /**
@@ -279,31 +111,3 @@ export class AddonDashboardPage implements OnInit {
     }
 
 }
-
-type StatisticItem = {
-    id: string;
-    title: string;
-    value: string|number;
-    icon: string;
-    color: string;
-};
-
-type CatalogueResponse = {
-    courses: [];
-    programs: [];
-    pagination: {
-        page: number;
-        has_next: boolean;
-        has_prev: boolean;
-        total: number;
-        total_pages: number;
-    };
-};
-
-type MatrixBoxes = {
-    title: string;
-    value: string|number;
-    percentage: string|number;
-    percentage_int: number;
-    color: string;
-};

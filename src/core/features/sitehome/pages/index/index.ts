@@ -44,6 +44,16 @@ type MatrixBoxes = {
     color: string;
 };
 
+type Certificate = {
+    code: string;
+    pathnamehash: string;
+    name: string;
+    fullname: string;
+    shortname: string;
+    downloadurl: string;
+    imageurl: string;
+};
+
 /**
  * Page that displays site home index.
  */
@@ -81,11 +91,14 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         statistics: ':statistics',
         matrixBoxes: ':matrixBoxes',
         badges: ':badges',
+        certificates: ':certificates',
     };
 
     recommendedCourses: [] = [];
 
     myPrograms: [] = [];
+
+    certificates: Certificate[] = [];
 
     statistics: StatisticItem[] = [
         {
@@ -215,7 +228,9 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             this.fetchStatistics();
             this.fetchMatrixBoxes();
             this.fetchRecommendedCourses();
+            this.fetchMyPrograms();
             this.fetchBadges();
+            this.fetchCertificates();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -284,7 +299,6 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     protected async fetchStatistics(): Promise<void> {
         this.currentSite.read('block_user_intro_get_statistics', {
         }, this.buildPreset(this.cacheKeys.statistics)).then((data: StatisticItem[]) => {
-
             let statistics = data.map((statistic) => ({
                 ...statistic,
                 icon: statistic.icon.replace('fa fa-', 'fas-'),
@@ -327,7 +341,7 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      * @returns Promise resolved when done.
      */
     protected async fetchRecommendedCourses(): Promise<void> {
-        this.currentSite.read('local_course_catalogue_get_recommended_courses', {})
+        this.currentSite.read('local_course_catalogue_get_catalogue', {})
             .then((data: { courses: [] }) => {
                 this.recommendedCourses = data.courses || [];
 
@@ -335,6 +349,25 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             }).catch(() => {
                 this.recommendedCourses = [];
             });
+    }
+
+    /**
+     * Fetch the my programs.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchMyPrograms(): Promise<void> {
+        this.currentSite.read('local_course_catalogue_get_my', {
+            filters: {
+                learning_type: 'program',
+            },
+        }).then((data: { programs: [] }) => {
+            this.myPrograms = data.programs || [];
+
+            return;
+        }).catch(() => {
+            this.myPrograms = [];
+        });
     }
 
     /**
@@ -359,6 +392,25 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * Fetch the certificates.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchCertificates(): Promise<void> {
+        this.currentSite.read(
+            'block_mycertificates_get_data',
+            {},
+            this.buildPreset(this.cacheKeys.certificates),
+        ).then((data: Certificate[]) => {
+            this.certificates = data || [];
+
+            return;
+        }).catch(() => {
+            this.certificates = [];
+        });
+    }
+
     goToBadges(uniquehash: string | null = null): void {
         if (uniquehash) {
             CoreNavigator.navigateToSitePath('badges/' + uniquehash, { params: { userId: this.currentUserId, courseId: 0 } });
@@ -367,6 +419,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         }
 
         CoreNavigator.navigateToSitePath('badges', { params: { userId: this.currentUserId } });
+    }
+
+    downloadCertificate(certificate: Certificate): void {
+        CoreUtils.openFile(certificate.downloadurl);
     }
 
     // #region unused

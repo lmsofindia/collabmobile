@@ -5,6 +5,10 @@
             [class.active]="course['bookmarked'] ? true : false" *ngIf="contentType === 'course'">
             <ion-icon [name]="course['bookmarked'] ? 'bookmark' : 'bookmark-outline'"></ion-icon>
         </button>
+        <span class="badge badge-courses" *ngIf="contentType === 'program'">
+            <ion-icon name="layers-outline"></ion-icon>
+            <span>{{course['coursescount']}} Courses</span>
+        </span>
     </div>
     <div class="content">
         <span class="content-type" *ngIf="contentType === 'course'">COURSE</span>

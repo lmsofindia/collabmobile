@@ -48,13 +48,21 @@
             <core-collab-course *ngFor="let program of myPrograms" [course]="program" viewmode="card"
                 contentType="program"></core-collab-course>
         </div>
-        <h3 class="section-title">
+        <h3 class="section-title" *ngIf="certificates.length">
             <span>My Certificates</span>
-            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin">
-                <ion-label>View All</ion-label>
-                <ion-icon name="arrow-forward"></ion-icon>
-            </ion-button>
         </h3>
+        <div class="certificates-wrapper horizontal-scroll-wrapper" *ngIf="certificates.length">
+            <div class="certificate" *ngFor="let certificate of certificates">
+                <div class="img-wrapper">
+                    <img [src]="certificate.imageurl" [alt]="certificate.name" core-external-content>
+                </div>
+                <div class="name wrap-text">{{certificate.name}}</div>
+                <ion-button color="secondary" size="small" class="ion-no-margin" expand="block" (click)="downloadCertificate(certificate)">
+                    <ion-label>Download</ion-label>
+                    <ion-icon name="download"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
         <h3 class="section-title" *ngIf="badges.length">
             <span>Badges</span>
             <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="goToBadges()">

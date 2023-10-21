@@ -157,7 +157,7 @@ ion-card-header+.card-content-md {
     .badge {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         flex-direction: column;
         --width: 140px;
         width: var(--width);
@@ -189,6 +189,60 @@ ion-card-header+.card-content-md {
                 height: 100%;
                 object-fit: cover;
             }
+        }
+    }
+}
+
+.certificates-wrapper {
+    .certificate {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        --width: 240px;
+        width: var(--width);
+        min-width: var(--width);
+        margin-right: 14px;
+        box-shadow: var(--box-shadow);
+        background: var(--ion-card-background, var(--ion-background-color, #fff));
+        padding: 1rem;
+        border-radius: 12px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        .name {
+            --lines: 1;
+            --font-size: 1rem;
+            --line-height: 1.1;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: var(--font-size);
+            line-height: var(--line-height);
+            height: calc(var(--font-size) * var(--line-height) * var(--lines));
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        ion-button[size="small"] {
+            width: 100%;
+            --border-radius: 6px;
+            --padding-top: 4px;
+            --padding-start: 0.9em;
+            --padding-end: 0.9em;
+            --padding-bottom: 4px;
+            min-height: 2.5em;
         }
     }
 }

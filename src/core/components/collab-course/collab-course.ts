@@ -77,6 +77,11 @@ export class CoreCollabCourseComponent {
     }
 
     goToCourse(): void {
+        if(this.contentType === 'program') {
+            // CoreNavigator.navigateToSitePath(`/program/${this.course['id']}`);
+            return;
+        }
+
         if (this.course['progress'] === undefined || this.course['progress'] === -1 || this.course['progress'] === null) {
             CoreNavigator.navigateToSitePath(`/course/${this.course['id']}/summary`);
         } else {

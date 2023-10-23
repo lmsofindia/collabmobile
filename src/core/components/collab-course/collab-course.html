@@ -19,21 +19,23 @@
         </div>
         <div class="teacher wrap-text">{{getTeacherName()}}</div>
         <div class="course-rating"></div>
-        <div *ngIf="contentType === 'course' && course['progress'] == -1 || course['progress'] == null" style="height: 20px;"></div>
-        <core-progress-bar [progress]="course['progress']" *ngIf="course['progress'] != null && course['progress'] != -1">
-            *ngIf="contentType === 'course'"</core-progress-bar>
+        <div class="progress-wrapper" style="min-height: 40px;" *ngIf="contentType === 'course'">
+            <core-progress-bar [progress]="course['progress']" *ngIf="course['progress'] != null && course['progress'] != -1">
+            </core-progress-bar>
+        </div>
+        <div style="height: 20px;" *ngIf="contentType === 'program'"></div>
         <div class="course-footer">
             <div class="meta-item">
                 <ion-icon name="people-outline"></ion-icon>
-                <span>{{course['studentscount']}}</span>
+                <span>{{course['studentscount'] || '-'}}</span>
             </div>
             <div class="meta-item">
                 <ion-icon name="calendar-outline"></ion-icon>
-                <span>{{course['datetime']}}</span>
+                <span>{{course['datetime'] || '-'}}</span>
             </div>
             <div class="meta-item">
                 <ion-icon name="time-outline"></ion-icon>
-                <span>{{course['duration']}}</span>
+                <span>{{course['duration'] || '-'}}</span>
             </div>
         </div>
     </div>

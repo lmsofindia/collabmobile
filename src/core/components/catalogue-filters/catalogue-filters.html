@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Filter</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cancel()" [strong]="true">
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="filters-wrapper">
+        <div class="side-nav">
+            <h3 class="filter-name" [class.active]="filter.isOpen" *ngFor="let filter of filters" (click)="showOptions(filter)">
+                <span>{{filter.title}}</span>
+                <span class="count" *ngIf="selectedFilters[filter.name] && selectedFilters[filter.name].length > 0">
+                    <span *ngIf="filter['type'] == 'radio'">{{selectedFilters[filter.name] ? 1 : 0}}</span>
+                    <span *ngIf="filter['type'] == 'checkbox'">{{selectedFilters[filter.name]?.length || 0}}</span>
+                </span>
+            </h3>
+        </div>
+        <div class="content">
+            <div *ngIf="selectedFilter && selectedFilter['name']">
+                <div class="filter-name">{{selectedFilter['title']}}</div>
+                <div *ngIf="selectedFilter['type'] == 'radio'">
+                    <ion-list>
+                        <ion-radio-group allow-empty-selection="true" [(ngModel)]="selectedFilters[selectedFilter.name]">
+                            <ion-item *ngFor="let option of selectedFilter.options">
+                                <ion-label>{{option.label}}</ion-label>
+                                <ion-radio [value]="option.value"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list>
+                </div>
+                <div *ngIf="selectedFilter['type'] == 'checkbox'">
+                    <ng-container *ngTemplateOutlet="checkboxGroup;
+                        context: {options: selectedFilter.options, filtername: selectedFilter.name}"></ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<ion-footer>
+    <div class="buttons">
+        <ion-button (click)="cancel()" fill="clear" expand="full" class="ion-no-margin">Cancel</ion-button>
+        <ion-button (click)="confirm()" [strong]="true" color="primary" expand="full" class="ion-no-margin">Apply Filters</ion-button>
+    </div>
+</ion-footer>
+
+<ng-template #checkboxGroup let-options="options" let-filtername="filtername">
+    <div class="checkbox-group">
+        <div *ngFor="let option of options">
+            <ng-container *ngIf="option.multilevel">
+                <div class="filter-name">{{option.title}}</div>
+                <ng-container *ngTemplateOutlet="checkboxGroup; context: {options: option.options, filtername: filtername}"></ng-container>
+            </ng-container>
+            <ion-item *ngIf="!option.multilevel || option.multilevel == undefined">
+                <ion-label>{{option.label}}</ion-label>
+                <ion-checkbox [value]="option.value" (ionChange)="onCheckboxChange($event, option, filtername)"
+                    [checked]="isChecked(filtername, option.value)"></ion-checkbox>
+            </ion-item>
+        </div>
+    </div>
+</ng-template>

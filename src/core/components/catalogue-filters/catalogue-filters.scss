@@ -1,0 +1,76 @@
+.filters-wrapper {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+
+    .side-nav {
+        width: 36%;
+        height: 100%;
+        overflow: auto;
+        background-color: var(--ion-color-light);
+
+        .filter-name {
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .count {
+                font-size: 80%;
+                background: var(--ion-color-primary);
+                color: var(--ion-color-primary-contrast);
+                border-radius: 8px;
+                padding: 3px 6px;
+                line-height: 1;
+                padding-bottom: 2px;
+                margin-left: 2px;
+            }
+
+            &.active {
+                background-color: var(--ion-color-primary);
+                color: var(--ion-color-primary-contrast);
+
+                .count {
+                    background: var(--ion-color-primary-contrast);
+                    color: var(--ion-color-primary);
+                }
+            }
+        }
+    }
+
+    .content {
+        flex: 1;
+        height: 100%;
+        overflow: auto;
+        padding: 12px;
+
+        .filter-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 12px;
+
+            .filter-name {
+                font-weight: 500;
+                margin-top: 12px;
+                color: var(--ion-color-step-500);
+            }
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ion-button {
+        flex: 1;
+    }
+}

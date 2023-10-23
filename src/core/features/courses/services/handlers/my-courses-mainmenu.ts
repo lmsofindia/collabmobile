@@ -15,11 +15,11 @@
 import { Injectable } from '@angular/core';
 import { CoreSiteInfoUserHomepage } from '@classes/site';
 import { CoreMainMenuHandler, CoreMainMenuHandlerData } from '@features/mainmenu/services/mainmenu-delegate';
-import { CoreSiteHomeHomeHandler } from '@features/sitehome/services/handlers/sitehome-home';
+// import { CoreSiteHomeHomeHandler } from '@features/sitehome/services/handlers/sitehome-home';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { CoreCourses } from '../courses';
-import { CoreDashboardHomeHandler } from './dashboard-home';
+// import { CoreCourses } from '../courses';
+// import { CoreDashboardHomeHandler } from './dashboard-home';
 
 /**
  * Handler to add my courses into main menu.
@@ -36,24 +36,25 @@ export class CoreCoursesMyCoursesMainMenuHandlerService implements CoreMainMenuH
      * @inheritdoc
      */
     async isEnabled(): Promise<boolean> {
-        const site = CoreSites.getRequiredCurrentSite();
+        return false;
+        // const site = CoreSites.getRequiredCurrentSite();
 
-        const siteId = site.getId();
-        const disabled = await CoreCourses.isMyCoursesDisabled(siteId);
+        // const siteId = site.getId();
+        // const disabled = await CoreCourses.isMyCoursesDisabled(siteId);
 
-        if (disabled) {
-            return false;
-        }
+        // if (disabled) {
+        //     return false;
+        // }
 
-        if (site.isVersionGreaterEqualThan('4.0')) {
-            return true;
-        }
+        // if (site.isVersionGreaterEqualThan('4.0')) {
+        //     return true;
+        // }
 
-        // Dashboard cannot be disabled on 3.5 or 3.6 so it will never show this tab.
-        const dashboardEnabled = await CoreDashboardHomeHandler.isEnabledForSite(siteId);
-        const siteHomeEnabled = await CoreSiteHomeHomeHandler.isEnabledForSite(siteId);
+        // // Dashboard cannot be disabled on 3.5 or 3.6 so it will never show this tab.
+        // const dashboardEnabled = await CoreDashboardHomeHandler.isEnabledForSite(siteId);
+        // const siteHomeEnabled = await CoreSiteHomeHomeHandler.isEnabledForSite(siteId);
 
-        return !dashboardEnabled && !siteHomeEnabled;
+        // return !dashboardEnabled && !siteHomeEnabled;
     }
 
     /**

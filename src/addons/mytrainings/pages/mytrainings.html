@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [text]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <img src="assets/img/top_logo.png" class="core-header-logo logo-light" [alt]="'core.sitehome' | translate">
+            <img src="assets/img/top_logo_dark.png" class="core-header-logo logo-dark" [alt]="'core.sitehome' | translate">
+        </ion-title>
+        <ion-buttons slot="end">
+            <core-user-menu-button></core-user-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="limited-width">
+    <ion-refresher slot="fixed" [disabled]="!loaded" (ionRefresh)="refresh($event.target)">
+        <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
+    </ion-refresher>
+    <core-loading [hideUntil]="loaded">
+        <div class="catalogue-header">
+            <div class="search-wrapper">
+                <ion-searchbar [placeholder]="'core.search' | translate" (ionChange)="search($event)"></ion-searchbar>
+            </div>
+            <div class="filter-wrapper">
+                <ion-button fill="clear" (click)="openFilters()">
+                    <ion-icon name="filter-outline"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+        <div class="catalogue-courses-wrapper">
+            <core-collab-course *ngFor="let course of courses" [course]="course" viewmode="card" contentType="course"></core-collab-course>
+            <core-collab-course *ngFor="let program of programs" [course]="program" viewmode="card"
+                contentType="program"></core-collab-course>
+        </div>
+        <core-empty-box *ngIf="courses.length == 0 && programs.length == 0" icon="alert-circle" message="No courses found">
+        </core-empty-box>
+    </core-loading>
+</ion-content>

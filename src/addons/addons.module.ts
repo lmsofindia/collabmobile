@@ -35,6 +35,8 @@ import { AddonStorageManagerModule } from './storagemanager/storagemanager.modul
 import { AddonUserProfileFieldModule } from './userprofilefield/userprofilefield.module';
 import { AddonDashboardModule } from './dashboard/dasboard.module';
 import { AddonShortsModule } from './shorts/shorts.module';
+import { AddonCatalogueModule } from './catalogue/catalogue.module';
+import { AddonMyTrainingsModule } from './mytrainings/mytrainings.module';
 
 @NgModule({
     imports: [
@@ -59,6 +61,8 @@ import { AddonShortsModule } from './shorts/shorts.module';
         AddonUserProfileFieldModule,
         AddonDashboardModule,
         AddonShortsModule,
+        AddonCatalogueModule,
+        AddonMyTrainingsModule,
     ],
 })
 export class AddonsModule {}

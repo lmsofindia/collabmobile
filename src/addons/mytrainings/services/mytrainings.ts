@@ -16,18 +16,17 @@ import { Injectable } from '@angular/core';
 import { makeSingleton } from '@singletons';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const ROOT_CACHE_KEY = 'addonDashboard:';
+const ROOT_CACHE_KEY = 'addonMyTrainings:';
 
 @Injectable({ providedIn: 'root' })
-export class AddonDashboardProvider {
+export class AddonMyTrainingsProvider {
 
     static readonly ENTRIES_PER_PAGE = 10;
-    static readonly COMPONENT = 'addondashboard';
-    static readonly ROOT_CACHE_KEY = 'addonDashboard:dashboard';
+    static readonly COMPONENT = 'addonmytrainings';
 
     async isPluginEnabled(): Promise<boolean> {
-        return false;
+        return true;
     }
 
 }
-export const AddonDashboard = makeSingleton(AddonDashboardProvider);
+export const AddonMyTrainings = makeSingleton(AddonMyTrainingsProvider);

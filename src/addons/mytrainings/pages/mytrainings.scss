@@ -1,0 +1,16 @@
+.catalogue-courses-wrapper core-collab-course {
+    display: block;
+    margin: 1rem var(--ion-card-horizontal-margin);
+}
+
+.catalogue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.6rem;
+    margin-bottom: 0;
+
+    .search-wrapper {
+        flex: 1;
+    }
+}

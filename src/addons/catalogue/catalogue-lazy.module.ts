@@ -16,9 +16,10 @@ import { Injector, NgModule } from '@angular/core';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 
 import { CoreSharedModule } from '@/core/shared.module';
-import { AddonShortsPage } from './pages/shorts';
+import { AddonCataloguePage } from './pages/catalogue';
+
 import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.module';
-import { AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu';
+import { AddonCatalogueMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
 
 /**
@@ -31,9 +32,9 @@ function buildRoutes(injector: Injector): Routes {
     return [
         ...buildTabMainRoutes(injector, {
             data: {
-                mainMenuTabRoot: AddonShortsMainMenuHandlerService.PAGE_NAME,
+                mainMenuTabRoot: AddonCatalogueMainMenuHandlerService.PAGE_NAME,
             },
-            component: AddonShortsPage,
+            component: AddonCataloguePage,
         }),
     ];
 }
@@ -53,7 +54,7 @@ function buildRoutes(injector: Injector): Routes {
         },
     ],
     declarations: [
-        AddonShortsPage,
+        AddonCataloguePage,
     ],
 })
-export class AddonShortsLazyModule {}
+export class AddonCatalogueLazyModule {}

@@ -41,7 +41,7 @@ export class AddonMyTrainingsMainMenuHandlerService implements CoreMainMenuHandl
     getDisplayData(): CoreMainMenuHandlerData {
         return {
             icon: 'fas-chalkboard-user',
-            title: 'MyTrainings',
+            title: 'My Trainings',
             page: AddonMyTrainingsMainMenuHandlerService.PAGE_NAME,
             class: 'addon-mytrainings-handler',
         };

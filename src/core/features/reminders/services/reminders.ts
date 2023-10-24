@@ -294,7 +294,7 @@ export class CoreRemindersService {
         const notification: ILocalNotification = {
             id: reminder.id,
             title: reminder.title,
-            text: CoreTimeUtils.userDate(reminder.time * 1000, 'core.strftimedaydatetime', true),
+            text: CoreTimeUtils.userDate(reminder.time * 1000, 'core.strftimedatetime', true),
             icon: 'file://assets/img/icons/calendar.png',
             trigger: {
                 at: new Date(notificationTime),

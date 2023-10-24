@@ -23,7 +23,7 @@
 
         <!-- Review summary -->
         <ion-card *ngIf="attempt">
-            <ion-list>
+            <ion-list class="attempt-list">
                 <ion-item class="ion-text-wrap">
                     <ion-label>
                         <p class="item-heading">{{ 'addon.mod_quiz.startedon' | translate }}</p>
@@ -76,7 +76,7 @@
                 </ion-item>
             </ion-list>
         </ion-card>
-
+        <hr>
         <!-- Questions -->
         <div *ngIf="attempt && questions.length">
 
@@ -95,8 +95,9 @@
                         </ion-label>
                         <div class="ion-text-wrap ion-margin-horizontal addon-mod_quiz-question-note" slot="end"
                             *ngIf="question.status || question.readableMark">
-                            <p *ngIf="question.status">{{question.status}}</p>
-                            <p *ngIf="question.readableMark" [innerHTML]="question.readableMark"></p>
+                            <p *ngIf="question.status" class="status" [class.success]="question.status == 'Correct'"
+                                [class.danger]="question.status == 'Incorrect'">{{question.status}}</p>
+                            <p *ngIf="question.readableMark" [innerHTML]="question.readableMark" class="marks"></p>
                         </div>
                     </ion-item-divider>
 

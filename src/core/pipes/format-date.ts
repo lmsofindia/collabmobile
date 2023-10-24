@@ -35,13 +35,13 @@ export class CoreFormatDatePipe implements PipeTransform {
      *
      * @param timestamp Timestamp to format (in milliseconds). If not defined, use current time.
      * @param format Format to use. It should be a string code to handle i18n (e.g. core.strftimetime).
-     *               Defaults to strftimedaydatetime.
+     *               Defaults to strftimedatetime.
      * @param convert If true, convert the format from PHP to Moment. Set it to false for Moment formats.
      * @returns Formatted date.
      */
     transform(timestamp: string | number, format?: string, convert?: boolean): string {
         timestamp = timestamp || Date.now();
-        format = format || 'strftimedaydatetime';
+        format = format || 'strftimedatetime';
 
         if (typeof timestamp === 'string') {
             // Convert the value to a number.

@@ -223,14 +223,14 @@ export class CoreTimeUtilsProvider {
      * Convert a timestamp into a readable date.
      *
      * @param timestamp Timestamp in milliseconds.
-     * @param format The format to use (lang key). Defaults to core.strftimedaydatetime.
+     * @param format The format to use (lang key). Defaults to core.strftimedatetime.
      * @param convert If true (default), convert the format from PHP to Moment. Set it to false for Moment formats.
      * @param fixDay If true (default) then the leading zero from %d is removed.
      * @param fixHour If true (default) then the leading zero from %I is removed.
      * @returns Readable date.
      */
     userDate(timestamp: number, format?: string, convert: boolean = true, fixDay: boolean = true, fixHour: boolean = true): string {
-        format = Translate.instant(format ? format : 'core.strftimedaydatetime') as string;
+        format = Translate.instant(format ? format : 'core.strftimedatetime') as string;
 
         if (fixDay) {
             format = format.replace(/%d/g, '%e');

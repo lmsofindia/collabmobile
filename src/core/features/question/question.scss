@@ -10,12 +10,14 @@
     }
 
     .core-question-feedback-container ::ng-deep {
-        --color: var(--core-question-feedback-color);
-        --background: var(--core-question-feedback-background-color);
-        color: var(--core-question-feedback-color);
-        background-color: var(--core-question-feedback-background-color);
+        --background: rgba(var(--ion-color-primary-rgb), 0.1);
+        background-color: rgba(var(--ion-color-primary-rgb), 0.1);
 
-        .specificfeedback, .rightanswer, .im-feedback, .feedback, .generalfeedback {
+        .specificfeedback,
+        .rightanswer,
+        .im-feedback,
+        .feedback,
+        .generalfeedback {
             margin: 0 0 .5em;
         }
 
@@ -25,7 +27,7 @@
             font-weight: bold;
             line-height: 14px;
             color: var(--white);
-            text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
             background-color: var(--gray-500);
             -webkit-border-radius: 3px;
             border-radius: 3px;
@@ -33,6 +35,7 @@
             &.incorrect {
                 background-color: var(--danger);
             }
+
             &.correct {
                 background-color: var(--success);
             }
@@ -55,13 +58,16 @@
         background-color: var(--core-question-correct-color-bg);
         color: var(--core-question-correct-color);
     }
+
     .core-question-partiallycorrect {
         background-color: var(--core-question-state-partial-color);
     }
+
     .core-question-notanswered,
     .core-question-incorrect {
         background-color: var(--core-question-state-incorrect-color);
     }
+
     .core-question-answersaved,
     .core-question-requiresgrading {
         color: var(--ion-text-color);
@@ -78,7 +84,10 @@
     }
 
     .item.item-interactive.item-interactive-disabled ::ng-deep {
-        ion-label, ion-select, ion-checkbox {
+
+        ion-label,
+        ion-select,
+        ion-checkbox {
             opacity: 0.7;
         }
     }

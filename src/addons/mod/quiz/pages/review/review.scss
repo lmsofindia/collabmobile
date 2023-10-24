@@ -4,3 +4,48 @@
         margin-bottom: 2px;
     }
 }
+
+.addon-mod_quiz-question-note {
+    text-align: right;
+
+    .success {
+        color: var(--ion-color-success);
+    }
+
+    .danger {
+        color: var(--ion-color-danger);
+    }
+
+    .status {
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .marks {
+        font-size: 0.8rem;
+        color: var(--ion-color-step-500);
+        font-weight: 500;
+    }
+}
+
+.attempt-list {
+    ion-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        text-align: right;
+
+        .item-heading {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ion-color-step-700);
+            text-align: left;
+        }
+    }
+}
+
+ion-card {
+    margin-left: 0;
+    margin-right: 0;
+}

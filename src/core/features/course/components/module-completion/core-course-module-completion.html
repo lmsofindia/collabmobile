@@ -43,19 +43,17 @@
         </div>
 
         <ng-container *ngIf="mode == 'basic' && completion.istrackeduser">
-            <ion-chip class="completioninfo completion_incomplete" *ngIf="completionStatus === 0" color="secondary">
+            <ion-chip class="completioninfo completion_incomplete" *ngIf="completionStatus === 0 && false" color="secondary">
                 <ion-icon name="fas-pen-to-square" aria-hidden="true"></ion-icon>
-                <ion-label>
+                <ion-label *ngIf="false">
                     {{ 'core.course.todo' | translate }}
                 </ion-label>
             </ion-chip>
             <ion-chip class="completioninfo completion_complete" *ngIf="completionStatus === 1 || completionStatus === 2" color="success">
                 <ion-icon name="fas-check" aria-hidden="true"></ion-icon>
-                <ion-label>{{'core.course.done' | translate }}</ion-label>
             </ion-chip>
             <ion-chip class="completioninfo completion_fail" *ngIf="completionStatus === 3" color="danger">
                 <ion-icon name="fas-xmark" aria-hidden="true"></ion-icon>
-                <ion-label>{{'core.course.failed' | translate }}</ion-label>
             </ion-chip>
         </ng-container>
     </ng-container>

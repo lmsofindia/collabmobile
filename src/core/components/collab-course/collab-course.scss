@@ -116,6 +116,41 @@
             display: none;
         }
 
+        .course-rating {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            --color: #FF9800;
+
+            ion-icon {
+                margin-right: 4px;
+                color: var(--ion-color-step-400);
+
+                &.active {
+                    color: var(--color);
+                }
+            }
+
+            .rating,
+            .rating-count {
+                font-size: 0.8rem;
+                margin-top: 4px;
+            }
+
+            .rating {
+                font-weight: 600;
+                color: var(--color);
+                margin-right: 4px;
+            }
+
+            .rating-count {
+                color: var(--ion-color-step-500);
+
+            }
+        }
+
         .course-footer {
             display: flex;
             align-items: center;

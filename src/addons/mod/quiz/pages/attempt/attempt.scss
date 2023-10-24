@@ -1,0 +1,16 @@
+.attempt-data {
+    ion-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        text-align: right;
+
+        .item-heading {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ion-color-step-700);
+            text-align: left;
+        }
+    }
+}

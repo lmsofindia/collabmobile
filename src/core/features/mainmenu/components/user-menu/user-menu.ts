@@ -18,13 +18,13 @@ import { CoreSite, CoreSiteInfo } from '@classes/site';
 import { CoreFilter } from '@features/filter/services/filter';
 import { CoreLoginSitesComponent } from '@features/login/components/sites/sites';
 import { CoreLoginHelper } from '@features/login/services/login-helper';
-import { CoreUserAuthenticatedSupportConfig } from '@features/user/classes/support/authenticated-support-config';
+// import { CoreUserAuthenticatedSupportConfig } from '@features/user/classes/support/authenticated-support-config';
 import { CoreUserSupport } from '@features/user/services/support';
 import { CoreUser, CoreUserProfile } from '@features/user/services/user';
 import {
     CoreUserProfileHandlerData,
-    CoreUserDelegate,
-    CoreUserDelegateService,
+    // CoreUserDelegate,
+    // CoreUserDelegateService,
     CoreUserDelegateContext,
 } from '@features/user/services/user-delegate';
 import { CoreNavigator } from '@services/navigator';
@@ -67,8 +67,10 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
         this.siteInfo = currentSite.getInfo();
         this.siteName = await currentSite.getSiteName();
         this.siteUrl = currentSite.getURL();
-        this.displaySwitchAccount = !currentSite.isFeatureDisabled('NoDelegate_SwitchAccount');
-        this.displayContactSupport = new CoreUserAuthenticatedSupportConfig(currentSite).canContactSupport();
+        // this.displaySwitchAccount = !currentSite.isFeatureDisabled('NoDelegate_SwitchAccount');
+        // this.displayContactSupport = new CoreUserAuthenticatedSupportConfig(currentSite).canContactSupport();
+        this.displaySwitchAccount = false;
+        this.displayContactSupport = false;
         this.removeAccountOnLogout = !!CoreConstants.CONFIG.removeaccountonlogout;
 
         this.loadSiteLogo(currentSite);
@@ -84,24 +86,70 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
                 };
             }
 
-            this.subscription = CoreUserDelegate.getProfileHandlersFor(this.user, CoreUserDelegateContext.USER_MENU)
-                .subscribe((handlers) => {
-                    if (!handlers || !this.user) {
-                        return;
-                    }
+            this.handlers = [
+                {
+                    icon: 'fas-chart-bar',
+                    title: 'core.grades.grades',
+                    class: 'core-grades-coursesgrades-handler',
+                    action: (): void => {
+                        CoreNavigator.navigateToSitePath('/grades');
+                    },
+                },
+                {
+                    icon: 'fas-trophy',
+                    title: 'addon.badges.badges',
+                    action: (event, user): void => {
+                        CoreNavigator.navigateToSitePath('/badges', {
+                            params: { userId: user.id },
+                        });
+                    },
+                },
+                {
+                    icon: 'fas-calendar',
+                    title: 'addon.calendar.calendar',
+                    action: (): void => {
+                        CoreNavigator.navigateToSitePath('/calendar');
+                    },
+                },
+                // {
+                //     icon: 'fas-wrench',
+                //     title: 'core.settings.preferences',
+                //     action: (): void => {
+                //         CoreNavigator.navigateToSitePath('/preferences');
+                //     },
+                // },
+                {
+                    icon: 'fas-gears',
+                    title: 'core.settings.settings',
+                    action: (): void => {
+                        CoreNavigator.navigateToSitePath('/settings');
+                    },
+                },
+            ];
 
-                    const newHandlers = handlers
-                        .filter((handler) => handler.type === CoreUserDelegateService.TYPE_NEW_PAGE)
-                        .map((handler) => handler.data);
+            this.handlersLoaded = true;
 
-                    // Only update handlers if they have changed, to prevent a blink effect.
-                    if (newHandlers.length !== this.handlers.length ||
-                            JSON.stringify(newHandlers) !== JSON.stringify(this.handlers)) {
-                        this.handlers = newHandlers;
-                    }
+            // this.subscription = CoreUserDelegate.getProfileHandlersFor(this.user, CoreUserDelegateContext.USER_MENU)
+            //     .subscribe((handlers) => {
+            //         if (!handlers || !this.user) {
+            //             return;
+            //         }
 
-                    this.handlersLoaded = CoreUserDelegate.areHandlersLoaded(this.user.id, CoreUserDelegateContext.USER_MENU);
-                });
+            //         const newHandlers = handlers
+            //             .filter((handler) => handler.type === CoreUserDelegateService.TYPE_NEW_PAGE)
+            //             .map((handler) => handler.data);
+
+            //         // Only update handlers if they have changed, to prevent a blink effect.
+            //         if (newHandlers.length !== this.handlers.length ||
+            //                 JSON.stringify(newHandlers) !== JSON.stringify(this.handlers)) {
+            //             this.handlers = newHandlers;
+
+            //             // eslint-disable-next-line no-console
+            //             console.log('CoreMainMenuUserMenuComponent: ', this.handlers);
+            //         }
+
+            //         this.handlersLoaded = CoreUserDelegate.areHandlersLoaded(this.user.id, CoreUserDelegateContext.USER_MENU);
+            //     });
 
         }
     }
@@ -174,6 +222,9 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
 
         await this.close(event);
 
+        event.preventDefault();
+        event.stopPropagation();
+
         handler.action(event, this.user, CoreUserDelegateContext.USER_MENU);
     }
 
@@ -219,18 +270,6 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
             forceLogout: true,
             removeAccount: this.removeAccountOnLogout,
         });
-    }
-
-    async openSettings(event: Event): Promise<void> {
-        if (CoreNavigator.currentRouteCanBlockLeave()) {
-            await CoreDomUtils.showAlert(undefined, Translate.instant('core.cannotlogoutpageblocks'));
-
-            return;
-        }
-
-        await this.close(event);
-
-        CoreNavigator.navigateToSitePath('settings');
     }
 
     /**

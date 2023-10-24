@@ -1,4 +1,4 @@
-<div [className]="'course ' + viewmode" (click)="goToCourse()">
+<div [className]="'course ' + viewmode" (click)="goToCourse()" button>
     <div class="img-wrapper">
         <img [src]="course['image']" [alt]="course['shortname']" core-external-content>
         <button type="button" class="bookmark-btn" [disabled]="bookmarkBtnDisabled" (click)="toggleBookmark($event)"
@@ -18,7 +18,13 @@
             <span class="wrap-text">{{course['category_name']}}</span>
         </div>
         <div class="teacher wrap-text">{{getTeacherName()}}</div>
-        <div class="course-rating"></div>
+        <div class="course-rating" *ngIf="contentType === 'course'">
+            <span *ngIf="course['rating']" class="rating">{{course['rating'] || 0}}</span>
+            <ion-icon [name]="getRatingIconName(i)" *ngFor="let i of [1,2,3,4,5]" [class.active]="i - 1 < course['rating']"></ion-icon>
+            <span *ngIf="course['ratingcount']" class="rating-count">
+                ({{course['ratingcount']}})
+            </span>
+        </div>
         <div class="progress-wrapper" style="min-height: 40px;" *ngIf="contentType === 'course'">
             <core-progress-bar [progress]="course['progress']" *ngIf="course['progress'] != null && course['progress'] != -1">
             </core-progress-bar>

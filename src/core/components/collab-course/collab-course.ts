@@ -76,6 +76,9 @@ export class CoreCollabCourseComponent {
         });
     }
 
+    /**
+     * Navigate to course.
+     */
     goToCourse(): void {
         if(this.contentType === 'program') {
             // CoreNavigator.navigateToSitePath(`/program/${this.course['id']}`);
@@ -89,12 +92,34 @@ export class CoreCollabCourseComponent {
         }
     }
 
+    /**
+     * Get course teacher name.
+     *
+     * @returns teacher name
+     */
     getTeacherName(): string {
         if (this.course['teachers'] && this.course['teachers'].length > 0) {
             return this.course['teachers'][0]['fullname'];
         }
 
         return '';
+    }
+
+    /**
+     * Get rating icon name.
+     *
+     * @returns string
+     */
+    getRatingIconName(i: number): string {
+        if (i <= this.course['rating']) {
+            return 'star';
+        }
+
+        if (i === Math.ceil(this.course['rating'])) {
+            return 'star-half';
+        }
+
+        return 'star';
     }
 
 }

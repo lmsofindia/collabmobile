@@ -92,6 +92,7 @@
             "url": "https://collabera.mooconline.co.in/"
         }
     ],
+    "removeaccountonlogout": true,
     "multisitesdisplay": "",
     "sitefindersettings": {},
     "onlyallowlistedsites": false,

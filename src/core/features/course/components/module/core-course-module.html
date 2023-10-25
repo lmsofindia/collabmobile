@@ -69,7 +69,7 @@
             </div>
         </ion-item>
         <ion-item *ngIf="false" id="core-course-module-{{module.id}}-info" detail="false"
-            class="ion-text-wrap core-course-module-handler core-course-module-info {{module.handlerData.class}}" [ngClass]="{
+            class="ion-text-wrap core-course-module-handler core-course-module-info {{module.handlerData?.class}}" [ngClass]="{
                 'item-dimmed': module.visible === 0 || module.uservisible === false
             }">
             <ion-label [collapsible-item]="64">
@@ -78,9 +78,9 @@
                 </core-format-text>
 
                 <div class="core-module-dates-availabilityinfo"
-                    *ngIf="(showActivityDates && module.dates && module.dates.length) || module.availabilityinfo">
+                    *ngIf="(showActivityDates && module.dates && module.dates?.length) || module.availabilityinfo">
                     <!-- Activity dates. -->
-                    <div *ngIf="showActivityDates && module.dates && module.dates.length" class="core-module-dates">
+                    <div *ngIf="showActivityDates && module.dates && module.dates?.length" class="core-module-dates">
                         <core-reminders-date *ngFor="let date of module.dates" [type]="date.id" [label]="date.label" [time]="date.timestamp"
                             [relativeTo]="date.relativeto">
                         </core-reminders-date>

@@ -12,6 +12,19 @@
     .search-wrapper {
         flex: 1;
     }
+
+    .filter-wrapper {
+        .filter-btn {
+            .count {
+                font-size: 0.7rem;
+                font-weight: 600;
+                position: absolute;
+                top: 5px;
+                right: -6px;
+                padding: 2px 4px;
+            }
+        }
+    }
 }
 
 .catalogue-courses-wrapper core-collab-course {

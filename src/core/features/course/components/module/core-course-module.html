@@ -30,6 +30,11 @@
                         (completionChanged)="completionChanged.emit($event)" mode="basic">
                     </core-course-module-completion>
 
+                    <ion-chip *ngIf="!(module.completiondata && module.uservisible && !showLegacyCompletion)" color="light"
+                        class="completioninfo no-details-found" disabled="true">
+                        <ion-icon name="fa-check" aria-hidden="true" style="margin: 0 6px;"></ion-icon>
+                    </ion-chip>
+
                     <ion-chip *ngIf="module.handlerData.extraBadge" [color]="module.handlerData.extraBadgeColor"
                         class="ion-text-wrap ion-text-start" [outline]="true">
                         <ion-label><span [innerHTML]="module.handlerData.extraBadge"></span></ion-label>
@@ -63,7 +68,7 @@
                 </div>
             </div>
         </ion-item>
-        <ion-item *ngIf="hasInfo" id="core-course-module-{{module.id}}-info" detail="false"
+        <ion-item *ngIf="false" id="core-course-module-{{module.id}}-info" detail="false"
             class="ion-text-wrap core-course-module-handler core-course-module-info {{module.handlerData.class}}" [ngClass]="{
                 'item-dimmed': module.visible === 0 || module.uservisible === false
             }">
@@ -71,12 +76,6 @@
                 <core-format-text class="core-module-description" *ngIf="module.description" [text]="module.description"
                     contextLevel="module" [contextInstanceId]="module.id" [courseId]="module.course">
                 </core-format-text>
-
-                <!-- Module completion. Only auto conditions-->
-                <core-course-module-completion *ngIf="autoCompletionTodo && module.uservisible && !showLegacyCompletion"
-                    [completion]="module.completiondata" [moduleName]="module.name" [moduleId]="module.id"
-                    [showCompletionConditions]="showCompletionConditions">
-                </core-course-module-completion>
 
                 <div class="core-module-dates-availabilityinfo"
                     *ngIf="(showActivityDates && module.dates && module.dates.length) || module.availabilityinfo">

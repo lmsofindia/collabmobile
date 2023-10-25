@@ -84,11 +84,11 @@ export class AddonCataloguePage implements OnInit {
         bookmarked: null,
     };
 
+    appliedFiltersCount = 0;
+
     currentPage = 1;
 
     hasMoreItems = false;
-
-    isFiltersOpen = false;
 
     constructor(private modalCtrl: ModalController) {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -111,6 +111,8 @@ export class AddonCataloguePage implements OnInit {
      */
     protected async fetchData(refresh: boolean = false): Promise<void> {
         this.loaded = false;
+
+        this.setFilterCount();
 
         if (refresh) {
             // this.pageLoaded = 0;
@@ -203,8 +205,35 @@ export class AddonCataloguePage implements OnInit {
         }
     }
 
-    closeFilters(): void {
-        this.isFiltersOpen = false;
+    protected setFilterCount(): void {
+        this.appliedFiltersCount = 0;
+
+        Object.keys(this.filters).forEach((key) => {
+            if(this.filters[key] === null) {
+                return;
+            }
+
+            if (key === 'search') {
+                return;
+            }
+
+            if (key === 'sort' && this.filters[key] === 'latest') {
+                return;
+            }
+
+            if (Array.isArray(this.filters[key])) {
+                if (this.filters[key].length > 0) {
+                    this.appliedFiltersCount++;
+                }
+
+                return;
+            }
+
+            if (this.filters[key] !== 'all') {
+                this.appliedFiltersCount++;
+            }
+
+        });
     }
 
     /**

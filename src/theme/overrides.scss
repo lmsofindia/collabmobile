@@ -7,6 +7,20 @@ page-core-mainmenu-home ion-tab-bar.core-tabs-bar {
     display: var(--core-mainpage-headerlogo-display);
 }
 
+.core-login-site-logo {
+    img {
+        margin: auto;
+    }
+
+    .logo-light {
+        display: block;
+    }
+
+    .logo-dark {
+        display: none;
+    }
+}
+
 .core-header-logo.logo-dark {
     display: none;
 }
@@ -18,6 +32,16 @@ html.dark {
 
     .core-header-logo.logo-dark {
         display: block;
+    }
+
+    .core-login-site-logo {
+        .logo-light {
+            display: none;
+        }
+
+        .logo-dark {
+            display: block;
+        }
     }
 }
 

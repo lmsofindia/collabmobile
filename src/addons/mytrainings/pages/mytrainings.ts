@@ -84,6 +84,8 @@ export class AddonMyTrainingsPage implements OnInit {
         bookmarked: null,
     };
 
+    appliedFiltersCount = 0;
+
     currentPage = 1;
 
     hasMoreItems = false;
@@ -111,6 +113,8 @@ export class AddonMyTrainingsPage implements OnInit {
      */
     protected async fetchData(refresh: boolean = false): Promise<void> {
         this.loaded = false;
+
+        this.setFilterCount();
 
         if (refresh) {
             // this.pageLoaded = 0;
@@ -201,6 +205,37 @@ export class AddonMyTrainingsPage implements OnInit {
 
             this.fetchData(true);
         }
+    }
+
+    protected setFilterCount(): void {
+        this.appliedFiltersCount = 0;
+
+        Object.keys(this.filters).forEach((key) => {
+            if(this.filters[key] === null) {
+                return;
+            }
+
+            if (key === 'search') {
+                return;
+            }
+
+            if (key === 'sort' && this.filters[key] === 'latest') {
+                return;
+            }
+
+            if (Array.isArray(this.filters[key])) {
+                if (this.filters[key].length > 0) {
+                    this.appliedFiltersCount++;
+                }
+
+                return;
+            }
+
+            if (this.filters[key] !== 'all') {
+                this.appliedFiltersCount++;
+            }
+
+        });
     }
 
     closeFilters(): void {

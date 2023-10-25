@@ -24,10 +24,10 @@
         <!-- Review summary -->
         <ion-card *ngIf="attempt">
             <ion-list class="attempt-list">
-                <ion-item class="ion-text-wrap">
+                <ion-item class="ion-text-wrap" *ngIf="false">
                     <ion-label>
                         <p class="item-heading">{{ 'addon.mod_quiz.startedon' | translate }}</p>
-                        <p>{{ attempt.timestart! * 1000 | coreFormatDate }}</p>
+                        <p>{{ attempt?.timestart! * 1000 | coreFormatDate }}</p>
                     </ion-label>
                 </ion-item>
                 <ion-item class="ion-text-wrap">
@@ -42,7 +42,7 @@
                         <p>{{ attempt.timefinish! * 1000 | coreFormatDate }}</p>
                     </ion-label>
                 </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="timeTaken">
+                <ion-item class="ion-text-wrap" *ngIf="timeTaken && false">
                     <ion-label>
                         <p class="item-heading">{{ 'addon.mod_quiz.timetaken' | translate }}</p>
                         <p>{{ timeTaken }}</p>
@@ -54,7 +54,7 @@
                         <p>{{ overTime }}</p>
                     </ion-label>
                 </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="readableMark">
+                <ion-item class="ion-text-wrap" *ngIf="readableMark && false">
                     <ion-label>
                         <p class="item-heading">{{ 'addon.mod_quiz.marks' | translate }}</p>
                         <p>{{ readableMark }}</p>

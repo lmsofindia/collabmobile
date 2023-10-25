@@ -22,8 +22,9 @@
                 <ion-searchbar [placeholder]="'core.search' | translate" (ionChange)="search($event)"></ion-searchbar>
             </div>
             <div class="filter-wrapper">
-                <ion-button fill="clear" (click)="openFilters()">
+                <ion-button fill="clear" (click)="openFilters()" class="filter-btn">
                     <ion-icon name="filter-outline"></ion-icon>
+                    <ion-badge color="dark" class="count" *ngIf="appliedFiltersCount > 0">{{appliedFiltersCount}}</ion-badge>
                 </ion-button>
             </div>
         </div>

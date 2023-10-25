@@ -24,9 +24,8 @@
                     alt="{{ 'core.pictureof' | translate:{$a: userFullName} }}" onError="this.src='assets/img/user-avatar.png'">
 
                 <div class="core-login-site-logo" *ngIf="!showUserAvatar">
-                    <!-- Show site logo or a default image. -->
-                    <img *ngIf="logoUrl" [src]="logoUrl" role="presentation" onError="this.src='assets/img/login_logo.png'" alt="">
-                    <img *ngIf="!logoUrl" src="assets/img/login_logo.png" role="presentation" alt="">
+                    <img src="assets/img/login_logo.png" role="presentation" alt="" class="logo-light">
+                    <img src="assets/img/login_logo_dark.png" role="presentation" alt="" class="logo-dark">
                 </div>
 
                 <div style="display: none;">

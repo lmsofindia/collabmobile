@@ -341,7 +341,7 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      * @returns Promise resolved when done.
      */
     protected async fetchRecommendedCourses(): Promise<void> {
-        this.currentSite.read('local_course_catalogue_get_catalogue', {})
+        this.currentSite.read('local_course_catalogue_get_recommended_courses', {})
             .then((data: { courses: [] }) => {
                 this.recommendedCourses = data.courses || [];
 

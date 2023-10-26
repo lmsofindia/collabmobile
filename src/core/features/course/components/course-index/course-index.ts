@@ -100,6 +100,7 @@ export class CoreCourseCourseIndexComponent implements OnInit {
                             uservisible: CoreCourseHelper.canUserViewModule(module, section),
                             indented: enableIndentation && module.indent > 0,
                             completionStatus,
+                            duration: module.duration,
                         };
                     });
 

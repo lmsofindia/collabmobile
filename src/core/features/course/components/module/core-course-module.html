@@ -59,6 +59,7 @@
                 </core-course-module-completion-legacy>
 
                 <div class="core-module-buttons-more">
+                    <span class="mod-duration">{{module.duration}}</span>
                     <!-- Buttons defined by the module handler. -->
                     <ion-button fill="clear" *ngFor="let button of module.handlerData.buttons"
                         [hidden]="button.hidden || module.handlerData.spinner" class="core-animate-show-hide"

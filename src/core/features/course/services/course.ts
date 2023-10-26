@@ -1780,6 +1780,7 @@ export type CoreCourseGetContentsWSModule = {
         mimetypes: string[]; // Files mime types.
         repositorytype?: string; // The repository type for the main file.
     };
+    duration?: string; // Duration of the activity.
 };
 
 /**

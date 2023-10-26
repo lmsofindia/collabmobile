@@ -76,8 +76,11 @@
                                             </core-format-text>
                                         </p>
                                     </ion-label>
-                                    <ion-icon name="fas-lock" *ngIf="!module.uservisible" slot="end" class="restricted"
-                                        [attr.aria-label]="'core.restricted' | translate"></ion-icon>
+                                    <div slot="end" style="display: flex;align-items: center; justify-content: center;">
+                                        <ion-icon name="fas-lock" *ngIf="!module.uservisible" class="restricted"
+                                            [attr.aria-label]="'core.restricted' | translate"></ion-icon>
+                                        <span class="mod-duration">{{module.duration}}</span>
+                                    </div>
                                 </ion-item>
                             </ng-container>
                         </ng-container>

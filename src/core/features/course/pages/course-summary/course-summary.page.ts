@@ -83,6 +83,11 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     protected appResumeSubscription: Subscription;
     protected waitingForBrowserEnrol = false;
 
+    hasIntoVideo = true;
+    videoUrl: string|null = null;
+
+    duration = '-';
+
     constructor() {
         // Refresh the view when the app is resumed.
         this.appResumeSubscription = CorePlatform.resume.subscribe(() => {
@@ -179,6 +184,8 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
 
         await this.loadMenuHandlers(refresh);
 
+        this.setMetaData();
+
         this.dataLoaded = true;
     }
 
@@ -265,6 +272,39 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
 
         } catch {
             // Ignore errors.
+        }
+    }
+
+    protected setMetaData(): void {
+        if (this.course?.customfields) {
+            this.course.customfields.forEach((field) => {
+                if (field.shortname === 'courseduration') {
+
+                    if (field.value) {
+                        const minutes = parseInt(field.value);
+
+                        // convert minutes to 0h 0m format
+                        const hours = Math.floor(minutes / 60);
+
+                        this.duration = `${hours}h ${minutes - (hours * 60)}m`;
+                    }
+                }
+
+                if (field.shortname === 'mb2video_local') {
+                    const html = field.value;
+
+                    // check if we have url
+                    const regex = /src="([^"]*)"/g;
+
+                    const match = regex.exec(html);
+
+                    if (match) {
+                        this.videoUrl = match[1];
+                    }
+
+                    this.hasIntoVideo = this.videoUrl !== null;
+                }
+            });
         }
     }
 

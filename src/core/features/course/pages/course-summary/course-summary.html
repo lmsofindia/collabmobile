@@ -18,9 +18,19 @@
     </ion-refresher>
     <core-loading [hideUntil]="dataLoaded">
         <div *ngIf="course" class="core-course-thumb" #courseThumb>
+            <ion-chip color="primary" *ngIf="course.categoryname" class="core-course-category ion-text-nowrap">
+                <span class="sr-only">{{ 'core.courses.aria:coursecategory' | translate }}</span>
+                <ion-label>
+                    <core-format-text [text]="course.categoryname" contextLevel="coursecat" [contextInstanceId]="course.categoryid">
+                    </core-format-text>
+                </ion-label>
+            </ion-chip>
             <img *ngIf="course.courseImage" [src]="course.courseImage" core-external-content alt="" />
             <ion-icon *ngIf="!course.courseImage" name="fas-graduation-cap" class="course-icon" aria-hidden="true">
             </ion-icon>
+            <ion-button color="dark" *ngIf="hasIntoVideo" class="play-icon" aria-hidden="true">
+                <ion-icon name="fas-play" slot="icon-only"></ion-icon>
+            </ion-button>
         </div>
         <div *ngIf="course" class="course-container">
             <div class="list-item-limited-width">
@@ -36,14 +46,6 @@
                             <core-format-text [text]="course.fullname" contextLevel="course" [contextInstanceId]="course.id">
                             </core-format-text>
                         </h1>
-                        <ion-chip color="primary" *ngIf="course.categoryname" class="core-course-category ion-text-nowrap">
-                            <span class="sr-only">{{ 'core.courses.aria:coursecategory' | translate }}</span>
-                            <ion-label>
-                                <core-format-text [text]="course.categoryname" contextLevel="coursecat"
-                                    [contextInstanceId]="course.categoryid">
-                                </core-format-text>
-                            </ion-label>
-                        </ion-chip>
                     </ion-label>
                     <ion-button fill="clear" [href]="courseUrl" core-link [showBrowserWarning]="false"
                         [attr.aria-label]="'core.openinbrowser' | translate" slot="end">
@@ -71,13 +73,23 @@
 
                 <ion-item class="ion-text-wrap" *ngIf="course.summary" detail="false">
                     <ion-label>
-                        <h2 class="item-heading">
-                            {{'core.course.coursesummary' | translate}}
-                        </h2>
-                        <core-format-text [text]="course.summary" collapsible-item contextLevel="course" [contextInstanceId]="course.id">
+                        <core-format-text [text]="course.summary" class="course-summary" collapsible-item contextLevel="course"
+                            [contextInstanceId]="course.id">
                         </core-format-text>
                     </ion-label>
                 </ion-item>
+
+                <div class="meta-data">
+                    <div class="meta-item">
+                        <ion-icon name="fas-user" aria-hidden="true"></ion-icon>
+                        <h4>30</h4>
+                    </div>
+
+                    <div class="meta-item">
+                        <ion-icon name="fas-clock" aria-hidden="true"></ion-icon>
+                        <h4>{{duration}}</h4>
+                    </div>
+                </div>
 
                 <ion-list *ngIf="course.contacts && course.contacts.length">
                     <ion-item [button]="course.contacts.length >= 5" class="ion-text-wrap" (click)="toggleContacts()"
@@ -102,28 +114,7 @@
                             </ion-label>
                         </ion-item>
                     </ng-container>
-                    <core-spacer></core-spacer>
                 </ion-list>
-
-                <ion-item class="ion-text-wrap" *ngIf="course.customfields">
-                    <ion-label>
-                        <ng-container *ngFor="let field of course.customfields">
-                            <div *ngIf="field.value"
-                                class="core-customfield core-customfield_{{field.type}} core-customfield_{{field.shortname}}">
-                                <span class="core-customfieldname">
-                                    <core-format-text [text]="field.name" contextLevel="course" [contextInstanceId]="course.id">
-                                    </core-format-text>
-                                    <span class="core-customfieldseparator">: </span>
-                                </span>
-                                <span class="core-customfieldvalue">
-                                    <core-format-text [text]="field.value" [collapsible-item]="field.type == 'textarea'  ? '' : null"
-                                        contextLevel="course" [contextInstanceId]="course.id">
-                                    </core-format-text>
-                                </span>
-                            </div>
-                        </ng-container>
-                    </ion-label>
-                </ion-item>
             </div>
         </div>
     </core-loading>

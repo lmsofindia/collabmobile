@@ -80,14 +80,9 @@
                 </ion-item>
 
                 <div class="meta-data">
-                    <div class="meta-item">
-                        <ion-icon name="fas-user" aria-hidden="true"></ion-icon>
-                        <h4>30</h4>
-                    </div>
-
-                    <div class="meta-item">
-                        <ion-icon name="fas-clock" aria-hidden="true"></ion-icon>
-                        <h4>{{duration}}</h4>
+                    <div class="meta-item" *ngFor="let customfield of customfields">
+                        <div class="title">{{customfield.name}}</div>
+                        <div class="value">{{customfield.value}}</div>
                     </div>
                 </div>
 
@@ -115,7 +110,41 @@
                         </ion-item>
                     </ng-container>
                 </ion-list>
+
+                <div *ngIf="sections && sections.length">
+                    <ion-item class="ion-text-wrap">
+                        <ion-label>
+                            <h2 class="item-heading">Course content</h2>
+                        </ion-label>
+                    </ion-item>
+
+                    <div class="course-sections" *ngFor="let section of sections">
+                        <div class="section-heading">
+                            <h2 class="item-heading wrap-text">{{section.name}}</h2>
+                            <div class="duration">
+                                <span>
+                                    {{section.modules.length}} {{section.modules.length == 1 ? 'Activity' : 'Activities'}}
+                                </span>
+                                <span *ngIf="section.duration" class="dot">&bull;</span>
+                                <span *ngIf="section.duration">{{section.duration}}</span>
+                            </div>
+                        </div>
+
+                        <div *ngIf="section.modules && section.modules.length">
+                            <div class="mod" *ngFor="let module of section.modules">
+                                <div class="content">
+                                    <img *ngIf="module.modicon" [src]="module.modicon" [alt]="module.name" [title]="module.name"
+                                        class="mod-icon" />
+                                    <ion-icon *ngIf="!module.modicon" name="fas-circle" aria-hidden="true"></ion-icon>
+                                    <h3 class="item-heading wrap-text">{{module.name}}</h3>
+                                </div>
+                                <div class="duration">{{module.duration}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div style="padding-top: 70px"></div>
         </div>
     </core-loading>
 </ion-content>

@@ -109,26 +109,22 @@
     }
 
     .meta-data {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
+        padding: 16px;
 
         .meta-item {
-            flex: 1;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             gap: 6px;
+            font-size: 0.8rem;
+            padding-bottom: 8px;
 
-            ion-icon {
-                font-size: 16px;
+            &:last-child {
+                padding-bottom: 0px;
             }
 
-            h4 {
-                font-size: 15px;
-                font-weight: 500;
-                margin: 0;
+            .title {
+                flex: 1;
             }
         }
     }
@@ -150,6 +146,72 @@
 
         .core-customfieldvalue {
             display: inline;
+        }
+    }
+}
+
+.course-sections {
+    --img-filter: brightness(1);
+    padding: 16px;
+    padding-bottom: 0;
+
+    &:last-child {
+        padding-bottom: 16px;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        margin-bottom: 14px;
+
+        .item-heading {
+            flex: 1;
+            margin: 0;
+            font-size: 1rem;
+        }
+    }
+
+    .duration {
+        font-size: 0.8rem;
+        color: var(--ion-color-step-600);
+
+        .dot {
+            margin-right: 4px;
+            margin-left: 1px;
+        }
+    }
+
+    .mod {
+        display: flex;
+        justify-content: space-between;
+        margin: 14px 0;
+        gap: 5px;
+        align-items: center;
+
+        .content {
+            display: flex;
+            flex: 1;
+            gap: 6px;
+            align-items: center;
+
+            img {
+                --size: 20px;
+                height: var(--size);
+                width: var(--size);
+                min-height: var(--size);
+                min-width: var(--size);
+                object-fit: contain;
+                filter: var(--img-filter);
+            }
+
+            .item-heading {
+                flex: 1;
+                margin: 0;
+                font-size: 0.8rem;
+                font-weight: 400;
+            }
         }
     }
 }

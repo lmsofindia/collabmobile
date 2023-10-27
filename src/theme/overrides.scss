@@ -194,3 +194,7 @@ html.dark {
     width: 100%;
     -webkit-line-clamp: var(--lines);
 }
+
+html.dark page-core-course-summary .course-sections {
+    --img-filter: invert(1);
+}

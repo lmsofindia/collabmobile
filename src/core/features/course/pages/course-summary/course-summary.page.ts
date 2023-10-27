@@ -40,8 +40,32 @@ import { CoreColors } from '@singletons/colors';
 import { CorePath } from '@singletons/path';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CorePlatform } from '@services/platform';
+import { CoreSite } from '@classes/site';
 
 const ENROL_BROWSER_METHODS = ['fee', 'paypal'];
+
+type CourseSection = {
+    id: number;
+    name: string;
+    visible: boolean;
+    duration: string;
+    modules: {
+        id: number;
+        name: string;
+        instance: number;
+        contextid: number;
+        modname: string;
+        modplural: string;
+        modicon: string;
+        indent: number;
+        onclick: string|null;
+        afterlink: string|null;
+        customdata: unknown;
+        completion: number;
+        downloadcontent: number;
+        duration: string;
+    }[];
+};
 
 /**
  * Page that shows the summary of a course including buttons to enrol and other available options.
@@ -86,7 +110,11 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     hasIntoVideo = true;
     videoUrl: string|null = null;
 
-    duration = '-';
+    customfields: CoreCourseCustomField[] = [];
+
+    sections: CourseSection[] = [];
+
+    currentSite: CoreSite;
 
     constructor() {
         // Refresh the view when the app is resumed.
@@ -102,6 +130,8 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
                 await this.refreshData();
             });
         });
+
+        this.currentSite = CoreSites.getRequiredCurrentSite();
     }
 
     /**
@@ -183,6 +213,8 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         }
 
         await this.loadMenuHandlers(refresh);
+
+        await this.loadSections();
 
         this.setMetaData();
 
@@ -275,37 +307,62 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         }
     }
 
-    protected setMetaData(): void {
-        if (this.course?.customfields) {
-            this.course.customfields.forEach((field) => {
-                if (field.shortname === 'courseduration') {
-
-                    if (field.value) {
-                        const minutes = parseInt(field.value);
-
-                        // convert minutes to 0h 0m format
-                        const hours = Math.floor(minutes / 60);
-
-                        this.duration = `${hours}h ${minutes - (hours * 60)}m`;
-                    }
-                }
-
-                if (field.shortname === 'mb2video_local') {
-                    const html = field.value;
-
-                    // check if we have url
-                    const regex = /src="([^"]*)"/g;
-
-                    const match = regex.exec(html);
-
-                    if (match) {
-                        this.videoUrl = match[1];
-                    }
-
-                    this.hasIntoVideo = this.videoUrl !== null;
-                }
+    /**
+     * Load course sections.
+     */
+    protected async loadSections(): Promise<void> {
+        try {
+            this.sections = await this.currentSite.read('local_course_catalogue_table_of_content', {
+                courseid: this.courseId,
             });
+        } catch {
+            this.sections = [];
         }
+    }
+
+    protected setMetaData(): void {
+        this.course?.customfields?.forEach((field) => {
+            if (field.shortname === 'courseduration') {
+
+                if (field.value) {
+                    const minutes = parseInt(field.value);
+
+                    // convert minutes to 0h 0m format
+                    const hours = Math.floor(minutes / 60);
+
+                    field.value = `${hours}h ${minutes - (hours * 60)}m`;
+
+                    this.customfields.push(field);
+                }
+
+                return;
+            }
+
+            if (field.shortname === 'mb2video_local') {
+                const html = field.value;
+
+                // check if we have url
+                const regex = /src="([^"]*)"/g;
+
+                const match = regex.exec(html);
+
+                if (match) {
+                    this.videoUrl = match[1];
+                }
+
+                this.hasIntoVideo = this.videoUrl !== null;
+
+                return;
+            }
+
+            const onlyfields = ['coursecompliance', 'courseduration', 'level', 'skillsmenu'];
+
+            if (!onlyfields.includes(field.shortname)) {
+                return;
+            }
+
+            this.customfields.push(field);
+        });
     }
 
     /**

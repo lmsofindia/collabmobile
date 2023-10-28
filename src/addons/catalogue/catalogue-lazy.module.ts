@@ -16,11 +16,12 @@ import { Injector, NgModule } from '@angular/core';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 
 import { CoreSharedModule } from '@/core/shared.module';
-import { AddonCataloguePage } from './pages/catalogue';
+import { AddonCataloguePage } from './pages/catalogue/catalogue';
 
 import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { AddonCatalogueMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
+import { AddonProgramPage } from './pages/program/program';
 
 /**
  * Build module routes.
@@ -55,6 +56,7 @@ function buildRoutes(injector: Injector): Routes {
     ],
     declarations: [
         AddonCataloguePage,
+        AddonProgramPage,
     ],
 })
 export class AddonCatalogueLazyModule {}

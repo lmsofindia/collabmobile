@@ -60,8 +60,7 @@ html.dark {
 .courses-wrapper {
     core-collab-course {
         display: block;
-        margin: 10px;
-        margin-bottom: 14px;
+        margin: 16px;
 
         &:first-child {
             margin-top: 0;
@@ -172,7 +171,13 @@ html.dark {
                 }
 
                 a {
-                    display: none;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0;
+                    z-index: 1;
                 }
             }
 

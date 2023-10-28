@@ -81,7 +81,8 @@ export class CoreCollabCourseComponent {
      */
     goToCourse(): void {
         if(this.contentType === 'program') {
-            // CoreNavigator.navigateToSitePath(`/program/${this.course['id']}`);
+            CoreNavigator.navigateToSitePath(`catalogue/programs/${this.course['id']}`);
+
             return;
         }
 

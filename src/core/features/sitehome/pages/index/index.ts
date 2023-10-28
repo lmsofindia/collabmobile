@@ -291,6 +291,64 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         });
     }
 
+    sliderClicked(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const target = event.target as HTMLAnchorElement;
+        const href = target.href;
+
+        if(!href || href === '#') {
+            return;
+        }
+
+        const whitelistedDomains = [
+            window.location.origin,
+            this.currentSite.getURL(),
+        ];
+
+        const url = new URL(href);
+
+        if (!whitelistedDomains.includes(url.origin)) {
+            CoreUtils.openInBrowser(href);
+
+            return;
+        }
+
+        switch (url.pathname) {
+            case '/course/view.php': {
+                const courseId = url.searchParams.get('id');
+
+                if (courseId) {
+                    CoreNavigator.navigateToSitePath(`/course/${courseId}/summary`);
+                }
+                break;
+            }
+            case '/local/course_catalogue/index.php':
+            case '/local/course_catalogue':
+            case '/local/course_catalogue/':
+            case '/course/index.php':
+            case '/course':
+            case '/course/': {
+                CoreNavigator.navigateToSitePath('catalogue');
+                break;
+            }
+            case '/local/course_catalogue/my.php':
+            case '/local/course_catalogue/my.php/': {
+                CoreNavigator.navigateToSitePath('mytrainings');
+                break;
+            }
+            case '/local/course_catalogue/shorts.php':
+            case '/local/course_catalogue/shorts.php/': {
+                CoreNavigator.navigateToSitePath('shorts');
+                break;
+            }
+            default:
+                CoreUtils.openInBrowser(href);
+                break;
+        }
+    }
+
     /**
      * Fetch the statistics.
      *

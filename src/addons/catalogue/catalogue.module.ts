@@ -20,6 +20,7 @@ import { CoreMainMenuTabRoutingModule } from '@features/mainmenu/mainmenu-tab-ro
 import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-delegate';
 import { AddonCatalogueProvider } from './services/catalogue';
 import { AddonCatalogueMainMenuHandler, AddonCatalogueMainMenuHandlerService } from './services/handlers/mainmenu';
+import { AddonProgramPage } from './pages/program/program';
 
 export const ADDON_DASHBOARD_SERVICES: Type<unknown>[] = [
     AddonCatalogueProvider,
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
         path: AddonCatalogueMainMenuHandlerService.PAGE_NAME,
         loadChildren: () => import('./catalogue-lazy.module').then(m => m.AddonCatalogueLazyModule),
+    },
+    {
+        path: AddonCatalogueMainMenuHandlerService.PAGE_NAME + '/programs/:programId',
+        component: AddonProgramPage,
     },
 ];
 

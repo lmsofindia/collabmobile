@@ -203,3 +203,15 @@ html.dark {
 html.dark page-core-course-summary .course-sections {
     --img-filter: invert(1);
 }
+
+core-catalogue-filters ion-searchbar {
+    border: 0;
+    margin: 6px 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    .searchbar-input {
+        border: none !important;
+        border-bottom: 1px solid var(--border-color) !important;
+    }
+}

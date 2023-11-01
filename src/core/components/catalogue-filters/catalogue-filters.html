@@ -21,11 +21,12 @@
         </div>
         <div class="content">
             <div *ngIf="selectedFilter && selectedFilter['name']">
+                <ion-searchbar [(ngModel)]="searchText" (ionChange)="onSearchChange()"></ion-searchbar>
                 <div class="filter-name">{{selectedFilter['title']}}</div>
                 <div *ngIf="selectedFilter['type'] == 'radio'">
                     <ion-list>
                         <ion-radio-group allow-empty-selection="true" [(ngModel)]="selectedFilters[selectedFilter.name]">
-                            <ion-item *ngFor="let option of selectedFilter.options">
+                            <ion-item *ngFor="let option of options">
                                 <ion-label>{{option.label}}</ion-label>
                                 <ion-radio [value]="option.value"></ion-radio>
                             </ion-item>
@@ -34,7 +35,7 @@
                 </div>
                 <div *ngIf="selectedFilter['type'] == 'checkbox'">
                     <ng-container *ngTemplateOutlet="checkboxGroup;
-                        context: {options: selectedFilter.options, filtername: selectedFilter.name}"></ng-container>
+                        context: {options: options, filtername: selectedFilter.name}"></ng-container>
                 </div>
             </div>
         </div>

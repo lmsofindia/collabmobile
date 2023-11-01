@@ -19,28 +19,30 @@ import { CoreSites } from '@services/sites';
 
 type FilterFor = 'catalogue' | 'my' | 'shorts';
 
+type FilterOption = {
+    label: string;
+    value: string;
+    isSelected: boolean;
+    multilevel: boolean;
+    // for multilevel
+    title: string|undefined|null;
+    isOpen: boolean|undefined|null;
+    type: string|undefined|null;
+    name: string|undefined|null;
+    options: Array<{
+        label: string;
+        value: string;
+        isSelected: boolean;
+    }>|undefined|null;
+};
+
 type Filter = {
     name: string;
     title: string;
     isOpen: boolean;
     isDisabled: boolean;
     type: string;
-    options: Array<{
-        label: string;
-        value: string;
-        isSelected: boolean;
-        multilevel: boolean;
-        // for multilevel
-        title: string|undefined|null;
-        isOpen: boolean|undefined|null;
-        type: string|undefined|null;
-        name: string|undefined|null;
-        options: Array<{
-            label: string;
-            value: string;
-            isSelected: boolean;
-        }>|undefined|null;
-    }>;
+    options: FilterOption[];
 };
 
 type SelectedFilters = {
@@ -98,7 +100,11 @@ export class CoreCatalogueFiltersComponent implements OnInit {
 
     selectedFilter?: Filter;
 
+    options: FilterOption[] = [];
+
     filtersLoaded = false;
+
+    searchText = '';
 
     cancel(): Promise<boolean> {
         return this.modalCtrl.dismiss(null, 'cancel');
@@ -147,6 +153,7 @@ export class CoreCatalogueFiltersComponent implements OnInit {
 
                 if(index === 0) {
                     this.selectedFilter = filter;
+                    this.options = filter.options;
                 }
 
                 return filter;
@@ -159,7 +166,9 @@ export class CoreCatalogueFiltersComponent implements OnInit {
     }
 
     showOptions(filter: Filter): void {
+        this.searchText = '';
         this.selectedFilter = filter;
+        this.options = JSON.parse(JSON.stringify(filter.options));
 
         this.filters = this.filters.map((filter: Filter) => {
             filter.isOpen = this.selectedFilter?.name === filter.name;
@@ -180,6 +189,27 @@ export class CoreCatalogueFiltersComponent implements OnInit {
 
     isChecked(name: string, value: any): boolean {
         return this.selectedFilters[name].includes(value);
+    }
+
+    onSearchChange(): void {
+        const search = this.searchText.trim().toLowerCase();
+
+        this.options = JSON.parse(JSON.stringify(this.selectedFilter?.options));
+
+        if(search === '') {
+            return;
+        }
+
+        // filter the options
+        this.options = this.options.filter((option: FilterOption) => {
+            if(option.options?.length) {
+                option.options = option.options.filter(
+                    (option: any) => option.label.toLowerCase().includes(search),
+                ) || [];
+            }
+
+            return option.label.toLowerCase().includes(search) || option.options?.length;
+        }) || [];
     }
 
 }

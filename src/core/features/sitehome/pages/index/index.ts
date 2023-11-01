@@ -349,6 +349,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         }
     }
 
+    navigate(path: string, params?: Params): void {
+        CoreNavigator.navigateToSitePath(path, { params });
+    }
+
     /**
      * Fetch the statistics.
      *

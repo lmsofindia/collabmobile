@@ -15,8 +15,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreSite } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
+import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
-import { Translate } from '@singletons';
 
 @Component({
     selector: 'page-addon-program',
@@ -32,50 +32,11 @@ export class AddonProgramPage implements OnInit {
 
     protected currentSite: CoreSite;
 
-    title: string;
-
     hasIntoVideo = false;
 
-    program = {
-        id: 2,
-        fullname: 'Advanced Artificial Intelligence',
-        summary: 'This is program is for Artificial Intelligence. This is a 2 months program it consists of 4 courses',
-        contacts: [
-            {
-                id: 1,
-                fullname: 'Teacher 1',
-            },
-            {
-                id: 2,
-                fullname: 'Teacher 2',
-            },
-            {
-                id: 3,
-                fullname: 'Teacher 3',
-            },
-        ],
-        meta: [
-            {
-                name: 'Allocation start',
-                value: 'Not set',
-            },
-            {
-                name: 'Allocation end',
-                value: 'Not set',
-            },
-            {
-                name: 'Duration',
-                value: '34h 10m',
-            },
-            {
-                name: 'Completion type',
-                value: 'All in order',
-            },
-        ],
-        image: 'https://collabera.mooconline.co.in/pluginfile.php/1/enrol_programs/image/2/pluralsight-puzzle-piece.webp.png',
-        url: 'https://collabera.mooconline.co.in/enrol/programs/catalogue/program.php?id=2',
-        courses: [],
-    };
+    program = {};
+
+    programId = 0;
 
     contactsExpanded = false;
 
@@ -83,15 +44,14 @@ export class AddonProgramPage implements OnInit {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
         this.currentSite = CoreSites.getRequiredCurrentSite();
-
-        this.title = Translate.instant('core.loading');
-        // Learning Plan Data Mining
     }
 
     /**
      * View loaded.
      */
     async ngOnInit(): Promise<void> {
+        this.programId = CoreNavigator.getRequiredRouteNumberParam('programId');
+
         await this.fetchData();
     }
 
@@ -108,7 +68,7 @@ export class AddonProgramPage implements OnInit {
             // this.pageLoaded = 0;
         }
 
-        this.fetchCourses();
+        await this.fetchProgram();
 
         this.loaded = true;
     }
@@ -118,11 +78,11 @@ export class AddonProgramPage implements OnInit {
      *
      * @returns Promise with the entries.
      */
-    protected async fetchCourses(): Promise<void> {
-        return this.currentSite.read('local_course_catalogue_get_catalogue', {
-            page: 1,
-        }).then((response: {courses: []; programs: []; pagination: any}) => {
-            this.program.courses = response.courses;
+    protected async fetchProgram(): Promise<void> {
+        return this.currentSite.read('local_course_catalogue_get_program', {
+            id: this.programId,
+        }).then((response: any) => {
+            this.program = response;
 
             return;
         }).catch(() => {

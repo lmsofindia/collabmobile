@@ -13,48 +13,49 @@
         <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
     </ion-refresher>
     <core-loading [hideUntil]="loaded">
-        <div *ngIf="program" class="core-course-thumb" #courseThumb>
+        <div *ngIf="program && program['id']" class="core-course-thumb" #courseThumb>
             <ion-chip color="primary" class="core-course-category ion-text-nowrap">
                 <span class="sr-only">{{ 'core.courses.aria:coursecategory' | translate }}</span>
                 <ion-label>
-                    3 courses
+                    {{program['coursescount']}} courses
                 </ion-label>
             </ion-chip>
-            <img *ngIf="program.image" [src]="program.image" core-external-content alt="" />
+            <img *ngIf="program['image']" [src]="program['image']" core-external-content alt="" />
         </div>
-        <div *ngIf="program" class="course-container">
+        <div *ngIf="program && program['id']" class="course-container">
             <div class="list-item-limited-width">
                 <ion-item class="ion-text-wrap course-name">
                     <ion-label>
                         <h1>
-                            <core-format-text [text]="program.fullname" contextLevel="course" [contextInstanceId]="program.id">
+                            <core-format-text [text]="program['fullname']" contextLevel="course" [contextInstanceId]="program['id']">
                             </core-format-text>
                         </h1>
                     </ion-label>
-                    <ion-button fill="clear" [href]="program.url" core-link [showBrowserWarning]="false"
+                    <ion-button fill="clear" [href]="program['url']" core-link [showBrowserWarning]="false"
                         [attr.aria-label]="'core.openinbrowser' | translate" slot="end">
                         <ion-icon name="fas-up-right-from-square" slot="icon-only" aria-hidden="true"></ion-icon>
                     </ion-button>
                 </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="program.summary" detail="false">
+
+                <ion-item class="ion-text-wrap" *ngIf="program['summary']" detail="false">
                     <ion-label>
-                        <core-format-text [text]="program.summary" class="course-summary" collapsible-item contextLevel="course"
-                            [contextInstanceId]="program.id">
+                        <core-format-text [text]="program['summary']" class="course-summary" collapsible-item contextLevel="course"
+                            [contextInstanceId]="program['id']">
                         </core-format-text>
                     </ion-label>
                 </ion-item>
 
                 <div class="meta-data">
-                    <div class="meta-item" *ngFor="let meta of program.meta">
+                    <div class="meta-item" *ngFor="let meta of program['meta']">
                         <div class="title">{{meta.name}}</div>
                         <div class="value">{{meta.value}}</div>
                     </div>
                 </div>
 
-                <ion-list *ngIf="program.contacts && program.contacts.length">
-                    <ion-item [button]="program.contacts.length >= 5" class="ion-text-wrap" (click)="toggleContacts()"
+                <ion-list *ngIf="program['teachers'] && program['teachers'].length">
+                    <ion-item [button]="program['teachers'].length > 4" class="ion-text-wrap" (click)="toggleContacts()"
                         [attr.aria-label]="(contactsExpanded ? 'core.collapse' : 'core.expand') | translate" detail="false">
-                        <ion-icon *ngIf="program.contacts.length >= 5" name="fas-chevron-right" flip-rtl slot="start" aria-hidden="true"
+                        <ion-icon *ngIf="program['teachers'].length > 4" name="fas-chevron-right" flip-rtl slot="start" aria-hidden="true"
                             class="expandable-status-icon" [class.expandable-status-icon-expanded]="contactsExpanded">
                         </ion-icon>
                         <ion-label>
@@ -63,15 +64,18 @@
                             </h2>
                         </ion-label>
                     </ion-item>
-                    <ng-container *ngIf="contactsExpanded || program.contacts.length < 5">
-                        <ion-item button class="ion-text-wrap" *ngFor="let contact of program.contacts" core-user-link [userId]="contact.id"
-                            [attr.aria-label]="'core.viewprofile' | translate" detail="true">
-                            <core-user-avatar [user]="contact" slot="start" [userId]="contact.id" [linkProfile]="false">
-                            </core-user-avatar>
-                            <ion-label>
-                                <p class="item-heading">{{contact.fullname}}</p>
-                            </ion-label>
-                        </ion-item>
+                    <ng-container *ngIf="contactsExpanded || program['teachers'].length < 5">
+                        <ion-row>
+                            <ion-col *ngFor="let contact of program['teachers']">
+                                <ion-item class="ion-text-wrap">
+                                    <core-user-avatar [user]="contact" slot="start" [userId]="contact.id" [linkProfile]="false">
+                                    </core-user-avatar>
+                                    <ion-label>
+                                        <p class="item-heading">{{contact.fullname}}</p>
+                                    </ion-label>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
                     </ng-container>
                 </ion-list>
 
@@ -81,8 +85,8 @@
                     </ion-label>
                 </ion-item>
 
-                <div class="courses-wrapper" *ngIf="program.courses.length">
-                    <core-collab-course *ngFor="let course of program.courses" [course]="course" viewmode="list"
+                <div class="courses-wrapper" *ngIf="program['courses'] && program['courses'].length">
+                    <core-collab-course *ngFor="let course of program['courses']" [course]="course" viewmode="list"
                         contentType="course"></core-collab-course>
                 </div>
             </div>

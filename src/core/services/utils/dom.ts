@@ -1259,12 +1259,15 @@ export class CoreDomUtilsProvider {
      * @returns Promise resolved if the user confirms and rejected with a canceled error if he cancels.
      */
     showDeleteConfirm(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         translateMessage: string = 'core.areyousure',
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         translateArgs: Record<string, unknown> = {},
         options: AlertOptions = {},
     ): Promise<void> {
         return new Promise((resolve, reject): void => {
-            options.message = Translate.instant(translateMessage, translateArgs);
+            // options.message = Translate.instant(translateMessage, translateArgs);
+            options.message = 'Are you sure you want to logout?';
 
             options.buttons = [
                 {
@@ -1275,7 +1278,8 @@ export class CoreDomUtilsProvider {
                     },
                 },
                 {
-                    text: Translate.instant('core.delete'),
+                    // text: Translate.instant('core.delete'),
+                    text: 'Confirm',
                     role: 'destructive',
                     handler: () => {
                         resolve();

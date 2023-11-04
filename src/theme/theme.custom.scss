@@ -5,17 +5,26 @@
 html {
     --ion-card-horizontal-margin: 1rem;
 
-    --box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 10%), 0px 1px 3px 0px rgb(0 0 0 / 8%);
-    --box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 14%);
-    --box-shadow-darker: 5px 20px 40px rgba(0, 0, 0, .3);
-    --box-shadow-hover: 8px 30px 40px 0 rgba(0, 0, 0, .2);
-    --box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0 / 30%);
+    --theme-box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 10%), 0px 1px 3px 0px rgb(0 0 0 / 8%);
+    --theme-box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 14%);
+    --theme-box-shadow-darker: 5px 20px 40px rgba(0, 0, 0, .3);
+    --theme-box-shadow-hover: 8px 30px 40px 0 rgba(0, 0, 0, .2);
+    --theme-box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0 / 30%);
 
+    --box-shadow: var(--box-shadow);
+    --box-shadow-light: var(--box-shadow-light);
+    --box-shadow-darker: var(--box-shadow-darker);
+    --box-shadow-hover: var(--box-shadow-hover);
+    --box-shadow-lift: var(--box-shadow-lift);
 
     --core-mainpage-headerlogo-display: block;
     --core-mainpage-sitename-display: none;
 
     --ion-card-border-width: 0;
+
+    ion-card {
+        --box-shadow: var(--theme-box-shadow);
+    }
 }
 
 html,
@@ -54,7 +63,7 @@ html.dark {
 
     --core-bottom-tabs-background: var(--ion-toolbar-background);
 
-    --box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 77%), 0px 1px 3px 0px rgb(0 0 0 / 36%);
-    --box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 80%);
-    --box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0);
+    --theme-box-shadow: 0px 3px 6px 0px rgb(0 0 0 / 77%), 0px 1px 3px 0px rgb(0 0 0 / 36%);
+    --theme-box-shadow-light: 0px 0 12px 1px rgb(0 0 0 / 80%);
+    --theme-box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0);
 }

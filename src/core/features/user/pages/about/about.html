@@ -29,104 +29,99 @@
                 </ion-label>
             </ion-item>
 
-            <ion-item-group *ngIf="hasContact">
-                <ion-item-divider>
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.contact' | translate}}</p>
-                    </ion-label>
-                </ion-item-divider>
-                <ion-item class="ion-text-wrap" *ngIf="user.email">
-                    <ion-label>
+            <ion-card *ngIf="hasContact">
+                <ion-card-header>
+                    <ion-card-title>{{ 'core.user.contact' | translate}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <div class="inner-content" *ngIf="user.email">
                         <p class="item-heading">{{ 'core.user.email' | translate }}</p>
-                        <p><a class="core-anchor" href="mailto:{{user.email}}" core-link auto-login="no" [showBrowserWarning]="false">
+                        <p>
+                            <a class="core-anchor" href="mailto:{{user.email}}" core-link auto-login="no" [showBrowserWarning]="false">
                                 {{ user.email }}
-                            </a></p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="user.phone1">
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.phone1' | translate}}</p>
-                        <p><a class="core-anchor" href="tel:{{user.phone1}}" core-link auto-login="no" [showBrowserWarning]="false">
+                            </a>
+                        </p>
+                    </div>
+                    <div class="inner-content" *ngIf="user.phone1">
+                        <p class="item-heading">{{ 'core.user.phone1' | translate }}</p>
+                        <p>
+                            <a class="core-anchor" href="tel:{{user.phone1}}" core-link auto-login="no" [showBrowserWarning]="false">
                                 {{ user.phone1 }}
-                            </a></p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="user.phone2">
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.phone2' | translate}}</p>
-                        <p><a class="core-anchor" href="tel:{{user.phone2}}" core-link auto-login="no" [showBrowserWarning]="false">
+                            </a>
+                        </p>
+                    </div>
+                    <div class="inner-content" *ngIf="user.phone2">
+                        <p class="item-heading">{{ 'core.user.phone2' | translate }}</p>
+                        <p>
+                            <a class="core-anchor" href="tel:{{user.phone2}}" core-link auto-login="no" [showBrowserWarning]="false">
                                 {{ user.phone2 }}
-                            </a></p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="formattedAddress">
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.address' | translate}}</p>
-                        <p><a class="core-anchor" [href]="encodedAddress" core-link auto-login="no" [showBrowserWarning]="false">
+                            </a>
+                        </p>
+                    </div>
+                    <div class="inner-content" *ngIf="formattedAddress">
+                        <p class="item-heading">{{ 'core.user.address' | translate }}</p>
+                        <p>
+                            <a class="core-anchor" [href]="encodedAddress" core-link auto-login="no" [showBrowserWarning]="false">
                                 {{ formattedAddress }}
-                            </a></p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="user.city && !formattedAddress">
-                    <ion-label>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="inner-content" *ngIf="user.city && !formattedAddress">
                         <p class="item-heading">{{ 'core.user.city' | translate}}</p>
                         <p>{{ user.city }}</p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="user.country && !formattedAddress">
-                    <ion-label>
+                    </div>
+                    <div class="inner-content" *ngIf="user.country && !formattedAddress">
                         <p class="item-heading">{{ 'core.user.country' | translate}}</p>
                         <p>{{ user.country }}</p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap" *ngIf="displayTimezone && user.timezone">
-                    <ion-label>
+                    </div>
+                    <div class="inner-content" *ngIf="displayTimezone && user.timezone">
                         <p class="item-heading">{{ 'core.timezone' | translate}}</p>
                         <p>{{ user.timezone }}</p>
-                    </ion-label>
-                </ion-item>
-            </ion-item-group>
-            <ion-item-group *ngIf="hasDetails">
-                <ion-item-divider>
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.userdetails' | translate}}</p>
-                    </ion-label>
-                </ion-item-divider>
-                <ion-item class="ion-text-wrap" *ngIf="user.url">
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.webpage' | translate}}</p>
-                        <p><a class="core-anchor" href="{{user.url}}" core-link>
+                    </div>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-card *ngIf="hasDetails">
+                <ion-card-header>
+                    <ion-card-title>{{ 'core.userdetails' | translate}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <div class="inner-content" *ngIf="user.url">
+                        <p class="item-heading">{{ 'core.user.url' | translate }}</p>
+                        <p>
+                            <a class="core-anchor" href="{{user.url}}" core-link>
                                 {{ user.url }}
-                            </a></p>
-                    </ion-label>
-                </ion-item>
-                <ion-item class="ion-text-wrap core-user-profile-interests" *ngIf="interests">
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.interests' | translate}}</p>
-                        <ion-badge *ngFor="let interest of interests" role="link" (click)="openInterest(interest)">
-                            {{ interest }}
-                        </ion-badge>
-                    </ion-label>
-                </ion-item>
-                <core-user-profile-field *ngFor="let field of user.customfields" [field]="field" contextLevel="course"
-                    [contextInstanceId]="courseId" [courseId]="courseId">
-                </core-user-profile-field>
-            </ion-item-group>
-            <ion-item-group *ngIf="user.description">
-                <ion-item-divider>
-                    <ion-label>
-                        <p class="item-heading">{{ 'core.user.description' | translate}}</p>
-                    </ion-label>
-                </ion-item-divider>
-                <ion-item class="ion-text-wrap">
-                    <ion-label>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="inner-content" *ngIf="interests">
+                        <p class="item-heading">{{ 'core.user.interests' | translate }}</p>
+                        <p>
+                            <ion-badge *ngFor="let interest of interests" role="link" (click)="openInterest(interest)">
+                                {{ interest }}
+                            </ion-badge>
+                        </p>
+                    </div>
+                    <core-user-profile-field *ngFor="let field of user.customfields" [field]="field" contextLevel="course"
+                        [contextInstanceId]="courseId" [courseId]="courseId">
+                    </core-user-profile-field>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-card *ngIf="user.description">
+                <ion-card-header>
+                    <ion-card-title>{{ 'core.user.description' | translate}}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <div class="inner-content" *ngIf="user.email">
                         <p>
                             <core-format-text [text]="user.description" contextLevel="user" [contextInstanceId]="user.id">
                             </core-format-text>
                         </p>
-                    </ion-label>
-                </ion-item>
-            </ion-item-group>
+                    </div>
+                </ion-card-content>
+            </ion-card>
+
         </ion-list>
 
         <core-empty-box *ngIf="!user || (!hasContact && !hasDetails && !user.description)" icon="fas-user"

@@ -3,6 +3,7 @@
     .core-user-profile-maininfo::part(native) {
         flex-direction: column;
     }
+
     ::ng-deep {
         core-user-avatar {
             display: block;
@@ -28,6 +29,7 @@
                     left: 0;
                     right: unset;
                 }
+
                 &::part(native) {
                     border-radius: 50%;
                     background: var(--ion-item-background);
@@ -49,4 +51,20 @@
 :host-context([dir="rtl"]) ::ng-deep core-user-avatar .edit-avatar {
     left: -24px;
     right: unset;
+}
+
+.core-user-profile-maininfo {
+    --border-width: 0 !important;
+}
+
+.inner-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 0.6rem;
+
+    p {
+        margin: 0;
+    }
 }

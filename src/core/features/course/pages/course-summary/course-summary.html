@@ -79,12 +79,14 @@
                     </ion-label>
                 </ion-item>
 
-                <div class="meta-data">
-                    <div class="meta-item" *ngFor="let customfield of customfields">
-                        <div class="title">{{customfield.name}}</div>
-                        <div class="value">{{customfield.value}}</div>
-                    </div>
-                </div>
+                <ion-card class="meta-data">
+                    <ion-card-content>
+                        <div class="meta-item" *ngFor="let customfield of customfields">
+                            <div class="title">{{customfield.name}}</div>
+                            <div class="value">{{customfield.value}}</div>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
 
                 <ion-list *ngIf="course.contacts && course.contacts.length">
                     <ion-item [button]="course.contacts.length >= 5" class="ion-text-wrap" (click)="toggleContacts()"

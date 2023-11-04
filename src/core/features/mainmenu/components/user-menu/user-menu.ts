@@ -111,6 +111,14 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
                         CoreNavigator.navigateToSitePath('/calendar');
                     },
                 },
+                // Upload Short Video
+                {
+                    icon: 'fas-video',
+                    title: 'Upload Short Video',
+                    action: (): void => {
+                        // CoreNavigator.navigateToSitePath('/upload-video');
+                    },
+                },
                 // {
                 //     icon: 'fas-wrench',
                 //     title: 'core.settings.preferences',

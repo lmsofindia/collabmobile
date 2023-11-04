@@ -2,7 +2,7 @@
     <core-mod-icon slot="start" [modicon]="modicon" [modname]="module.modname" [componentId]="module.instance">
     </core-mod-icon>
     <ion-label>
-        <h1>
+        <h1 style="white-space: nowrap;">
             <core-format-text [text]="module.name" contextLevel="module" [component]="component" [componentId]="componentId"
                 [contextInstanceId]="module.id" [courseId]="courseId">
             </core-format-text>
@@ -13,10 +13,10 @@
     </ion-label>
 </ion-item>
 
-<div class="core-module-info-box">
+<div class="core-module-info-box" *ngIf="false">
     <!-- Module completion. -->
     <div class="core-module-info-completion core-module-info-box-section" *ngIf="showCompletion &&
-            module.completiondata && (module.completiondata.isautomatic || (showManualCompletion && module.uservisible))">
+            module.completiondata && (module.completiondata?.isautomatic || (showManualCompletion && module.uservisible))">
         <core-course-module-completion [completion]="module.completiondata" [moduleName]="module.name" [moduleId]="module.id"
             [showCompletionConditions]="true" [showManualCompletion]="showManualCompletion && module.uservisible"
             (completionChanged)="completionChanged.emit($event)">
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Activity dates. -->
-    <div *ngIf="module.dates && module.dates.length" class="core-module-dates core-module-info-box-section">
+    <div *ngIf="module.dates && module.dates?.length" class="core-module-dates core-module-info-box-section">
         <core-reminders-date *ngFor="let date of module.dates" [component]="component" [instanceId]="module.id" [type]="date.dataid"
             [label]="date.label" [time]="date.timestamp" [relativeTo]="date.relativeto" [title]="module.name" [url]="module.url">
         </core-reminders-date>

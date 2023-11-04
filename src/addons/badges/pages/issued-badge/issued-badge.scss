@@ -1,0 +1,18 @@
+.inner-content {
+    margin-bottom: 12px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .item-heading {
+        text-transform: uppercase;
+        color: var(--ion-color-step-500);
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+}
+
+ion-card ion-card-title {
+    font-size: 16px;
+}

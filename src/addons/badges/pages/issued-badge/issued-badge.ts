@@ -33,6 +33,7 @@ import { CoreRoutedItemsManagerSourcesTracker } from '@classes/items-management/
 @Component({
     selector: 'page-addon-badges-issued-badge',
     templateUrl: 'issued-badge.html',
+    styleUrls: ['issued-badge.scss'],
 })
 export class AddonBadgesIssuedBadgePage implements OnInit, OnDestroy {
 

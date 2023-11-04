@@ -39,10 +39,6 @@
         </div>
         <h3 class="section-title" *ngIf="myPrograms.length">
             <span>My Programs</span>
-            <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="navigate('/catalogue')">
-                <ion-label>View All</ion-label>
-                <ion-icon name="arrow-forward"></ion-icon>
-            </ion-button>
         </h3>
         <div class="courses-wrapper horizontal-scroll-wrapper" *ngIf="myPrograms.length">
             <core-collab-course *ngFor="let program of myPrograms" [course]="program" viewmode="card"

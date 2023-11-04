@@ -38,7 +38,7 @@
             --ion-card-horizontal-margin: 0px;
         }
 
-        .core-module-info-box-section + .core-module-info-box-section {
+        .core-module-info-box-section+.core-module-info-box-section {
             border-top: 1px solid var(--stroke);
             margin-top: 8px;
             padding-top: 8px;
@@ -46,6 +46,7 @@
 
         .core-module-availabilityinfo {
             font-size: 90%;
+
             ion-icon {
                 position: static;
                 @include margin-horizontal(null, 8px);
@@ -89,4 +90,8 @@
 :host-context(.core-iframe-fullscreen) {
     opacity: 0 !important;
     height: 0 !important;
+}
+
+ion-card {
+    box-shadow: none;
 }

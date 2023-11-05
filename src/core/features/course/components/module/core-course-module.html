@@ -23,17 +23,7 @@
                 </p>
 
                 <div class="core-module-additional-info">
-                    <!-- Basic module completion. -->
-                    <core-course-module-completion *ngIf="module.completiondata && module.uservisible && !showLegacyCompletion"
-                        [completion]="module.completiondata" [moduleName]="module.name" [moduleId]="module.id"
-                        [showCompletionConditions]="showCompletionConditions" [showManualCompletion]="showManualCompletion"
-                        (completionChanged)="completionChanged.emit($event)" mode="basic">
-                    </core-course-module-completion>
-
-                    <ion-chip *ngIf="!(module.completiondata && module.uservisible && !showLegacyCompletion)" color="light"
-                        class="completioninfo no-details-found" disabled="true">
-                        <ion-icon name="fa-check" aria-hidden="true" style="margin: 0 6px;"></ion-icon>
-                    </ion-chip>
+                    <ion-chip *ngIf="module.duration">{{module.duration}}</ion-chip>
 
                     <ion-chip *ngIf="module.handlerData.extraBadge" [color]="module.handlerData.extraBadgeColor"
                         class="ion-text-wrap ion-text-start" [outline]="true">
@@ -50,7 +40,7 @@
                 </div>
             </ion-label>
             <!-- Buttons. -->
-            <div slot="end" *ngIf="module.uservisible !== false" class="buttons core-module-buttons"
+            <div slot="end" class="buttons core-module-buttons"
                 [ngClass]="{'core-button-completion': module.completiondata && showLegacyCompletion}">
                 <!-- Module completion (legacy). -->
                 <core-course-module-completion-legacy *ngIf="module.completiondata && showLegacyCompletion"
@@ -59,13 +49,24 @@
                 </core-course-module-completion-legacy>
 
                 <div class="core-module-buttons-more">
-                    <span class="mod-duration">{{module.duration}}</span>
                     <!-- Buttons defined by the module handler. -->
                     <ion-button fill="clear" *ngFor="let button of module.handlerData.buttons"
                         [hidden]="button.hidden || module.handlerData.spinner" class="core-animate-show-hide"
                         (click)="buttonClicked($event, button)" [attr.aria-label]="button.label | translate:{$a: module.handlerData.title}">
                         <ion-icon [name]="button.icon" slot="icon-only" aria-hidden="true"></ion-icon>
                     </ion-button>
+                </div>
+
+                <!-- Basic module completion. -->
+                <core-course-module-completion *ngIf="module.completiondata && module.uservisible && !showLegacyCompletion"
+                    [completion]="module.completiondata" [moduleName]="module.name" [moduleId]="module.id"
+                    [showCompletionConditions]="showCompletionConditions" [showManualCompletion]="showManualCompletion"
+                    (completionChanged)="completionChanged.emit($event)" mode="basic">
+                </core-course-module-completion>
+
+                <div *ngIf="!(module.completiondata && module.uservisible && !showLegacyCompletion)"
+                    class="coursecompletioninfobtn no-details-found">
+                    <ion-icon name="far-circle" aria-hidden="true"></ion-icon>
                 </div>
             </div>
         </ion-item>

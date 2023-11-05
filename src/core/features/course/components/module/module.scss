@@ -59,14 +59,15 @@
             padding: 8px;
         }
 
-        .core-module-dates + .core-module-availabilityinfo {
+        .core-module-dates+.core-module-availabilityinfo {
             border-top: 1px solid var(--stroke);
             padding-top: 8px;
         }
 
         .core-module-availabilityinfo {
             font-size: 90%;
-            ::ng-deep  ul {
+
+            ::ng-deep ul {
                 margin-top: 0.5em;
             }
         }
@@ -79,11 +80,11 @@
         clear: both;
     }
 
-    .core-module-main-item + .core-course-module-info ion-label {
+    .core-module-main-item+.core-course-module-info ion-label {
         margin-top: 0px;
     }
 
-    .core-module-availabilityinfo  ion-icon,
+    .core-module-availabilityinfo ion-icon,
     .core-module-dates ion-icon {
         @include margin-horizontal(null, 8px);
     }
@@ -94,11 +95,12 @@
 
     .core-course-last-module-viewed {
         padding: 8px 12px;
-        color: var(--subdued-text-color);
-        border-top: 1px solid var(--stroke);
+        color: var(--ion-color-step-600);
+        background: var(--ion-background-color);
 
         ion-icon {
             margin-right: 4px;
+            margin-bottom: -2px;
         }
     }
 
@@ -108,8 +110,20 @@
         margin-inline-start: calc(var(--horizontal-margin) + 1rem);
     }
 
-    &.indented + ::ng-deep core-course-module.indented ion-card {
+    &.indented+ ::ng-deep core-course-module.indented ion-card {
         border-top: 1px solid var(--border-color);
     }
 
+}
+
+ion-card {
+    box-shadow: none;
+
+    ion-item {
+        --margin-vertical: 0;
+    }
+
+    core-mod-icon {
+        --margin-vertical: 0 !important;
+    }
 }

@@ -102,6 +102,8 @@ export class AddonMyTrainingsPage implements OnInit {
      * View loaded.
      */
     async ngOnInit(): Promise<void> {
+        this.loaded = false;
+
         await this.fetchData();
     }
 
@@ -112,8 +114,6 @@ export class AddonMyTrainingsPage implements OnInit {
      * @returns Promise with the entries.
      */
     protected async fetchData(refresh: boolean = false): Promise<void> {
-        this.loaded = false;
-
         this.setFilterCount();
 
         if (refresh) {
@@ -202,6 +202,7 @@ export class AddonMyTrainingsPage implements OnInit {
         if (role === 'confirm') {
             this.filters = data;
             this.currentPage = 1;
+            this.loaded = false;
 
             this.fetchData(true);
         }

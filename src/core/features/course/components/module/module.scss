@@ -94,9 +94,9 @@
     }
 
     .core-course-last-module-viewed {
-        padding: 8px 12px;
+        padding: 0 8px;
         color: var(--ion-color-step-600);
-        background: var(--ion-background-color);
+        font-size: 12px;
 
         ion-icon {
             margin-right: 4px;
@@ -125,5 +125,7 @@ ion-card {
 
     core-mod-icon {
         --margin-vertical: 0 !important;
+        padding: 0;
+        background: transparent;
     }
 }

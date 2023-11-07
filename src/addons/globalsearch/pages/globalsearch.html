@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [text]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <h1>Search</h1>
+        </ion-title>
+        <ion-buttons slot="end">
+            <core-user-menu-button></core-user-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar [(ngModel)]="searchText" (ionInput)="search($event.target.value)" [placeholder]="'core.search' | translate"
+            [core-auto-focus]="true" show-clear-button="focus" debounce="300" enterkeyhint="search"></ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="limited-width">
+    <ion-refresher slot="fixed" [disabled]="!loaded" (ionRefresh)="refresh($event.target)">
+        <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
+    </ion-refresher>
+
+    <div class="main-wrapper">
+        <div class="wrapper" *ngIf="loaded">
+            <ion-item class="item" *ngFor="let item of data" (click)="goto(item.url, item.type)">
+                <div class="icon" slot="start">
+                    <img [src]="item.image" [alt]="item.title">
+                </div>
+                <div class="text">
+                    <div class="title wrap-text">{{item.title}}</div>
+                    <div class="subtitle">{{item.type}}</div>
+                </div>
+                <div slot="end" *ngIf="item.type !== 'Shorts'">
+                    <ion-icon name="chevron-forward"></ion-icon>
+                </div>
+            </ion-item>
+        </div>
+    </div>
+</ion-content>

@@ -37,6 +37,7 @@ import { AddonDashboardModule } from './dashboard/dasboard.module';
 import { AddonShortsModule } from './shorts/shorts.module';
 import { AddonCatalogueModule } from './catalogue/catalogue.module';
 import { AddonMyTrainingsModule } from './mytrainings/mytrainings.module';
+import { AddonGlobalSearchModule } from './globalsearch/globalsearch.module';
 
 @NgModule({
     imports: [
@@ -63,6 +64,7 @@ import { AddonMyTrainingsModule } from './mytrainings/mytrainings.module';
         AddonShortsModule,
         AddonCatalogueModule,
         AddonMyTrainingsModule,
+        AddonGlobalSearchModule,
     ],
 })
 export class AddonsModule {}

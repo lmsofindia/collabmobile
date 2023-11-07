@@ -78,7 +78,8 @@ export class CoreMainMenuUserButtonComponent implements OnInit {
      *
      */
     openSearch(): void {
-        CoreNavigator.navigateToSitePath('courses/list', { params : { mode: 'search' } });
+        // CoreNavigator.navigateToSitePath('courses/list', { params : { mode: 'search' } });
+        CoreNavigator.navigateToSitePath('global-search');
     }
 
     openNotifications(): void {

@@ -58,16 +58,6 @@
                             <core-progress-bar [progress]="progress" a11yText="core.course.aria:sectionprogress">
                             </core-progress-bar>
                         </div>
-                        <div *ngIf="course.startdate || course.enddate" class="core-course-dates">
-                            <core-reminders-date *ngIf="course.startdate" component="course" [instanceId]="course.id" type="coursestart"
-                                [label]="'core.course.startdate' | translate" [time]="course.startdate" [title]="course.fullname"
-                                [url]="courseUrl">
-                            </core-reminders-date>
-                            <core-reminders-date *ngIf="course.enddate" component="course" [instanceId]="course.id" type="courseend"
-                                [label]="'core.course.enddate' | translate" [time]="course.enddate" [title]="course.fullname"
-                                [url]="courseUrl">
-                            </core-reminders-date>
-                        </div>
                     </ion-label>
                 </ion-item>
 
@@ -101,15 +91,18 @@
                         </ion-label>
                     </ion-item>
                     <ng-container *ngIf="contactsExpanded || course.contacts.length < 5">
-                        <ion-item button class="ion-text-wrap" *ngFor="let contact of course.contacts" core-user-link [userId]="contact.id"
-                            [courseId]="isEnrolled ? course.id : null" [attr.aria-label]="'core.viewprofile' | translate" detail="true">
-                            <core-user-avatar [user]="contact" slot="start" [userId]="contact.id" [courseId]="isEnrolled ? course.id : null"
-                                [linkProfile]="false">
-                            </core-user-avatar>
-                            <ion-label>
-                                <p class="item-heading">{{contact.fullname}}</p>
-                            </ion-label>
-                        </ion-item>
+                        <ion-row>
+                            <ion-col *ngFor="let contact of course.contacts">
+                                <ion-item class="ion-text-wrap">
+                                    <core-user-avatar [user]="contact" slot="start" [userId]="contact.id"
+                                        [courseId]="isEnrolled ? course.id : null" [linkProfile]="false">
+                                    </core-user-avatar>
+                                    <ion-label>
+                                        <p class="item-heading">{{contact.fullname}}</p>
+                                    </ion-label>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
                     </ng-container>
                 </ion-list>
 

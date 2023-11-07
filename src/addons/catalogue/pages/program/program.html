@@ -45,12 +45,16 @@
                     </ion-label>
                 </ion-item>
 
-                <div class="meta-data">
-                    <div class="meta-item" *ngFor="let meta of program['meta']">
-                        <div class="title">{{meta.name}}</div>
-                        <div class="value">{{meta.value}}</div>
-                    </div>
-                </div>
+                <ion-card>
+                    <ion-card-content>
+                        <div class="meta-data">
+                            <div class="meta-item" *ngFor="let meta of program['meta']">
+                                <div class="title">{{meta.name}}</div>
+                                <div class="value">{{meta.value || '-'}}</div>
+                            </div>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
 
                 <ion-list *ngIf="program['teachers'] && program['teachers'].length">
                     <ion-item [button]="program['teachers'].length > 4" class="ion-text-wrap" (click)="toggleContacts()"

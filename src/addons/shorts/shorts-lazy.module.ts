@@ -16,10 +16,11 @@ import { Injector, NgModule } from '@angular/core';
 import { RouterModule, ROUTES, Routes } from '@angular/router';
 
 import { CoreSharedModule } from '@/core/shared.module';
-import { AddonShortsPage } from './pages/shorts';
+import { AddonShortsPage } from './pages/shorts/shorts';
 import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.module';
 import { AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
+import { AddonShortsUploadPage } from './pages/upload/upload';
 
 /**
  * Build module routes.
@@ -54,6 +55,7 @@ function buildRoutes(injector: Injector): Routes {
     ],
     declarations: [
         AddonShortsPage,
+        AddonShortsUploadPage,
     ],
 })
 export class AddonShortsLazyModule {}

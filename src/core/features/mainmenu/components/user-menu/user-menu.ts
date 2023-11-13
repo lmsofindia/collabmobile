@@ -116,7 +116,7 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
                     icon: 'fas-video',
                     title: 'Upload Short Video',
                     action: (): void => {
-                        // CoreNavigator.navigateToSitePath('/upload-video');
+                        CoreNavigator.navigateToSitePath('/shorts/upload');
                     },
                 },
                 // {

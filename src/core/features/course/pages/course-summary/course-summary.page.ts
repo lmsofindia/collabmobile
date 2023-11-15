@@ -471,6 +471,13 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
             modal?.dismiss();
 
             if (error && error.errorcode === CoreCoursesProvider.ENROL_INVALID_KEY) {
+                // Invalid password. Show error and allow the user to enter the password again.
+                if (password) {
+                    CoreDomUtils.showErrorModalDefault(error, 'core.courses.errorselfenrol', true);
+
+                    return;
+                }
+
                 // Initialize the self enrol modal.
                 // Invalid password, show the modal to enter the password.
                 const modalData = await CoreDomUtils.openModal<string>(

@@ -66,6 +66,7 @@ import { CoreRefreshButtonModalComponent } from './refresh-button-modal/refresh-
 import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
 import { CoreCollabCourseComponent } from './collab-course/collab-course';
 import { CoreCatalogueFiltersComponent } from './catalogue-filters/catalogue-filters';
+import { AccordionComponent } from './accordion/accordion';
 
 @NgModule({
     declarations: [
@@ -114,6 +115,7 @@ import { CoreCatalogueFiltersComponent } from './catalogue-filters/catalogue-fil
         CoreSheetModalComponent,
         CoreCollabCourseComponent,
         CoreCatalogueFiltersComponent,
+        AccordionComponent,
     ],
     imports: [
         CommonModule,
@@ -168,6 +170,7 @@ import { CoreCatalogueFiltersComponent } from './catalogue-filters/catalogue-fil
         CoreRefreshButtonModalComponent,
         CoreSheetModalComponent,
         CoreCollabCourseComponent,
+        AccordionComponent,
     ],
 })
 export class CoreComponentsModule {}

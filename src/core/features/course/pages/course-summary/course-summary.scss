@@ -150,27 +150,22 @@
 
 .course-sections {
     --img-filter: brightness(1);
-    margin: var(--ion-card-vertical-margin) var(--ion-card-horizontal-margin);
-    background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
-    color: var(--ion-card-color, var(--ion-item-color, var(--ion-color-step-550, #737373)));
-    border-radius: var(--ion-card-radius);
-    box-shadow: var(--theme-box-shadow);
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 12px;
-    padding-bottom: 16px;
+    // margin: var(--ion-card-vertical-margin) var(--ion-card-horizontal-margin);
+    // background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
+    // color: var(--ion-card-color, var(--ion-item-color, var(--ion-color-step-550, #737373)));
+    // border-radius: var(--ion-card-radius);
+    // box-shadow: var(--theme-box-shadow);
+    // padding-left: 16px;
+    // padding-right: 16px;
+    // padding-top: 12px;
+    // padding-bottom: 16px;
     font-size: 14px;
-
-    &:margin-top {
-        margin-top: 0px;
-    }
 
     .section-heading {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 6px;
-        margin-bottom: 18px;
 
         .item-heading {
             flex: 1;
@@ -196,8 +191,12 @@
         gap: 5px;
         align-items: center;
 
+        &:first-child {
+            margin-top: 0;
+        }
+
         &:last-child {
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         .content {

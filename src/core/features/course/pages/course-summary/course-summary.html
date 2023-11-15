@@ -113,8 +113,8 @@
                         </ion-label>
                     </ion-item>
 
-                    <div class="course-sections" *ngFor="let section of sections">
-                        <div class="section-heading">
+                    <accordion class="course-sections" *ngFor="let section of sections">
+                        <div class="section-heading" header>
                             <h2 class="item-heading wrap-text">{{section.name}}</h2>
                             <div class="duration">
                                 <span>
@@ -124,7 +124,6 @@
                                 <span *ngIf="section.duration">{{section.duration}}</span>
                             </div>
                         </div>
-
                         <div *ngIf="section.modules && section.modules.length">
                             <div class="mod" *ngFor="let module of section.modules">
                                 <div class="content">
@@ -136,7 +135,8 @@
                                 <div class="duration">{{module.duration}}</div>
                             </div>
                         </div>
-                    </div>
+                    </accordion>
+
                 </div>
             </div>
             <div style="padding-top: 70px"></div>

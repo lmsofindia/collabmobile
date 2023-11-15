@@ -1,0 +1,11 @@
+<div class="item">
+    <div class="header" (click)="toggleItem()" [class.open]="show">
+        <div class="header-main">
+            <ng-content select="[header]"></ng-content>
+        </div>
+        <ion-icon name="chevron-down-outline" class="icon"></ion-icon>
+    </div>
+    <div class="content" [class.open]="show">
+        <ng-content></ng-content>
+    </div>
+</div>

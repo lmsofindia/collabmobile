@@ -259,12 +259,8 @@ html.dark core-course-module core-mod-icon img {
 }
 
 core-course-format .core-course-module-list-wrapper {
-    background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
-    margin: 14px !important;
-    padding: 12px;
-    border-radius: var(--ion-card-radius);
-    box-shadow: var(--box-shadow);
-    padding-top: 8px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 
     .course-section {
         --padding-start: 0;
@@ -276,6 +272,11 @@ core-course-format .core-course-module-list-wrapper {
             margin: 0;
             --item-divider-font-size: 0.8rem;
         }
+    }
+
+    .item .content {
+        padding-top: 0 !important;
+        padding-bottom: 4px !important;
     }
 
     core-mod-icon {
@@ -315,5 +316,9 @@ core-course-format .core-course-module-list-wrapper {
         ion-icon {
             font-size: 1.1rem;
         }
+    }
+
+    .core-course-last-module-viewed {
+        padding-bottom: 10px !important;
     }
 }

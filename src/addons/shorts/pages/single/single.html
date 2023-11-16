@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button [text]="'core.back' | translate"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{title}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <core-loading [hideUntil]="loaded">
+        <div class="short-wrapper" *ngIf="short && short.id">
+            <video autoplay="off" preload="auto" playsinline="true" webkit-playsinline="true" loop="true" (click)="toggleState($event)"
+                [src]="short['video']"></video>
+            <div class="content">
+                <div class="title">{{short['fullname']}}</div>
+                <div class="profile">
+                    <div class="avatar">
+                        <img [src]="short['profilepic']" [alt]="short['userfullname']" />
+                    </div>
+                    <div class="name">{{short['userfullname']}}</div>
+                </div>
+            </div>
+            <div class="buttons">
+                <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="toggleLike()">
+                    <div class="btn-inner">
+                        <ion-icon name="thumbs-up" [class.active]="short['is_liked']"></ion-icon>
+                        <ion-label>{{short['likes']}}</ion-label>
+                    </div>
+                </ion-button>
+                <ion-button fill="clear" color="dark" size="small" class="ion-no-margin" (click)="toggleDislike()">
+                    <div class="btn-inner">
+                        <ion-icon name="thumbs-down" [class.active]="short['is_disliked']"></ion-icon>
+                        <ion-label>{{short['dislikes']}}</ion-label>
+                    </div>
+                </ion-button>
+            </div>
+        </div>
+    </core-loading>
+</ion-content>

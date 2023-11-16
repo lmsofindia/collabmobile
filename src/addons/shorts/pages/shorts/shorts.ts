@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { ShortLikeDislikeResponse } from '@addons/shorts/services/shorts';
 import { Component, OnInit } from '@angular/core';
 import { CoreSite } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
@@ -181,12 +182,3 @@ export class AddonShortsPage implements OnInit {
     }
 
 }
-
-type ShortLikeDislikeResponse = {
-    success: boolean;
-    likes: number;
-    is_liked: boolean;
-    is_disliked: boolean;
-    dislikes: number;
-    message: string;
-};

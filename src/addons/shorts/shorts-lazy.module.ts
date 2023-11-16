@@ -21,6 +21,7 @@ import { buildTabMainRoutes } from '@features/mainmenu/mainmenu-tab-routing.modu
 import { AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu';
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
 import { AddonShortsUploadPage } from './pages/upload/upload';
+import { AddonShortsSinglePage } from './pages/single/single';
 
 /**
  * Build module routes.
@@ -56,6 +57,7 @@ function buildRoutes(injector: Injector): Routes {
     declarations: [
         AddonShortsPage,
         AddonShortsUploadPage,
+        AddonShortsSinglePage,
     ],
 })
 export class AddonShortsLazyModule {}

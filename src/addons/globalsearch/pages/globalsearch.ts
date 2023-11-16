@@ -18,11 +18,13 @@ import { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
 
+type SearchItemTypes = 'Course' | 'Program' | 'Shorts';
+
 type SearchItem = {
     id: number;
     image: string;
     title: string;
-    type: 'Course' | 'Program' | 'Shorts';
+    type: SearchItemTypes;
     url: string;
 };
 
@@ -93,29 +95,18 @@ export class AddonGlobalSearchPage {
     /**
      * Go to a course/program.
      *
-     * @param url URL to go to.
+     * @param id Course/program/short id.
      */
-    goto(url: string, type: string): void {
-        if(type === 'Shorts') {
-            return;
-        }
-
-        const parsedUrl = new URL(url);
-
-        const id = parseInt(parsedUrl.searchParams.get('id') || '');
-
-        if (!id) {
-            return;
-        }
-
-        switch (parsedUrl.pathname) {
-            case '/course/view.php':
+    goto(id: number|undefined, type: SearchItemTypes): void {
+        switch (type) {
+            case 'Course':
                 CoreNavigator.navigateToSitePath(`/course/${id}/summary`);
                 break;
-            case '/enrol/programs/catalogue/program.php':
-                CoreNavigator.navigateToSitePath(`/main/home/catalogue/programs/${id}`);
+            case 'Program':
+                CoreNavigator.navigateToSitePath(`/catalogue/programs/${id}`);
                 break;
-            case '/local/short_video/view.php':
+            case 'Shorts':
+                CoreNavigator.navigateToSitePath(`/shorts/short/${id}`);
                 break;
         }
     }

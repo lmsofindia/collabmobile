@@ -21,6 +21,7 @@ import { CoreMainMenuDelegate } from '@features/mainmenu/services/mainmenu-deleg
 import { AddonShortsProvider } from './services/shorts';
 import { AddonShortsMainMenuHandler, AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu';
 import { AddonShortsUploadPage } from './pages/upload/upload';
+import { AddonShortsSinglePage } from './pages/single/single';
 
 export const ADDON_DASHBOARD_SERVICES: Type<unknown>[] = [
     AddonShortsProvider,
@@ -34,6 +35,10 @@ const routes: Routes = [
     {
         path: AddonShortsMainMenuHandlerService.PAGE_NAME + '/upload',
         component: AddonShortsUploadPage,
+    },
+    {
+        path: AddonShortsMainMenuHandlerService.PAGE_NAME + '/short/:shortId',
+        component: AddonShortsSinglePage,
     },
 ];
 

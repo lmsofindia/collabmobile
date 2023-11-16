@@ -30,3 +30,12 @@ export class AddonShortsProvider {
 
 }
 export const AddonShorts = makeSingleton(AddonShortsProvider);
+
+export type ShortLikeDislikeResponse = {
+    success: boolean;
+    likes: number;
+    is_liked: boolean;
+    is_disliked: boolean;
+    dislikes: number;
+    message: string;
+};

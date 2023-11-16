@@ -22,7 +22,7 @@
 
     <div class="main-wrapper">
         <div class="wrapper" *ngIf="loaded">
-            <ion-item class="item" *ngFor="let item of data" (click)="goto(item.url, item.type)">
+            <ion-item class="item" *ngFor="let item of data" (click)="goto(item.id, item.type)">
                 <div class="icon" slot="start">
                     <img [src]="item.image" [alt]="item.title">
                 </div>
@@ -30,7 +30,7 @@
                     <div class="title wrap-text">{{item.title}}</div>
                     <div class="subtitle">{{item.type}}</div>
                 </div>
-                <div slot="end" *ngIf="item.type !== 'Shorts'">
+                <div slot="end">
                     <ion-icon name="chevron-forward"></ion-icon>
                 </div>
             </ion-item>

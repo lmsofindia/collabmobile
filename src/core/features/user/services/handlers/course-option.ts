@@ -49,7 +49,7 @@ export class CoreUserCourseOptionHandlerService implements CoreCourseOptionsHand
      * @inheritdoc
      */
     isEnabled(): Promise<boolean> {
-        return Promise.resolve(true);
+        return Promise.resolve(false);
     }
 
     /**

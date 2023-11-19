@@ -21,6 +21,14 @@
                     <p>{{ rule }}</p>
                 </ion-label>
             </ion-item>
+            <ion-item class="ion-text-wrap" *ngIf="syncTime">
+                <ion-label>
+                    <p class="item-heading">{{ 'core.lastsync' | translate }}</p>
+                    <p>{{ syncTime }}</p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+        <ion-list class="gradeMethod">
             <ion-item class="ion-text-wrap" *ngIf="gradeMethodReadable">
                 <ion-label>
                     <p class="item-heading">{{ 'addon.mod_quiz.grademethod' | translate }}</p>
@@ -34,12 +42,6 @@
                         grade: bestGrade.gradetopass,
                         maxgrade: quiz.gradeFormatted
                         } } }}</p>
-                </ion-label>
-            </ion-item>
-            <ion-item class="ion-text-wrap" *ngIf="syncTime">
-                <ion-label>
-                    <p class="item-heading">{{ 'core.lastsync' | translate }}</p>
-                    <p>{{ syncTime }}</p>
                 </ion-label>
             </ion-item>
         </ion-list>

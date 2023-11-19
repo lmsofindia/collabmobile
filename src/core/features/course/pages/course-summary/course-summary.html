@@ -90,20 +90,22 @@
                             </h2>
                         </ion-label>
                     </ion-item>
-                    <ng-container *ngIf="contactsExpanded || course.contacts.length < 5">
-                        <ion-row>
-                            <ion-col *ngFor="let contact of course.contacts">
-                                <ion-item class="ion-text-wrap">
-                                    <core-user-avatar [user]="contact" slot="start" [userId]="contact.id"
-                                        [courseId]="isEnrolled ? course.id : null" [linkProfile]="false">
-                                    </core-user-avatar>
-                                    <ion-label>
-                                        <p class="item-heading">{{contact.fullname}}</p>
-                                    </ion-label>
-                                </ion-item>
-                            </ion-col>
-                        </ion-row>
-                    </ng-container>
+                    <ion-card class="teachers-list" *ngIf="contactsExpanded || course.contacts.length < 5">
+                        <ion-card-content>
+                            <ion-row>
+                                <ion-col *ngFor="let contact of course.contacts">
+                                    <ion-item class="ion-text-wrap">
+                                        <core-user-avatar [user]="contact" slot="start" [userId]="contact.id"
+                                            [courseId]="isEnrolled ? course.id : null" [linkProfile]="false">
+                                        </core-user-avatar>
+                                        <ion-label>
+                                            <p class="item-heading">{{contact.fullname}}</p>
+                                        </ion-label>
+                                    </ion-item>
+                                </ion-col>
+                            </ion-row>
+                        </ion-card-content>
+                    </ion-card>
                 </ion-list>
 
                 <div *ngIf="sections && sections.length">
@@ -117,10 +119,6 @@
                         <div class="section-heading" header>
                             <h2 class="item-heading wrap-text">{{section.name}}</h2>
                             <div class="duration">
-                                <span>
-                                    {{section.modules.length}} {{section.modules.length == 1 ? 'Activity' : 'Activities'}}
-                                </span>
-                                <span *ngIf="section.duration" class="dot">&bull;</span>
                                 <span *ngIf="section.duration">{{section.duration}}</span>
                             </div>
                         </div>

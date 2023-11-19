@@ -23,7 +23,7 @@
                 </p>
 
                 <div class="core-module-additional-info">
-                    <ion-chip *ngIf="module.duration">{{module.duration}}</ion-chip>
+                    <div *ngIf="module.duration" class="module-duration">{{module.duration}}</div>
 
                     <ion-chip *ngIf="module.handlerData.extraBadge" [color]="module.handlerData.extraBadgeColor"
                         class="ion-text-wrap ion-text-start" [outline]="true">

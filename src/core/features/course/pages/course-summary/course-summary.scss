@@ -224,3 +224,19 @@
         }
     }
 }
+
+.teachers-list {
+    ion-card-content {
+        padding: 9px;
+    }
+
+    ion-item {
+        --background: transparent;
+        --padding-start: 0;
+    }
+
+    core-user-avatar {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}

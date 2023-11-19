@@ -64,6 +64,17 @@
     gap: 5px;
     margin-bottom: 0.6rem;
 
+    &.interests {
+        flex-direction: column;
+
+        .interest-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 0.2rem;
+        }
+    }
+
     p {
         margin: 0;
     }

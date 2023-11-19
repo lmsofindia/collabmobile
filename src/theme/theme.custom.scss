@@ -11,11 +11,11 @@ html {
     --theme-box-shadow-hover: 8px 30px 40px 0 rgba(0, 0, 0, .2);
     --theme-box-shadow-lift: 4px 5px 34px 1px rgb(0 0 0 / 30%);
 
-    --box-shadow: var(--box-shadow);
-    --box-shadow-light: var(--box-shadow-light);
-    --box-shadow-darker: var(--box-shadow-darker);
-    --box-shadow-hover: var(--box-shadow-hover);
-    --box-shadow-lift: var(--box-shadow-lift);
+    --box-shadow: var(--theme-box-shadow);
+    --box-shadow-light: var(--theme-box-shadow-light);
+    --box-shadow-darker: var(--theme-box-shadow-darker);
+    --box-shadow-hover: var(--theme-box-shadow-hover);
+    --box-shadow-lift: var(--theme-box-shadow-lift);
 
     --core-mainpage-headerlogo-display: block;
     --core-mainpage-sitename-display: none;

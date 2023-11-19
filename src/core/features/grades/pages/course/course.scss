@@ -43,7 +43,8 @@
         border-bottom: 1px solid var(--border-color);
     }
 
-    th, td {
+    th,
+    td {
         @include padding(8px, 8px, 8px, null);
         vertical-align: top;
         white-space: normal;
@@ -61,11 +62,11 @@
     }
 
     tbody th {
-      font-weight: normal;
+        font-weight: normal;
     }
 
     tbody tr.core-bold th {
-      font-weight: inherit;
+        font-weight: inherit;
     }
 
     tbody #gradeitem {
@@ -141,33 +142,53 @@
         opacity: .7;
     }
 
-    .odd, .even {
-        td, th, th[aria-current="page"] {
-            background-color: var(--cell-background);
-        }
-    }
+    // .odd,
+    // .even {
+
+    //     td,
+    //     th,
+    //     th[aria-current="page"] {
+    //         background-color: var(--cell-background);
+    //     }
+    // }
 
     .core-grades-grade-clickable {
         cursor: pointer;
+
         &:hover {
-            td, th, th[aria-current="page"] {
+
+            td,
+            th,
+            th[aria-current="page"] {
                 background-color: var(--cell-hover);
             }
         }
 
-        th, td {
+        th,
+        td {
             height: var(--a11y-min-target-size);
             vertical-align: middle;
         }
     }
 
-    ion-list, ion-item::part(native) {
+    ion-list,
+    ion-item::part(native) {
         background-color: transparent;
     }
 
     &.summary .ion-hide-md-down {
         display: none;
         opacity: 0;
+    }
+
+    ion-icon,
+    core-mod-icon {
+        display: none;
+    }
+
+    th,
+    td {
+        pointer-events: none;
     }
 
 }

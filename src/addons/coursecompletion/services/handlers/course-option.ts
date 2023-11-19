@@ -42,18 +42,21 @@ export class AddonCourseCompletionCourseOptionHandlerService implements CoreCour
     /**
      * @inheritdoc
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async isEnabledForCourse(courseId: number, accessData: CoreCourseAccess): Promise<boolean> {
-        if (accessData && accessData.type == CoreCourseProvider.ACCESS_GUEST) {
-            return false; // Not enabled for guests.
-        }
+        // if (accessData && accessData.type == CoreCourseProvider.ACCESS_GUEST) {
+        //     return false; // Not enabled for guests.
+        // }
 
-        const courseEnabled = await AddonCourseCompletion.isPluginViewEnabledForCourse(courseId);
-        // If is not enabled in the course, is not enabled for the user.
-        if (!courseEnabled) {
-            return false;
-        }
+        // const courseEnabled = await AddonCourseCompletion.isPluginViewEnabledForCourse(courseId);
+        // // If is not enabled in the course, is not enabled for the user.
+        // if (!courseEnabled) {
+        //     return false;
+        // }
 
-        return AddonCourseCompletion.isPluginViewEnabledForUser(courseId);
+        // return AddonCourseCompletion.isPluginViewEnabledForUser(courseId);
+
+        return Promise.resolve(false);
     }
 
     /**

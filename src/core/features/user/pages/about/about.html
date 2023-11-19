@@ -94,9 +94,9 @@
                             </a>
                         </p>
                     </div>
-                    <div class="inner-content" *ngIf="interests">
+                    <div class="inner-content interests" *ngIf="interests">
                         <p class="item-heading">{{ 'core.user.interests' | translate }}</p>
-                        <p>
+                        <p class="interest-badges">
                             <ion-badge *ngFor="let interest of interests" role="link" (click)="openInterest(interest)">
                                 {{ interest }}
                             </ion-badge>

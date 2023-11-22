@@ -7,7 +7,7 @@
                     [contextInstanceId]="contextInstanceId" [courseId]="courseId">
                 </core-format-text>
             </p>
-            <p *ngIf="question.prompt">
+            <p *ngIf="question.prompt" class="question-prompt">
                 <core-format-text [component]="component" [componentId]="componentId" [text]="question.prompt" [contextLevel]="contextLevel"
                     [contextInstanceId]="contextInstanceId" [courseId]="courseId">
                 </core-format-text>
@@ -66,8 +66,9 @@
             <ion-icon *ngIf="option.isCorrect === 0" class="core-correct-icon" name="fas-xmark" color="danger"
                 [attr.aria-label]="'core.question.incorrect' | translate"></ion-icon>
         </ion-item>
-        <ion-button *ngIf="!question.disabled" class="ion-text-wrap ion-margin-top" expand="block" fill="outline"
-            [disabled]="!question.singleChoiceModel" (click)="clear()" type="button">
+        <ion-button *ngIf="!question.disabled" class="ion-text-wrap ion-margin-top" expand="block"
+            [color]="question.singleChoiceModel ? 'warning' : 'light'" [disabled]="!question.singleChoiceModel" (click)="clear()"
+            type="button">
             {{ 'addon.mod_quiz.clearchoice' | translate }}
         </ion-button>
 

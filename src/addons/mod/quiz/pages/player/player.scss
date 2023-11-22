@@ -7,6 +7,8 @@ $quiz-timer-iterations: 15 !default;
     .addon-mod_quiz-question-note p {
         margin-top: 2px;
         margin-bottom: 2px;
+        color: var(--ion-color-step-500);
+        text-align: right;
     }
 
     ion-content ion-toolbar {
@@ -15,13 +17,17 @@ $quiz-timer-iterations: 15 !default;
 
     core-timer ::ng-deep {
         .core-timer {
+
             // Make the timer go red when it's reaching 0.
             @for $i from 0 through $quiz-timer-iterations {
                 &.core-timer-timeleft-#{$i} {
                     background-color: rgba($quiz-timer-warn-color, 1 - ($i / $quiz-timer-iterations)) !important;
 
-                    @if $i <= $quiz-timer-iterations / 2 {
-                        label, span, ion-icon {
+                    @if $i <=$quiz-timer-iterations / 2 {
+
+                        label,
+                        span,
+                        ion-icon {
                             color: var(--white);
                         }
                     }
@@ -29,4 +35,17 @@ $quiz-timer-iterations: 15 !default;
             }
         }
     }
+}
+
+.question-title {
+    font-weight: 600;
+}
+
+core-question.core-question {
+    border-top: 1px solid var(--ion-color-step-200);
+    display: inline-block;
+}
+
+.question-title-wrapper {
+    padding-bottom: 5px;
 }

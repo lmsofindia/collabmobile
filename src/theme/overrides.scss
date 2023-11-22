@@ -360,12 +360,10 @@ page-addon-mod-quiz-index {
     }
 }
 
-page-addon-mod-quiz-review {
-    core-question {
-        .sc-ion-label-md-s p {
-            margin-bottom: 0 !important;
-            line-height: 28px !important;
-        }
+core-question {
+    .sc-ion-label-md-s p {
+        margin-bottom: 0 !important;
+        line-height: 28px !important;
     }
 }
 

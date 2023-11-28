@@ -533,6 +533,7 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             ...this.preSets,
             cacheKey: newKey,
             updateFrequency: frequency || this.preSets.updateFrequency,
+            saveToCache: false,
         };
     }
 

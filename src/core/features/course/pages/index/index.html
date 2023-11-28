@@ -31,7 +31,7 @@
         </ng-container>
 
         <ion-label>
-            <h1>
+            <h1 class="wrap-text" style="--lines: 2; margin-bottom: 10px;">
                 <core-format-text [text]="title" contextLevel="course" [contextInstanceId]="course?.id"></core-format-text>
             </h1>
             <div class="core-course-progress" *ngIf="progress !== undefined">

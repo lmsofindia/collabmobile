@@ -3,7 +3,10 @@
         <ion-icon name="fas-magnifying-glass" slot="icon-only" aria-hidden="true"></ion-icon>
     </ion-button>
     <ion-button [attr.aria-label]="'addon.notifications.notifications' | translate" (click)="openNotifications()">
-        <ion-icon name="fas-bell" slot="icon-only" aria-hidden="true"></ion-icon>
+        <ion-icon name="fas-bell" aria-hidden="true"></ion-icon>
+        <ion-badge color="warning" class="notification-badge" *ngIf="notificationCount">
+            {{notificationCount}}
+        </ion-badge>
     </ion-button>
     <core-user-avatar [user]="siteInfo" class="core-bar-button-image clickable" [linkProfile]="false"
         (ariaButtonClick)="openUserMenu($event)" [userTour]="userTour" [attr.aria-label]="'core.user.useraccount' | translate">

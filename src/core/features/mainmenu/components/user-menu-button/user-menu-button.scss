@@ -10,3 +10,11 @@ core-user-avatar {
 :host-context(ion-tab-bar) core-user-avatar ::ng-deep img {
     padding: 6px !important;
 }
+
+.notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    padding: 2px 4px;
+    font-size: 12px;
+}

@@ -53,7 +53,8 @@
                     <img [src]="certificate.imageurl" [alt]="certificate.name" core-external-content>
                 </div>
                 <div class="name wrap-text">{{certificate.name}}</div>
-                <ion-button color="secondary" size="small" class="ion-no-margin" expand="block" (click)="downloadCertificate(certificate)">
+                <ion-button color="secondary" size="small" class="ion-no-margin" expand="block" core-link [href]="certificate.downloadurl"
+                    [autoLogin]="true" [showBrowserWarning]="false">
                     <ion-label>Download</ion-label>
                     <ion-icon name="download"></ion-icon>
                 </ion-button>

@@ -95,6 +95,7 @@ export class CoreSitePluginsPluginContentComponent implements OnInit, DoCheck {
 
         const preSets = Object.assign({}, this.preSets);
         preSets.component = preSets.component || this.component;
+        preSets.saveToCache = false; // Don't save to cache
 
         try {
             const result = await CoreSitePlugins.getContent(this.component, this.method, this.args, preSets);

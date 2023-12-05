@@ -21,9 +21,9 @@
             margin-top: 4px;
 
             .item-heading {
-                margin-top: 8px;
-                margin-bottom: 8px;
-                font-weight: bold;
+                margin-top: 18px;
+                margin-bottom: 18px;
+                font-weight: 500;
 
                 ion-icon {
                     @include margin(0, 6px, 0, 0);
@@ -47,6 +47,7 @@
         .addon-mod-forum-discussion-info {
             display: flex;
             align-items: center;
+            margin-bottom: 0.6rem;
         }
 
         .addon-mod-forum-discussion-info .addon-mod-forum-discussion-author {
@@ -59,8 +60,21 @@
         }
 
 
-        .addon-mod-forum-discussion-more-info.ios {
-            font-size: 0.9rem;
+        .addon-mod-forum-discussion-more-info {
+            ion-note {
+                font-size: 0.8rem;
+                color: var(--ion-color-step-600);
+                display: flex;
+                align-items: center;
+
+                ion-icon {
+                    margin-right: 4px;
+                }
+            }
+
+            .ion-text-end ion-note {
+                justify-content: flex-end;
+            }
         }
 
         ion-button {

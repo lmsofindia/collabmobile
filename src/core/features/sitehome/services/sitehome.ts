@@ -15,9 +15,10 @@
 import { Injectable } from '@angular/core';
 
 import { CoreSites } from '@services/sites';
-import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+// import { CoreSite, CoreSiteWSPreSets } from '@classes/site';
+import { CoreSite } from '@classes/site';
 import { makeSingleton } from '@singletons';
-import { CoreCourse } from '../../course/services/course';
+// import { CoreCourse } from '../../course/services/course';
 import { CoreCourses } from '../../courses/services/courses';
 import { AddonModForum, AddonModForumData } from '@addons/mod/forum/services/forum';
 import { CoreError } from '@classes/errors/error';
@@ -77,48 +78,49 @@ export class CoreSiteHomeProvider {
      * @param siteId The site ID. If not defined, current site.
      * @returns Promise resolved with boolean: whether it's available.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async isAvailable(siteId?: string): Promise<boolean> {
-        try {
-            const site = await CoreSites.getSite(siteId);
+        // try {
+        //     const site = await CoreSites.getSite(siteId);
 
-            // First check if it's disabled.
-            if (this.isDisabledInSite(site)) {
-                return false;
-            }
+        //     // First check if it's disabled.
+        //     if (this.isDisabledInSite(site)) {
+        //         return false;
+        //     }
 
-            // Use a WS call to check if there's content in the site home.
-            const siteHomeId = site.getSiteHomeId();
-            const preSets: CoreSiteWSPreSets = { emergencyCache: false };
+        //     // Use a WS call to check if there's content in the site home.
+        //     const siteHomeId = site.getSiteHomeId();
+        //     const preSets: CoreSiteWSPreSets = { emergencyCache: false };
 
-            try {
-                const sections = await CoreCourse.getSections(siteHomeId, false, true, preSets, site.id);
+        //     try {
+        //         const sections = await CoreCourse.getSections(siteHomeId, false, true, preSets, site.id);
 
-                if (!sections || !sections.length) {
-                    throw Error('No sections found');
-                }
+        //         if (!sections || !sections.length) {
+        //             throw Error('No sections found');
+        //         }
 
-                const hasContent = sections.some((section) => section.summary || (section.modules && section.modules.length));
+        //         const hasContent = sections.some((section) => section.summary || (section.modules && section.modules.length));
 
-                if (hasContent) {
-                    // There's a section with content.
-                    return true;
-                }
-            } catch {
-                // Ignore errors.
-            }
+        //         if (hasContent) {
+        //             // There's a section with content.
+        //             return true;
+        //         }
+        //     } catch {
+        //         // Ignore errors.
+        //     }
 
-            const config = site.getStoredConfig();
-            if (config && config.frontpageloggedin) {
-                const items = await this.getFrontPageItems(config.frontpageloggedin);
+        //     const config = site.getStoredConfig();
+        //     if (config && config.frontpageloggedin) {
+        //         const items = await this.getFrontPageItems(config.frontpageloggedin);
 
-                // There are items to show.
-                return items.length > 0;
-            }
-        } catch {
-            // Ignore errors.
-        }
+        //         // There are items to show.
+        //         return items.length > 0;
+        //     }
+        // } catch {
+        //     // Ignore errors.
+        // }
 
-        return false;
+        return true;
     }
 
     /**

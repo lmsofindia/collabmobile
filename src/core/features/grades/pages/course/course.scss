@@ -45,7 +45,9 @@
 
     th,
     td {
-        @include padding(8px, 8px, 8px, null);
+        padding-right: 10px;
+        padding-top: 18px;
+        padding-bottom: 18px;
         vertical-align: top;
         white-space: normal;
         text-align: start;
@@ -74,7 +76,7 @@
     }
 
     .core-grades-table-gradeitem {
-        @include padding(null, null, null, 4px);
+        @include padding(null, null, null, 10px);
         font-weight: bold;
 
         &.column-itemname {

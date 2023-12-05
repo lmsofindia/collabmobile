@@ -70,8 +70,13 @@
         .interest-badges {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 0.2rem;
+            margin-top: -0.2rem;
+            margin-left: -0.3rem;
+            margin-bottom: -0.3rem;
+
+            ion-badge {
+                margin: 0.3rem;
+            }
         }
     }
 

@@ -5,13 +5,13 @@
 
             <ng-container *ngIf="completion.istrackeduser">
                 <ion-chip class="core-module-completion-todo" color="light">
-                    <ion-icon name="fas-check-circle" aria-hidden="true" style="margin-right: 0;"></ion-icon>
+                    <ion-icon name="fas-circle-check" aria-hidden="true" style="margin-right: 0;"></ion-icon>
                 </ion-chip>
             </ng-container>
 
             <ng-container *ngIf="!completion.istrackeduser">
                 <ion-chip class="core-module-completion-todo" color="light">
-                    <ion-icon name="fas-check-circle" aria-hidden="true" style="margin-right: 0;"></ion-icon>
+                    <ion-icon name="fas-circle-check" aria-hidden="true" style="margin-right: 0;"></ion-icon>
                 </ion-chip>
             </ng-container>
         </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="coursecompletioninfobtn completioninfo completion_complete" *ngIf="completionStatus === 1 || completionStatus === 2"
                 color="success">
-                <ion-icon name="fas-check-circle" aria-hidden="true"></ion-icon>
+                <ion-icon name="fas-circle-check" aria-hidden="true"></ion-icon>
             </div>
             <div class="coursecompletioninfobtn completioninfo completion_fail" *ngIf="completionStatus === 3" color="danger">
                 <ion-icon name="fas-circle-times" aria-hidden="true"></ion-icon>
@@ -31,7 +31,7 @@
 
         <ng-container *ngIf="mode == 'basic' && !completion.istrackeduser">
             <div class="coursecompletioninfobtn completioninfo completion_incomplete" color="light">
-                <ion-icon name="far-check-circle" aria-hidden="true"></ion-icon>
+                <ion-icon name="far-circle-check" aria-hidden="true"></ion-icon>
             </div>
         </ng-container>
 

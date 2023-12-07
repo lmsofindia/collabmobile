@@ -69,6 +69,7 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
     protected completionObserver?: CoreEventObserver;
     protected manualCompletionObserver?: CoreEventObserver;
     protected syncObserver?: CoreEventObserver;
+    protected refreshObserver?: CoreEventObserver;
     protected isDestroyed = false;
     protected modulesHaveCompletion = false;
     protected debouncedUpdateCachedCompletion?: () => void; // Update the cached completion after a certain time.
@@ -153,6 +154,12 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
 
             if (data.warnings && data.warnings[0]) {
                 CoreDomUtils.showAlert(undefined, data.warnings[0].message);
+            }
+        });
+
+        this.refreshObserver = CoreEvents.on('core_course_refresh_activities', (data: { courseId: number }) => {
+            if (data && data.courseId == this.course.id) {
+                this.showLoadingAndRefresh(true, true);
             }
         });
     }

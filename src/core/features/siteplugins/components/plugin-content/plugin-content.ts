@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input, Output, EventEmitter, DoCheck, KeyValueDiffers, ViewChild, KeyValueDiffer } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, DoCheck, KeyValueDiffers, ViewChild, KeyValueDiffer, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Md5 } from 'ts-md5';
 
@@ -22,6 +22,9 @@ import { CoreSitePlugins, CoreSitePluginsContent, CoreSitePluginsProvider } from
 import { CoreNavigator } from '@services/navigator';
 import { CoreDomUtils } from '@services/utils/dom';
 import { CoreEvents } from '@singletons/events';
+import { CoreUtils } from '@services/utils/utils';
+import { CoreCourseSummaryLazyModule } from '@features/course/course-summary-lazy.module';
+import { CoreCourse } from '@features/course/services/course';
 
 /**
  * Component to render a site plugin content.
@@ -31,7 +34,7 @@ import { CoreEvents } from '@singletons/events';
     templateUrl: 'core-siteplugins-plugin-content.html',
     styles: [':host { display: contents; }'],
 })
-export class CoreSitePluginsPluginContentComponent implements OnInit, DoCheck {
+export class CoreSitePluginsPluginContentComponent implements OnInit, DoCheck, OnDestroy {
 
     // Get the compile element. Don't set the right type to prevent circular dependencies.
     @ViewChild('compile') compileComponent?: CoreCompileHtmlComponent;
@@ -65,6 +68,26 @@ export class CoreSitePluginsPluginContentComponent implements OnInit, DoCheck {
      */
     ngOnInit(): void {
         this.fetchContent();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    ngOnDestroy(): void {
+        if(this.component != 'mod_vimeo') {
+            return;
+        }
+
+        const courseid = parseInt(this.args?.courseid as string);
+
+        if(isNaN(courseid) || courseid <= 0) {
+            return;
+        }
+
+        // trigger COMPLETION_MODULE_VIEWED event
+        CoreEvents.trigger('core_course_refresh_activities', {
+            courseId: courseid,
+        });
     }
 
     /**

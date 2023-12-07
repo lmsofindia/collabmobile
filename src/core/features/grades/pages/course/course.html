@@ -20,7 +20,7 @@
                 <thead>
                     <tr>
                         <th *ngFor="let column of columns" id="{{column.name}}" class="ion-text-start"
-                            [class.ion-hide-md-down]="column.hiddenPhone" [attr.colspan]="column.colspan">
+                            [class.ion-hide-md-down]="column.hiddenPhone">
                             {{ 'core.grades.' + column.name | translate }}
                         </th>
                     </tr>

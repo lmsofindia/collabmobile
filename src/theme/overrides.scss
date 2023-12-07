@@ -254,6 +254,10 @@ core-course-module core-mod-icon img {
     --filter: none !important;
 }
 
+core-mod-icon[ng-reflect-modname="vimeo"] img {
+    filter: var(--filter);
+}
+
 html.dark core-course-module core-mod-icon img {
     --filter: brightness(0) invert(1) !important;
 }

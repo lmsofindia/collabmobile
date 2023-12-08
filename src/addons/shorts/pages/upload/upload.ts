@@ -12,18 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CoreSite } from '@classes/site';
-import { IonRefresher } from '@ionic/angular';
-// import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
+import { CoreDomUtils } from '@services/utils/dom';
+
+const DEFAULT_FORM_DATA = {
+    name: '',
+    description: '',
+    category: [],
+    skills: [],
+    issued_date: '',
+    learning_hours: 0,
+};
+
+const DEFAULT_FORM_ERRORS = {
+    name: '',
+    description: '',
+    category: '',
+    skills: '',
+    issued_date: '',
+    learning_hours: '',
+    short_video: '',
+};
 
 @Component({
     selector: 'page-addon-shorts-upload',
     templateUrl: 'upload.html',
     styleUrls: ['upload.scss'],
 })
-export class AddonShortsUploadPage implements OnInit {
+export class AddonShortsUploadPage {
 
     protected siteHomeId: number;
 
@@ -32,77 +50,140 @@ export class AddonShortsUploadPage implements OnInit {
 
     protected currentSite: CoreSite;
 
-    uploadurl = '';
+    formdata = DEFAULT_FORM_DATA;
+
+    formErrors = DEFAULT_FORM_ERRORS;
+
+    short_video: File|null = null;
+
+    categories = [
+        {
+            id: 1,
+            name: 'Category 1',
+        },
+        {
+            id: 2,
+            name: 'Category 2',
+        },
+        {
+            id: 3,
+            name: 'Category 3',
+        },
+    ];
+
+    skills = [
+        {
+            id: 1,
+            name: 'Skill 1',
+        },
+        {
+            id: 2,
+            name: 'Skill 2',
+        },
+        {
+            id: 3,
+            name: 'Skill 3',
+        },
+    ];
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
         this.currentSite = CoreSites.getRequiredCurrentSite();
-
-        let url = this.currentSite.getURL() + '/local/short_video/mobileupload.php';
-
-        // pass userid
-        url += '?userid=' + this.currentUserId;
-
-        // pass token
-        url += '&token=' + this.currentSite.getToken();
-
-        this.uploadurl = url;
     }
 
-    /**
-     * View loaded.
-     */
-    async ngOnInit(): Promise<void> {
-        this.loaded = true;
-    }
+    onFileSelected(event: Event): void {
+        const target = event.target as HTMLInputElement;
+        const files = target.files as FileList;
+        const file = files[0];
 
-    /**
-     * Fetch the data.
-     *
-     * @param refresh Empty events array first.
-     * @returns Promise with the entries.
-     */
-    protected async fetchData(refresh: boolean = false): Promise<void> {
-        this.loaded = false;
+        // Validate file.
+        if (file.type !== 'video/mp4') {
+            this.formErrors.short_video = 'Please select a valid video file.';
 
-        if (refresh) {
-            // this.pageLoaded = 0;
+            return;
         }
 
-        this.loaded = true;
+        this.formErrors.short_video = '';
+
+        this.short_video = file;
     }
 
-    /**
-     * Fetch the courses.
-     *
-     * @returns Promise with the entries.
-     */
-    // protected async fetchProgram(): Promise<void> {
-    //     return this.currentSite.read('local_course_catalogue_get_program', {
-    //         id: this.programId,
-    //     }).then((response: any) => {
-    //         this.program = response;
+    async upload(): Promise<void> {
+        // Validate form data.
+        Object.keys(this.formdata).forEach((key) => {
+            if (key === 'category' || key === 'skills') {
+                if (this.formdata[key].length === 0) {
+                    this.formErrors[key] = 'Please select at least one option.';
 
-    //         return;
-    //     }).catch(() => {
-    //         //
-    //     });
-    // }
+                    return;
+                }
+            } else if (key === 'learning_hours') {
+                if (this.formdata[key] <= 0) {
+                    this.formErrors[key] = 'Please enter a valid number.';
 
-    /**
-     * Refresh data.
-     *
-     * @param refresher Refresher instance.
-     */
-    refresh(refresher?: IonRefresher): void {
-        this.loaded = false;
+                    return;
+                }
+            } if (this.formdata[key] === '') {
+                this.formErrors[key] = 'This field is required.';
 
-        this.fetchData(true).finally(() => {
-            if (refresher) {
-                refresher?.complete();
+                return;
             }
+
+            this.formErrors[key] = '';
         });
+
+        if (this.short_video === null) {
+            this.formErrors.short_video = 'Please select a file.';
+        }
+
+        if (!this.isFormValid) {
+            return Promise.reject();
+        }
+
+        const formData = new FormData();
+        formData.append('name', this.formdata.name);
+        formData.append('description', this.formdata.description);
+        formData.append('category', this.formdata.category.toString());
+        formData.append('skills', this.formdata.skills.toString());
+        formData.append('issued_date', this.formdata.issued_date);
+        formData.append('learning_hours', this.formdata.learning_hours.toString());
+        formData.append('short_video', this.short_video as Blob);
+
+        return this.currentSite.write('local_short_video_upload', formData)
+            .then((response: any) => {
+                if (response.status) {
+                    this.formdata = DEFAULT_FORM_DATA;
+                    this.short_video = null;
+                    this.formErrors = DEFAULT_FORM_ERRORS;
+
+                    // success alert
+                    CoreDomUtils.showAlert(undefined, response.message);
+
+                    return;
+                }
+
+                if (response.errors) {
+                    Object.keys(this.formErrors).forEach((key) => {
+                        if (response.errors[key]) {
+                            this.formErrors[key] = response.errors[key];
+                        }
+                    });
+
+                    return;
+                }
+
+                // error alert
+                CoreDomUtils.showAlert(undefined, response.message);
+
+                return;
+            }).catch((error) => {
+                CoreDomUtils.showErrorModalDefault(error, 'Error uploading video.');
+            });
+    }
+
+    get isFormValid(): boolean {
+        return Object.values(this.formErrors).every((error) => error === '');
     }
 
 }

@@ -8,5 +8,46 @@
 </ion-header>
 
 <ion-content>
-    <core-iframe [src]="uploadurl"></core-iframe>
+    <div style="padding-top: 15px;padding-bottom: 15px;">
+        <ion-item>
+            <ion-label position="floating">Name <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input type="text" [(ngModel)]="formdata.name"></ion-input>
+            <ion-text color="danger" *ngIf="formErrors.name">{{formErrors.name}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Description <ion-text color="danger">*</ion-text></ion-label>
+            <ion-textarea [(ngModel)]="formdata.description" rows="2"></ion-textarea>
+            <ion-text color="danger" *ngIf="formErrors.description">{{formErrors.description}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Category <ion-text color="danger">*</ion-text></ion-label>
+            <ion-select multiple="true" [(ngModel)]="formdata.category">
+                <ion-select-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="formErrors.category">{{formErrors.category}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Skills <ion-text color="danger">*</ion-text></ion-label>
+            <ion-select multiple="true" [(ngModel)]="formdata.skills">
+                <ion-select-option *ngFor="let skill of skills" [value]="skill.id">{{skill.name}}</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="formErrors.skills">{{formErrors.skills}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Issued date <ion-text color="danger">*</ion-text></ion-label>
+            <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="formdata.issued_date"></ion-datetime>
+            <ion-text color="danger" *ngIf="formErrors.issued_date">{{formErrors.issued_date}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Duration <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input type="number" [(ngModel)]="formdata.learning_hours"></ion-input>
+            <ion-text color="danger" *ngIf="formErrors.learning_hours">{{formErrors.learning_hours}}</ion-text>
+        </ion-item>
+        <ion-item>
+            <ion-label>Video <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input type="file" (change)="onFileSelected($event)" accept="video/*"></ion-input>
+            <ion-text color="danger" *ngIf="formErrors.short_video">{{formErrors.short_video}}</ion-text>
+        </ion-item>
+        <ion-button expand="block" (click)="upload()" style="margin-top: 20px;">Upload</ion-button>
+    </div>
 </ion-content>

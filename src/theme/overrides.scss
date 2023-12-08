@@ -368,6 +368,12 @@ core-question {
     }
 }
 
+page-addon-mod-quiz-player {
+    core-question.core-question {
+        width: 100%;
+    }
+}
+
 addon-calendar-calendar {
     .addon-calendar-day {
         .addon-calendar-day-number span {

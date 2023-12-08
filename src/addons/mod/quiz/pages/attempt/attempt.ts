@@ -27,6 +27,7 @@ import {
     AddonModQuizProvider,
 } from '../../services/quiz';
 import { AddonModQuizAttempt, AddonModQuizHelper, AddonModQuizQuizData } from '../../services/quiz-helper';
+import { CoreSites } from '@services/sites';
 
 /**
  * Page that displays some summary data about an attempt.
@@ -50,6 +51,8 @@ export class AddonModQuizAttemptPage implements OnInit {
 
     protected attemptId!: number; // Attempt to view.
 
+    siteurl = '';
+
     /**
      * @inheritdoc
      */
@@ -65,6 +68,8 @@ export class AddonModQuizAttemptPage implements OnInit {
 
             return;
         }
+
+        this.siteurl = CoreSites.getRequiredCurrentSite().getURL();
 
         this.fetchQuizData().finally(() => {
             this.loaded = true;

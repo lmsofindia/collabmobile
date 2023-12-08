@@ -18,6 +18,17 @@
     </ion-refresher>
     <core-loading [hideUntil]="loaded">
         <ion-list *ngIf="attempt" class="attempt-data">
+            <div class="congrats-wrapper" *ngIf="attempt.finished">
+                <img [src]="siteurl + '/mod/quiz/pix/completed.jpg'" alt="">
+                <h4>Congratulations!! You have completed.</h4>
+                <h5>
+                    Grade: <b>{{attempt.readableGrade}}</b> out of {{quiz?.gradeFormatted || '0'}}
+                </h5>
+                <h6>
+                    Attempt Status: {{attempt?.readableState[0] || 'Completed'}}
+                </h6>
+            </div>
+
             <ion-item class="ion-text-wrap">
                 <ion-label>
                     <p class="item-heading">{{ 'addon.mod_quiz.attemptnumber' | translate }}</p>

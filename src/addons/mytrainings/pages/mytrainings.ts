@@ -145,6 +145,8 @@ export class AddonMyTrainingsPage implements OnInit {
         return this.currentSite.read('local_course_catalogue_get_my', {
             page: this.currentPage,
             filters: newfilters,
+        }, {
+            saveToCache: false,
         }).then((response: {courses: []; programs: []; pagination: Pagination}) => {
             this.courses = response.courses;
             this.programs = response.programs;

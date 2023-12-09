@@ -48,6 +48,6 @@
             <ion-input type="file" (change)="onFileSelected($event)" accept="video/*"></ion-input>
             <ion-text color="danger" *ngIf="formErrors.short_video">{{formErrors.short_video}}</ion-text>
         </ion-item>
-        <ion-button expand="block" (click)="upload()" style="margin-top: 20px;">Upload</ion-button>
+        <ion-button expand="block" (click)="upload()" style="margin-top: 20px;" [disabled]="isProcessing">Upload</ion-button>
     </div>
 </ion-content>

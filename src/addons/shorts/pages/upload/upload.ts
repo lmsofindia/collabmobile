@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CoreSite } from '@classes/site';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
@@ -36,12 +36,17 @@ const DEFAULT_FORM_ERRORS = {
     short_video: '',
 };
 
+type DropdownOption = {
+    id: number|string;
+    name: string;
+};
+
 @Component({
     selector: 'page-addon-shorts-upload',
     templateUrl: 'upload.html',
     styleUrls: ['upload.scss'],
 })
-export class AddonShortsUploadPage {
+export class AddonShortsUploadPage implements OnInit {
 
     protected siteHomeId: number;
 
@@ -50,41 +55,17 @@ export class AddonShortsUploadPage {
 
     protected currentSite: CoreSite;
 
-    formdata = DEFAULT_FORM_DATA;
+    formdata = Object.assign({}, DEFAULT_FORM_DATA);
 
-    formErrors = DEFAULT_FORM_ERRORS;
+    formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
 
     short_video: File|null = null;
 
-    categories = [
-        {
-            id: 1,
-            name: 'Category 1',
-        },
-        {
-            id: 2,
-            name: 'Category 2',
-        },
-        {
-            id: 3,
-            name: 'Category 3',
-        },
-    ];
+    categories: DropdownOption[] = [];
 
-    skills = [
-        {
-            id: 1,
-            name: 'Skill 1',
-        },
-        {
-            id: 2,
-            name: 'Skill 2',
-        },
-        {
-            id: 3,
-            name: 'Skill 3',
-        },
-    ];
+    skills: DropdownOption[] = [];
+
+    isProcessing = false;
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -107,6 +88,23 @@ export class AddonShortsUploadPage {
         this.formErrors.short_video = '';
 
         this.short_video = file;
+    }
+
+    async ngOnInit(): Promise<void> {
+        try {
+            const dropdowns: {
+                categories: DropdownOption[];
+                skills: DropdownOption[];
+            } = await this.currentSite.read('local_short_video_get_form_dropdowns', {});
+
+            this.categories = dropdowns.categories;
+
+            this.skills = dropdowns.skills;
+
+        } catch {
+            CoreDomUtils.showErrorModal('Error loading data.');
+        }
+
     }
 
     async upload(): Promise<void> {
@@ -141,6 +139,8 @@ export class AddonShortsUploadPage {
             return Promise.reject();
         }
 
+        this.isProcessing = true;
+
         const formData = new FormData();
         formData.append('name', this.formdata.name);
         formData.append('description', this.formdata.description);
@@ -149,37 +149,47 @@ export class AddonShortsUploadPage {
         formData.append('issued_date', this.formdata.issued_date);
         formData.append('learning_hours', this.formdata.learning_hours.toString());
         formData.append('short_video', this.short_video as Blob);
+        formData.append('user_id', this.currentUserId.toString());
+        formData.append('token', this.currentSite.getToken());
 
-        return this.currentSite.write('local_short_video_upload', formData)
-            .then((response: any) => {
-                if (response.status) {
-                    this.formdata = DEFAULT_FORM_DATA;
-                    this.short_video = null;
-                    this.formErrors = DEFAULT_FORM_ERRORS;
+        try {
+            const request = await fetch(this.currentSite.siteUrl + '/local/short_video/mobileupload.php', {
+                method: 'POST',
+                body: formData,
+            });
 
-                    // success alert
-                    CoreDomUtils.showAlert(undefined, response.message);
+            const response = await request.json();
 
-                    return;
-                }
+            this.isProcessing = false;
 
-                if (response.errors) {
-                    Object.keys(this.formErrors).forEach((key) => {
-                        if (response.errors[key]) {
-                            this.formErrors[key] = response.errors[key];
-                        }
-                    });
+            if (response.status) {
+                this.formdata = Object.assign({}, DEFAULT_FORM_DATA);
+                this.short_video = null;
+                this.formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
 
-                    return;
-                }
-
-                // error alert
-                CoreDomUtils.showAlert(undefined, response.message);
+                // success alert
+                CoreDomUtils.showAlert(undefined, response.message || 'Short video uploaded successfully.');
 
                 return;
-            }).catch((error) => {
-                CoreDomUtils.showErrorModalDefault(error, 'Error uploading video.');
-            });
+            }
+
+            if (response.errors) {
+                Object.keys(this.formErrors).forEach((key) => {
+                    if (response.errors[key]) {
+                        this.formErrors[key] = response.errors[key];
+                    }
+                });
+
+                return;
+            }
+
+            // error alert
+            CoreDomUtils.showAlert(undefined, response.message);
+
+        } catch {
+            this.isProcessing = false;
+            CoreDomUtils.showErrorModal('Error uploading short video.');
+        }
     }
 
     get isFormValid(): boolean {

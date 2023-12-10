@@ -67,10 +67,14 @@ export class AddonShortsUploadPage implements OnInit {
 
     isProcessing = false;
 
+    timezone: string;
+
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
         this.currentSite = CoreSites.getRequiredCurrentSite();
+
+        this.timezone = this.currentSite.getStoredConfig()?.timezone || '';
     }
 
     onFileSelected(event: Event): void {

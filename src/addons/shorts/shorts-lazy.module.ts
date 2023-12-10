@@ -22,6 +22,7 @@ import { AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu'
 import { CoreMainMenuComponentsModule } from '@features/mainmenu/components/components.module';
 import { AddonShortsUploadPage } from './pages/upload/upload';
 import { AddonShortsSinglePage } from './pages/single/single';
+import { AddonCertificateUploadPage } from './pages/uploadcert/uploadcert';
 
 /**
  * Build module routes.
@@ -58,6 +59,7 @@ function buildRoutes(injector: Injector): Routes {
         AddonShortsPage,
         AddonShortsUploadPage,
         AddonShortsSinglePage,
+        AddonCertificateUploadPage,
     ],
 })
 export class AddonShortsLazyModule {}

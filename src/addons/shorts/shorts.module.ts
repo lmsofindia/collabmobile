@@ -22,6 +22,7 @@ import { AddonShortsProvider } from './services/shorts';
 import { AddonShortsMainMenuHandler, AddonShortsMainMenuHandlerService } from './services/handlers/mainmenu';
 import { AddonShortsUploadPage } from './pages/upload/upload';
 import { AddonShortsSinglePage } from './pages/single/single';
+import { AddonCertificateUploadPage } from './pages/uploadcert/uploadcert';
 
 export const ADDON_DASHBOARD_SERVICES: Type<unknown>[] = [
     AddonShortsProvider,
@@ -39,6 +40,10 @@ const routes: Routes = [
     {
         path: AddonShortsMainMenuHandlerService.PAGE_NAME + '/short/:shortId',
         component: AddonShortsSinglePage,
+    },
+    {
+        path: AddonShortsMainMenuHandlerService.PAGE_NAME + '/upload-external-certificate',
+        component: AddonCertificateUploadPage,
     },
 ];
 

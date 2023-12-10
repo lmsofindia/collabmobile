@@ -119,6 +119,14 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
                         CoreNavigator.navigateToSitePath('/shorts/upload');
                     },
                 },
+                // Upload External Certificate
+                {
+                    icon: 'fas-file-circle-plus',
+                    title: 'Upload Certificate',
+                    action: (): void => {
+                        CoreNavigator.navigateToSitePath('/shorts/upload-external-certificate');
+                    },
+                },
                 // {
                 //     icon: 'fas-wrench',
                 //     title: 'core.settings.preferences',

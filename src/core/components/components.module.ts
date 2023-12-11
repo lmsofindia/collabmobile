@@ -67,6 +67,7 @@ import { CoreSheetModalComponent } from '@components/sheet-modal/sheet-modal';
 import { CoreCollabCourseComponent } from './collab-course/collab-course';
 import { CoreCatalogueFiltersComponent } from './catalogue-filters/catalogue-filters';
 import { AccordionComponent } from './accordion/accordion';
+import { CoreSkillsSelectComponent } from './skills-select/skills-select';
 
 @NgModule({
     declarations: [
@@ -116,6 +117,7 @@ import { AccordionComponent } from './accordion/accordion';
         CoreCollabCourseComponent,
         CoreCatalogueFiltersComponent,
         AccordionComponent,
+        CoreSkillsSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -171,6 +173,7 @@ import { AccordionComponent } from './accordion/accordion';
         CoreSheetModalComponent,
         CoreCollabCourseComponent,
         AccordionComponent,
+        CoreSkillsSelectComponent,
     ],
 })
 export class CoreComponentsModule {}

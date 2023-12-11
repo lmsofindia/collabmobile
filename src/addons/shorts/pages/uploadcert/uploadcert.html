@@ -21,14 +21,14 @@
         </ion-item>
         <ion-item>
             <ion-label position="floating">Category <ion-text color="danger">*</ion-text></ion-label>
-            <ion-select [(ngModel)]="formdata.category">
+            <ion-select [(ngModel)]="formdata.category" interface="popover">
                 <ion-select-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</ion-select-option>
             </ion-select>
             <ion-text color="danger" *ngIf="formErrors.category">{{formErrors.category}}</ion-text>
         </ion-item>
         <ion-item>
             <ion-label position="floating">Mode <ion-text color="danger">*</ion-text></ion-label>
-            <ion-select [(ngModel)]="formdata.mode">
+            <ion-select [(ngModel)]="formdata.mode" interface="popover">
                 <ion-select-option *ngFor="let m of modes" [value]="m.id">{{m.name}}</ion-select-option>
             </ion-select>
             <ion-text color="danger" *ngIf="formErrors.mode">{{formErrors.mode}}</ion-text>

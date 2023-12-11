@@ -14,6 +14,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CoreSite } from '@classes/site';
+import { CoreSkillsSelectComponent } from '@components/skills-select/skills-select';
+import { ModalController } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 
@@ -65,11 +67,15 @@ export class AddonShortsUploadPage implements OnInit {
 
     skills: DropdownOption[] = [];
 
+    selectedSkills: DropdownOption[] = [];
+
+    skillNames = '';
+
     isProcessing = false;
 
     timezone: string;
 
-    constructor() {
+    constructor(private modalCtrl: ModalController) {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
         this.currentSite = CoreSites.getRequiredCurrentSite();
@@ -193,6 +199,25 @@ export class AddonShortsUploadPage implements OnInit {
         } catch {
             this.isProcessing = false;
             CoreDomUtils.showErrorModal('Error uploading short video.');
+        }
+    }
+
+    async openSkillsSelect(): Promise<void> {
+        const modal = await this.modalCtrl.create({
+            component: CoreSkillsSelectComponent,
+            componentProps: {
+                skills: this.skills,
+                selectedSkills: this.selectedSkills,
+            },
+        });
+        modal.present();
+
+        const { data, role } = await modal.onWillDismiss();
+
+        if (role === 'confirm') {
+            this.formdata.skills = data.map((skill: DropdownOption) => skill.id);
+            this.selectedSkills = data;
+            this.skillNames = data.map((skill: DropdownOption) => skill.name).join(', ');
         }
     }
 

@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Select skills</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cancel()" [strong]="true">
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="filters-wrapper">
+        <ion-searchbar [(ngModel)]="searchText" (ionChange)="onSearchChange()"></ion-searchbar>
+        <div class="checkbox-group">
+            <div *ngFor="let option of options">
+                <ion-item>
+                    <ion-label>{{option.name}}</ion-label>
+                    <ion-checkbox [value]="option.id" (ionChange)="onCheckboxChange($event, option)"
+                        [checked]="isChecked(option)"></ion-checkbox>
+                </ion-item>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<ion-footer>
+    <div class="buttons">
+        <ion-button (click)="cancel()" fill="clear" expand="full" class="ion-no-margin">Cancel</ion-button>
+        <ion-button (click)="confirm()" [strong]="true" color="primary" expand="full" class="ion-no-margin">Confirm</ion-button>
+    </div>
+</ion-footer>

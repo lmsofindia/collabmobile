@@ -1,0 +1,31 @@
+.filters-wrapper {
+    padding: 14px 0;
+}
+
+.checkbox-group {
+    margin-bottom: 12px 0;
+}
+
+ion-label {
+    margin: 8px 0;
+}
+
+ion-checkbox,
+ion-radio {
+    margin: 8px 0px;
+}
+
+ion-item {
+    --min-height: 30px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ion-button {
+        flex: 1;
+        font-weight: 500;
+    }
+}

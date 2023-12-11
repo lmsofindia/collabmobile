@@ -1,0 +1,36 @@
+.skills-wrapper {
+    --border-width: 0px 0 1px 0;
+    --min-height: 55px;
+
+    .skills-select {
+        padding-right: 20px;
+        max-width: 100%;
+    }
+
+    .float-label {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        transform-origin: left top;
+        transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        &.isFocused {
+            transform: translateY(-10%) scale(0.75);
+        }
+    }
+
+    .select-icon-inner {
+        right: 20px;
+        top: 50%;
+        margin-top: -2px;
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        border-top: 5px solid;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        color: currentcolor;
+        pointer-events: none;
+    }
+}

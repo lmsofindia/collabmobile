@@ -76,6 +76,7 @@ export class AddonCertificateUploadPage implements OnInit {
     allowedFileExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'svg'];
 
     timezone = '';
+    maxdatetime = '';
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -84,6 +85,8 @@ export class AddonCertificateUploadPage implements OnInit {
         this.token = this.currentSite.getToken();
 
         this.timezone = this.currentSite.getStoredConfig()?.timezone || '';
+
+        this.maxdatetime = new Date().toISOString();
     }
 
     onFileSelected(event: Event): void {
@@ -200,6 +203,10 @@ export class AddonCertificateUploadPage implements OnInit {
                 this.formdata = Object.assign({}, DEFAULT_FORM_DATA);
                 this.certificate = null;
                 this.formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
+
+                // reset #cert-file
+                const fileInput = document.getElementById('cert-file') as HTMLInputElement;
+                fileInput.value = '';
 
                 // success alert
                 CoreDomUtils.showAlert(undefined, response.message || 'Certificate uploaded successfully.');

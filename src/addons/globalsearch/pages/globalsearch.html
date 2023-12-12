@@ -35,5 +35,12 @@
                 </div>
             </ion-item>
         </div>
+
+        <div class="wrapper" *ngIf="loaded && data.length == 0 && searchText.length > 0">
+            <div class="no-result">
+                <ion-icon name="search-outline"></ion-icon>
+                <div class="text">No search results found for "{{searchText}}"</div>
+            </div>
+        </div>
     </div>
 </ion-content>

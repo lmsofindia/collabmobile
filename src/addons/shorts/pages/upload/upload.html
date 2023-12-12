@@ -38,7 +38,8 @@
         </ion-item>
         <ion-item>
             <ion-label position="floating">Issued date <ion-text color="danger">*</ion-text></ion-label>
-            <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="formdata.issued_date" [displayTimezone]="timezone"></ion-datetime>
+            <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="formdata.issued_date" [displayTimezone]="timezone"
+                [max]="maxdatetime"></ion-datetime>
             <ion-text color="danger" *ngIf="formErrors.issued_date">{{formErrors.issued_date}}</ion-text>
         </ion-item>
         <ion-item>
@@ -48,7 +49,7 @@
         </ion-item>
         <ion-item>
             <ion-label>Video <ion-text color="danger">*</ion-text></ion-label>
-            <ion-input type="file" (change)="onFileSelected($event)" accept="video/*"></ion-input>
+            <ion-input type="file" (change)="onFileSelected($event)" accept="video/*" id="video-file"></ion-input>
             <ion-text color="danger" *ngIf="formErrors.short_video">{{formErrors.short_video}}</ion-text>
         </ion-item>
         <ion-button expand="block" (click)="upload()" style="margin-top: 20px;" [disabled]="isProcessing">Upload</ion-button>

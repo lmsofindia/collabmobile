@@ -202,7 +202,6 @@
         .content {
             display: flex;
             flex: 1;
-            gap: 6px;
             align-items: center;
 
             img {
@@ -220,6 +219,7 @@
                 margin: 0;
                 font-size: 0.8rem;
                 font-weight: 400;
+                margin-left: 8px;
             }
         }
     }

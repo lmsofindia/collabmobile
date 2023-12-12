@@ -74,6 +74,7 @@ export class AddonShortsUploadPage implements OnInit {
     isProcessing = false;
 
     timezone: string;
+    maxdatetime = '';
 
     constructor(private modalCtrl: ModalController) {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -81,6 +82,8 @@ export class AddonShortsUploadPage implements OnInit {
         this.currentSite = CoreSites.getRequiredCurrentSite();
 
         this.timezone = this.currentSite.getStoredConfig()?.timezone || '';
+
+        this.maxdatetime = new Date().toISOString();
     }
 
     onFileSelected(event: Event): void {
@@ -176,6 +179,14 @@ export class AddonShortsUploadPage implements OnInit {
                 this.formdata = Object.assign({}, DEFAULT_FORM_DATA);
                 this.short_video = null;
                 this.formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
+
+                // reset skills
+                this.selectedSkills = [];
+                this.skillNames = '';
+
+                // reset #video-file
+                const fileInput = document.getElementById('video-file') as HTMLInputElement;
+                fileInput.value = '';
 
                 // success alert
                 CoreDomUtils.showAlert(undefined, response.message || 'Short video uploaded successfully.');

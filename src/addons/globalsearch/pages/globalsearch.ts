@@ -83,6 +83,8 @@ export class AddonGlobalSearchPage {
 
         return this.currentSite.read('local_collab_function_globalsearch', {
             search: this.searchText,
+        }, {
+            saveToCache: false,
         }).then((data: SearchItem[]) => {
             this.data = data;
 

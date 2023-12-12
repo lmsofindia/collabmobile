@@ -191,12 +191,6 @@
             </ion-button>
         </ion-card>
 
-        <ion-item button *ngIf="blog && displayOptions.displayBlog" (click)="gotoBlog()" [detail]="true">
-            <ion-icon name="far-newspaper" slot="start" aria-hidden="true"></ion-icon>
-            <ion-label>
-                {{ 'addon.blog.blog' | translate }}
-            </ion-label>
-        </ion-item>
     </core-loading>
 </ion-content>
 <ion-footer *ngIf="loaded && isOnline && displayOptions.displayRefresh">

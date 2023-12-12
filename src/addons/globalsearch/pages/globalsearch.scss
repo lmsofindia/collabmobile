@@ -48,3 +48,14 @@ ion-searchbar {
         }
     }
 }
+
+.no-result {
+    text-align: center;
+    padding: 2rem 1rem;
+
+    ion-icon {
+        height: 3rem;
+        width: 3rem;
+        margin-bottom: 1rem;
+    }
+}

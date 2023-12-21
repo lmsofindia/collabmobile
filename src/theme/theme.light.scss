@@ -48,8 +48,10 @@ html {
     }
 
     // Accessibility vars.
-    --a11y-focus-color: var(--primary);
-    --a11y-focus-width: 2px;
+    // --a11y-focus-color: var(--primary);
+    // --a11y-focus-width: 2px;
+    --a11y-focus-color: transparent;
+    --a11y-focus-width: 1px;
     --zoom-level: 100%;
 
     --text-color:       #{$text-color};

@@ -47,8 +47,8 @@ export class AddonDashboardPage implements OnInit {
             updateFrequency: CoreSite.FREQUENCY_OFTEN,
             component: AddonDashboardProvider.COMPONENT,
             componentId: this.siteHomeId,
-            getFromCache: true,
-            saveToCache: true,
+            getFromCache: false,
+            saveToCache: false,
         };
     }
 

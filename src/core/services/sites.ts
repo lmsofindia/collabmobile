@@ -1879,8 +1879,8 @@ export class CoreSitesProvider {
             case CoreSitesReadingStrategy.STALE_WHILE_REVALIDATE:
                 return {
                     updateInBackground: true,
-                    getFromCache: true,
-                    saveToCache: true,
+                    getFromCache: false,
+                    saveToCache: false,
                 };
             default:
                 return {};

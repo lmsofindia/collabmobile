@@ -37,12 +37,6 @@
             <ion-text color="danger" *ngIf="formErrors.skills">{{formErrors.skills}}</ion-text>
         </ion-item>
         <ion-item>
-            <ion-label position="floating">Issued date <ion-text color="danger">*</ion-text></ion-label>
-            <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="formdata.issued_date" [displayTimezone]="timezone"
-                [max]="maxdatetime"></ion-datetime>
-            <ion-text color="danger" *ngIf="formErrors.issued_date">{{formErrors.issued_date}}</ion-text>
-        </ion-item>
-        <ion-item>
             <ion-label position="floating">Duration <ion-text color="danger">*</ion-text></ion-label>
             <ion-input type="number" [(ngModel)]="formdata.learning_hours"></ion-input>
             <ion-text color="danger" *ngIf="formErrors.learning_hours">{{formErrors.learning_hours}}</ion-text>

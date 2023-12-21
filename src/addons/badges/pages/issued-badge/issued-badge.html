@@ -118,7 +118,7 @@
                         <p class="item-heading">{{ 'addon.badges.dateawarded' | translate}}</p>
                         <p>{{badge.dateissued * 1000 | coreFormatDate }}</p>
                     </div>
-                    <div class="inner-content" *ngIf="badge.dateexpire">
+                    <div class="inner-content" *ngIf="badge.dateexpire && badge.dateexpire > 0">
                         <p class="item-heading">{{ 'addon.badges.expirydate' | translate}}</p>
                         <p>
                             {{ badge.dateexpire * 1000 | coreFormatDate }}
@@ -168,7 +168,7 @@
             </ion-card>
 
             <!-- Related badges -->
-            <ion-card *ngIf="badge.relatedbadges">
+            <ion-card *ngIf="false && badge.relatedbadges">
                 <ion-card-header>
                     <ion-card-title>{{ 'addon.badges.relatedbages' | translate}}</ion-card-title>
                 </ion-card-header>
@@ -183,7 +183,7 @@
             </ion-card>
 
             <!-- Competencies alignment -->
-            <ion-item-group *ngIf="badge.alignment">
+            <ion-item-group *ngIf="false && badge.alignment">
                 <ion-item-divider>
                     <ion-label>
                         <h2>{{ 'addon.badges.alignment' | translate}}</h2>

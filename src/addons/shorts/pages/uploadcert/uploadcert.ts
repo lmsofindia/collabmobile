@@ -77,6 +77,7 @@ export class AddonCertificateUploadPage implements OnInit {
 
     timezone = '';
     maxdatetime = '';
+    plus10years = '';
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -87,6 +88,7 @@ export class AddonCertificateUploadPage implements OnInit {
         this.timezone = this.currentSite.getStoredConfig()?.timezone || '';
 
         this.maxdatetime = new Date().toISOString();
+        this.plus10years = new Date(new Date().setFullYear(new Date().getFullYear() + 10)).toISOString();
     }
 
     onFileSelected(event: Event): void {

@@ -518,8 +518,8 @@ export class CoreSite {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     readObservable<T = unknown>(method: string, data: any, preSets?: CoreSiteWSPreSets): WSObservable<T> {
         preSets = preSets || {};
-        preSets.getFromCache = preSets.getFromCache ?? true;
-        preSets.saveToCache = preSets.saveToCache ?? true;
+        preSets.getFromCache = preSets.getFromCache ?? false;
+        preSets.saveToCache = preSets.saveToCache ?? false;
         preSets.reusePending = preSets.reusePending ?? true;
 
         return this.requestObservable<T>(method, data, preSets);

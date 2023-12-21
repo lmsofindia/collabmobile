@@ -531,7 +531,7 @@ export class AddonModAssignProvider {
             componentId: options.cmId,
             // Don't cache when getting text without filters.
             // @todo Change this to support offline editing.
-            saveToCache: options.filter,
+            saveToCache: false,
             ...CoreSites.getReadingStrategyPreSets(options.readingStrategy),
         };
 

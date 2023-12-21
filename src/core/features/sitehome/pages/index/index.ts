@@ -177,7 +177,7 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
             component: 'customsitehome',
             componentId: this.siteHomeId,
             getFromCache: true,
-            saveToCache: true,
+            saveToCache: false,
         };
     }
 

@@ -69,7 +69,10 @@
 
             <ion-item class="ion-text-wrap core-danger-item" *ngIf="!showReviewColumn">
                 <ion-label>
-                    <p>{{ 'addon.mod_quiz.noreviewattempt' | translate }}</p>
+                    <div class="">
+                        <p style="text-align: left;">You are not allowed to review this attempt.</p>
+                        <p style="text-align: left;">Go back and continue your attempt to finish it.</p>
+                    </div>
                 </ion-label>
             </ion-item>
         </ion-list>

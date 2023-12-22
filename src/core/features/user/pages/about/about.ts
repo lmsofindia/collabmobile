@@ -90,11 +90,12 @@ export class CoreUserAboutPage implements OnInit, OnDestroy {
         this.courseId = CoreNavigator.getRouteNumberParam('courseId') || 0;
 
         // Allow to change the profile image only in the app profile page.
-        this.canChangeProfilePicture =
-            !this.courseId &&
-            this.userId == this.site.getUserId() &&
-            this.site.canUploadFiles() &&
-            !CoreUser.isUpdatePictureDisabledInSite(this.site);
+        // this.canChangeProfilePicture =
+        //     !this.courseId &&
+        //     this.userId == this.site.getUserId() &&
+        //     this.site.canUploadFiles() &&
+        //     !CoreUser.isUpdatePictureDisabledInSite(this.site);
+        this.canChangeProfilePicture = false;
 
         this.fetchUser().finally(() => {
             this.userLoaded = true;

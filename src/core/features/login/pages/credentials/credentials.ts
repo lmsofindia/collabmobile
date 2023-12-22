@@ -204,7 +204,7 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
      */
     showNextSplashScreen(): void {
         if (this.currentSplashScreen['isLast']) {
-            this.showSplash = false;
+            this.goToLogin();
 
             return;
         }
@@ -234,6 +234,8 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
      */
     goToLogin(): void {
         this.showSplash = false;
+
+        this.checkSite(this.siteUrl, true);
     }
 
     /**
@@ -280,7 +282,7 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
                 }
 
                 // Check that there's no SSO authentication ongoing and the view hasn't changed.
-                if (!CoreApp.isSSOAuthenticationOngoing() && !this.viewLeft) {
+                if (!CoreApp.isSSOAuthenticationOngoing() && !this.viewLeft && !this.showSplash) {
                     CoreLoginHelper.confirmAndOpenBrowserForSSOLogin(
                         result.siteUrl,
                         result.code,

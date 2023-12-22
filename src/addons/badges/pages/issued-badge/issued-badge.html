@@ -106,14 +106,6 @@
                             </core-format-text>
                         </p>
                     </div>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title>{{ 'addon.badges.issuancedetails' | translate}}</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
                     <div class="inner-content" *ngIf="badge.dateissued">
                         <p class="item-heading">{{ 'addon.badges.dateawarded' | translate}}</p>
                         <p>{{badge.dateissued * 1000 | coreFormatDate }}</p>

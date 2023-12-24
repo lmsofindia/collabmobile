@@ -17,6 +17,7 @@ import { CoreSite } from '@classes/site';
 import { IonRefresher } from '@ionic/angular';
 import { CoreNavigator } from '@services/navigator';
 import { CoreSites } from '@services/sites';
+import { CoreDomUtils } from '@services/utils/dom';
 
 @Component({
     selector: 'page-addon-program',
@@ -39,6 +40,8 @@ export class AddonProgramPage implements OnInit {
     programId = 0;
 
     contactsExpanded = false;
+
+    canEnrol = true;
 
     constructor() {
         this.currentUserId = CoreSites.getCurrentSiteUserId();
@@ -87,6 +90,110 @@ export class AddonProgramPage implements OnInit {
             return;
         }).catch(() => {
             //
+        });
+    }
+
+    /**
+     * Enrol the user in the program.
+     *
+     * @returns Promise resolved when done.
+     */
+    async enrolConfirm(): Promise<void> {
+
+        const enrollment: {can_enroll: boolean; enrolled: boolean; key_required: boolean } = this.program['enrollment'];
+
+        if (!enrollment.can_enroll && !enrollment.enrolled) {
+            // Can't enrol, show a modal.
+            await CoreDomUtils.showErrorModal('You cannot enrol in this program.');
+
+            return;
+        }
+
+        if (enrollment.key_required) {
+            // Show a modal with the key.
+            this.enterKey();
+
+            return;
+        }
+
+        // Manual enrolment.
+        // Confirm before enrolling.
+        try {
+            await CoreDomUtils.showConfirm('Are you sure you want to enrol in this program?', 'Enroll in program');
+
+            this.enrol();
+        } catch {
+            // Cancelled enrolment.
+
+            return;
+        }
+    }
+
+    /**
+     * Enrol the user in the program.
+     *
+     * @returns Promise resolved when done.
+     */
+    private async enrol(password = ''): Promise<void> {
+        // Enrol the user.
+        const response: {
+            success: boolean; code: string; message: string;
+        } = await this.currentSite.write('local_course_catalogue_program_signup', {
+            programid: this.programId,
+            key: password,
+        });
+
+        if (response.success) {
+            this.program['enrollment'].enrolled = true;
+            this.program['enrollment'].can_enroll = false;
+
+            await CoreDomUtils.showToast('You have been enrolled in this program.');
+
+            await this.fetchProgram();
+
+            return;
+        }
+
+        const alert = await CoreDomUtils.showErrorModal(response.message);
+
+        alert?.onDidDismiss().finally(() => {
+            if (response.code === 'key_error') {
+                // Key required, show a modal with the key.
+                this.enterKey();
+            }
+        });
+    }
+
+    /**
+     * Open enter key modal.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async enterKey(): Promise<HTMLIonAlertElement> {
+        return CoreDomUtils.showAlertWithOptions({
+            header: 'Enroll in program',
+            message: 'Enter the enrolment key to enrol in this program',
+            inputs: [
+                {
+                    name: 'key',
+                    type: 'password',
+                    placeholder: 'Enrolment key',
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                },
+                {
+                    text: 'Enrol',
+                    handler: (data: { key: string }) => {
+                        if (data && data.key) {
+                            this.enrol(data.key);
+                        }
+                    },
+                },
+            ],
         });
     }
 

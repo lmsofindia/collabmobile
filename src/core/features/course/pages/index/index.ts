@@ -29,6 +29,7 @@ import { CoreDomUtils } from '@services/utils/dom';
 import { CoreCoursesHelper, CoreCourseWithImageAndColor } from '@features/courses/services/courses-helper';
 import { CoreColors } from '@singletons/colors';
 import { CorePath } from '@singletons/path';
+import { CoreSites } from '@services/sites';
 
 /**
  * Page that displays the list of courses the user is enrolled in.
@@ -65,6 +66,12 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
         page: CONTENTS_PAGE_NAME,
         title: 'core.course',
         pageParams: {},
+    };
+
+    ratingInfo = {
+        rating: 0,
+        editMode: false,
+        processing: true,
     };
 
     constructor(private route: ActivatedRoute) {
@@ -177,6 +184,7 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
         await Promise.all([
             this.loadCourseHandlers(),
             this.loadBasinInfo(),
+            this.getRating(),
         ]);
     }
 
@@ -297,6 +305,85 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
         if (this.course) {
             CoreCourseHelper.openCourseSummary(this.course);
         }
+    }
+
+    /**
+     * Enable course rating edit.
+     */
+    enableRatingEdit(): void {
+        this.ratingInfo.editMode = true;
+        this.ratingInfo.processing = false;
+    }
+
+    /**
+     * Get course rating.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async getRating(): Promise<void> {
+        if (!this.course) {
+            return;
+        }
+
+        this.ratingInfo.processing = true;
+
+        try {
+            const rating: {rating: number} = await CoreSites.getRequiredCurrentSite().read('local_course_catalogue_get_my_rating', {
+                courseid: this.course.id,
+            });
+
+            this.ratingInfo.rating = rating.rating;
+
+            this.ratingInfo.processing = false;
+        } catch {
+            // Fail silently.
+        }
+    }
+
+    /**
+     * Save course rating.
+     *
+     * @returns Promise resolved when done.
+     */
+    async saveRating(): Promise<void> {
+        if (!this.course) {
+            return;
+        }
+
+        this.ratingInfo.processing = true;
+
+        try {
+            const response: {
+                success: boolean;
+                message: string;
+            } = await CoreSites.getRequiredCurrentSite().write('local_course_catalogue_rate_course', {
+                courseid: this.course.id,
+                rating: this.ratingInfo.rating,
+            });
+
+            if (!response.success) {
+                throw new Error(response.message);
+            }
+
+            CoreDomUtils.showToast(response.message);
+
+            this.ratingInfo.editMode = false;
+            this.ratingInfo.processing = false;
+        } catch (error) {
+            CoreDomUtils.showErrorModal(error || 'Error saving rating');
+            this.ratingInfo.processing = false;
+        }
+    }
+
+    /**
+     * Select rating.
+     */
+    selectRating(rating: number): void {
+        if (!this.ratingInfo.editMode || this.ratingInfo.processing) {
+            return;
+        }
+
+        this.ratingInfo.rating = rating;
     }
 
     /**

@@ -62,7 +62,7 @@ type Certificate = {
     templateUrl: 'index.html',
     styleUrls: ['index.scss'],
 })
-export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
+export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
 
     dataLoaded = false;
     section?: CoreCourseWSSection & {
@@ -163,6 +163,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
 
     thisMonthYear = new Date().toLocaleString('en-us', { month: 'long', year: 'numeric' });
 
+    lastFetchedAt: Date|null = null;
+
+    fetchInterval: NodeJS.Timeout|null = null;
+
     constructor() {
         // Refresh the enabled flags if site is updated.
         this.updateSiteObserver = CoreEvents.on(CoreEvents.SITE_UPDATED, () => {
@@ -214,7 +218,24 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
 
         this.loadContent().finally(() => {
             this.dataLoaded = true;
+
+            // Refresh the data periodically.
+            this.fetchInterval = setInterval(() => {
+                this.loadCounts();
+            }, 10 * 1000);
         });
+    }
+
+    /**
+     * @inheritdoc
+     */
+    loadCounts(): void {
+        this.lastFetchedAt = new Date();
+
+        this.fetchStatistics();
+        this.fetchMatrixBoxes();
+        this.fetchBadges();
+        this.fetchCertificates();
     }
 
     /**
@@ -225,12 +246,9 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     protected async loadContent(): Promise<void> {
         try {
             this.getSliders();
-            this.fetchStatistics();
-            this.fetchMatrixBoxes();
+            this.loadCounts();
             this.fetchRecommendedCourses();
             this.fetchMyPrograms();
-            this.fetchBadges();
-            this.fetchCertificates();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -542,6 +560,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
         this.updateSiteObserver.off();
+
+        this.fetchInterval && clearInterval(this.fetchInterval);
     }
 
 }

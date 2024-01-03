@@ -433,4 +433,5 @@ export type AddonModQuizAttempt = AddonModQuizAttemptWSData & {
     readableMark?: string;
     readableGrade?: string;
     highlightGrade?: boolean;
+    attemptstatus?: string;
 };

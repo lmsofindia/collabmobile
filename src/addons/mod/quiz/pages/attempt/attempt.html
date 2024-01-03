@@ -18,14 +18,25 @@
     </ion-refresher>
     <core-loading [hideUntil]="loaded">
         <ion-list *ngIf="attempt" class="attempt-data">
-            <div class="congrats-wrapper" *ngIf="attempt.finished">
-                <img [src]="siteurl + '/mod/quiz/pix/completed.jpg'" alt="">
-                <h4>Congratulations!! You have completed.</h4>
+
+            <div class="congrats-wrapper" *ngIf="attempt.finished && attempt.attemptstatus">
+                <div *ngIf="attempt.attemptstatus == 'Pass'">
+                    <img [src]="siteurl + '/mod/quiz/pix/congrats.jpg'" alt="">
+                    <h4>Congratulations!! You have passed.</h4>
+                </div>
+                <div *ngIf="attempt.attemptstatus == 'Fail'">
+                    <img [src]="siteurl + '/mod/quiz/pix/failure.jpg'" alt="">
+                    <h4>Keep up the effort.</h4>
+                </div>
+                <div *ngIf="attempt.attemptstatus == 'Completed'">
+                    <img [src]="siteurl + '/mod/quiz/pix/completed.jpg'" alt="">
+                    <h4>Congratulations!! You have completed.</h4>
+                </div>
                 <h5>
                     Grade: <b>{{attempt.readableGrade}}</b> out of {{quiz?.gradeFormatted || '0'}}
                 </h5>
                 <h6>
-                    Attempt Status: {{attempt?.readableState[0] || 'Completed'}}
+                    Attempt Status: {{attempt.attemptstatus}}
                 </h6>
             </div>
 

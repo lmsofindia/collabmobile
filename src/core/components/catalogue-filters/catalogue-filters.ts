@@ -165,6 +165,18 @@ export class CoreCatalogueFiltersComponent implements OnInit {
         });
     }
 
+    filterCount(filterName: string): number {
+        if(!this.selectedFilters[filterName]) {
+            return 0;
+        }
+
+        if(Array.isArray(this.selectedFilters[filterName])) {
+            return this.selectedFilters[filterName].length;
+        }
+
+        return this.selectedFilters[filterName] != 'all' ? 1 : 0;
+    }
+
     showOptions(filter: Filter): void {
         this.searchText = '';
         this.selectedFilter = filter;

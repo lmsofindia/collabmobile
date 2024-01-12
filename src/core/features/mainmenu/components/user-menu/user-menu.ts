@@ -273,7 +273,7 @@ export class CoreMainMenuUserMenuComponent implements OnInit, OnDestroy {
                 '';
 
             try {
-                await CoreDomUtils.showDeleteConfirm('core.login.confirmdeletesite', { sitename: siteName });
+                await CoreDomUtils.showDeleteConfirm('core.login.logout', { sitename: siteName });
             } catch (error) {
                 // User cancelled, stop.
                 return;

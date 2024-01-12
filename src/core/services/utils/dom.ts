@@ -1266,9 +1266,9 @@ export class CoreDomUtilsProvider {
         options: AlertOptions = {},
     ): Promise<void> {
         return new Promise((resolve, reject): void => {
-            // options.message = Translate.instant(translateMessage, translateArgs);
-            options.message = 'Are you sure you want to logout?';
-
+             options.message = Translate.instant(translateMessage, translateArgs);
+            //options.message = 'Are you sure you want to logout?';
+           // options.message ='Are you sure you want to delete this post';
             options.buttons = [
                 {
                     text: Translate.instant('core.cancel'),

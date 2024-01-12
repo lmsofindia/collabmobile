@@ -427,7 +427,8 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
      */
     async selfEnrolConfirm(enrolMethod: CoreCourseEnrolmentMethod): Promise<void> {
         try {
-            await CoreDomUtils.showConfirm(Translate.instant('core.courses.confirmselfenrol'), enrolMethod.name);
+            // await CoreDomUtils.showConfirm(Translate.instant('core.courses.confirmselfenrol'), enrolMethod.name);
+            await CoreDomUtils.showConfirm(Translate.instant('core.courses.confirmselfenrol'), 'Self Enrolment');
 
             this.selfEnrolInCourse(enrolMethod.id);
         } catch {

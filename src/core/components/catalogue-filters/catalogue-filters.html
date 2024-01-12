@@ -13,9 +13,9 @@
         <div class="side-nav">
             <h3 class="filter-name" [class.active]="filter.isOpen" *ngFor="let filter of filters" (click)="showOptions(filter)">
                 <span>{{filter.title}}</span>
-                <span class="count" *ngIf="selectedFilters[filter.name] && selectedFilters[filter.name].length > 0">
-                    <span *ngIf="filter['type'] == 'radio'">{{selectedFilters[filter.name] ? 1 : 0}}</span>
-                    <span *ngIf="filter['type'] == 'checkbox'">{{selectedFilters[filter.name]?.length || 0}}</span>
+                <span class="count" *ngIf="filterCount(filter.name) > 0">
+                    <span *ngIf="filter['type'] == 'radio'">{{filterCount(filter.name)}}</span>
+                    <span *ngIf="filter['type'] == 'checkbox'">{{filterCount(filter.name)}}</span>
                 </span>
             </h3>
         </div>

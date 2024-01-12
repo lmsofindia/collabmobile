@@ -218,13 +218,13 @@ export class AddonCataloguePage implements OnInit {
                 return;
             }
 
-            if (key === 'sort' && this.filters[key] === 'latest') {
-                return;
-            }
+            // if (key === 'sort' && this.filters[key] === 'latest') {
+            //     return;
+            // }
 
             if (Array.isArray(this.filters[key])) {
                 if (this.filters[key].length > 0) {
-                    this.appliedFiltersCount++;
+                    this.appliedFiltersCount += this.filters[key].length;
                 }
 
                 return;

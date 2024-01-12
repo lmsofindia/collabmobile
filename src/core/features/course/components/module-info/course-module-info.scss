@@ -12,6 +12,11 @@
         align-self: flex-start;
     }
 
+    h1 {
+        font-size: 19px;
+        --lines: 2;
+    }
+
     h1 ion-icon {
         color: var(--medium);
         @include margin-horizontal(8px, null);

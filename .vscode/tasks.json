@@ -19,6 +19,9 @@
             "windows": {
                 "command": "start http://localhost:8100/"
             },
+            "osx": {
+                "command": ""
+            },
             "isBackground": false,
             "presentation": {
                 "reveal": "silent",

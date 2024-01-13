@@ -17,6 +17,10 @@ import { CoreSite } from '@classes/site';
 import { ModalController } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 
+const LS_FILTER = 'collab_course_catalogue_filters';
+
+const FILTER_OPTIONS_COUNT = 15;
+
 type FilterFor = 'catalogue' | 'my' | 'shorts';
 
 type FilterOption = {
@@ -144,24 +148,40 @@ export class CoreCatalogueFiltersComponent implements OnInit {
             return;
         }
 
+        // try to get filters from local storage
+        const lsFilters = sessionStorage.getItem(LS_FILTER + '_' + this.filterfor);
+
+        if(lsFilters) {
+            this.processFilters(JSON.parse(lsFilters));
+
+            return;
+        }
+
         this.site.read('local_course_catalogue_get_filters', {
             for: this.filterfor,
         }).then((response: Filter[]) => {
-            this.filtersLoaded = true;
-            this.filters = response.map((filter: Filter, index: number) => {
-                filter.isOpen = index === 0;
-
-                if(index === 0) {
-                    this.selectedFilter = filter;
-                    this.options = filter.options;
-                }
-
-                return filter;
-            });
+            this.processFilters(response);
 
             return;
         }).catch(() => {
             //
+        });
+    }
+
+    processFilters(response: any): void {
+        // save to local storage
+        sessionStorage.setItem(LS_FILTER + '_' + this.filterfor, JSON.stringify(response));
+
+        this.filtersLoaded = true;
+        this.filters = response.map((filter: Filter, index: number) => {
+            filter.isOpen = index === 0;
+
+            if(index === 0) {
+                this.selectedFilter = filter;
+                this.options = filter.options;
+            }
+
+            return filter;
         });
     }
 
@@ -180,7 +200,34 @@ export class CoreCatalogueFiltersComponent implements OnInit {
     showOptions(filter: Filter): void {
         this.searchText = '';
         this.selectedFilter = filter;
-        this.options = JSON.parse(JSON.stringify(filter.options));
+        const options = JSON.parse(JSON.stringify(filter.options));
+
+        if(!this.selectedFilter) {
+            return;
+        }
+
+        // show upto FILTER_OPTIONS_COUNT options, which is sorted by isSelected
+        options.sort((a: FilterOption, b: FilterOption) => {
+            if(this.selectedFilter && this.selectedFilter.type == 'radio'){
+                return 1;
+            }
+
+            if(this.selectedFilter
+                && this.isChecked(this.selectedFilter.name, a.value)
+                && !this.isChecked(this.selectedFilter.name, b.value)) {
+                return -1;
+            }
+
+            if(this.selectedFilter
+                && !this.isChecked(this.selectedFilter.name, a.value)
+                && this.isChecked(this.selectedFilter.name, b.value)) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        this.options = options.slice(0, FILTER_OPTIONS_COUNT);
 
         this.filters = this.filters.map((filter: Filter) => {
             filter.isOpen = this.selectedFilter?.name === filter.name;
@@ -206,14 +253,37 @@ export class CoreCatalogueFiltersComponent implements OnInit {
     onSearchChange(): void {
         const search = this.searchText.trim().toLowerCase();
 
-        this.options = JSON.parse(JSON.stringify(this.selectedFilter?.options));
+        let options = JSON.parse(JSON.stringify(this.selectedFilter?.options));
 
         if(search === '') {
+            // show upto FILTER_OPTIONS_COUNT options, which is sorted by isSelected
+            options.sort((a: FilterOption, b: FilterOption) => {
+                if(this.selectedFilter && this.selectedFilter.type == 'radio'){
+                    return 1;
+                }
+
+                if(this.selectedFilter
+                    && this.isChecked(this.selectedFilter.name, a.value)
+                    && !this.isChecked(this.selectedFilter.name, b.value)) {
+                    return -1;
+                }
+
+                if(this.selectedFilter
+                    && !this.isChecked(this.selectedFilter.name, a.value)
+                    && this.isChecked(this.selectedFilter.name, b.value)) {
+                    return 1;
+                }
+
+                return 0;
+            });
+
+            this.options = options.slice(0, FILTER_OPTIONS_COUNT);
+
             return;
         }
 
         // filter the options
-        this.options = this.options.filter((option: FilterOption) => {
+        options = options.filter((option: FilterOption) => {
             if(option.options?.length) {
                 option.options = option.options.filter(
                     (option: any) => option.label.toLowerCase().includes(search),
@@ -222,6 +292,9 @@ export class CoreCatalogueFiltersComponent implements OnInit {
 
             return option.label.toLowerCase().includes(search) || option.options?.length;
         }) || [];
+
+        // show upto 10 options
+        this.options = options.slice(0, 10);
     }
 
 }

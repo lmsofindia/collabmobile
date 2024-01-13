@@ -134,5 +134,6 @@
     "visitchangepassword": "Do you want to visit the site to change the password?",
     "webservicesnotenabled": "Web services are not enabled on the site.",
     "youcanstillconnectwithcredentials": "You can still connect to the site by entering your username and password.",
-    "yourenteredsite": "Connect to your site"
+    "yourenteredsite": "Connect to your site",
+    "logout":"Are you sure you want to log out?"
 }

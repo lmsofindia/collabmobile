@@ -6,7 +6,7 @@
         {
             "label": "run-dev-browser",
             "type": "shell",
-            "command": "npm start",
+            "command": "nvm use 14 && npm start",
             "isBackground": true,
             "presentation": {
                 "reveal": "always",

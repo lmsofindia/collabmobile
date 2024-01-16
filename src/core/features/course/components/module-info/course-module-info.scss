@@ -12,8 +12,13 @@
         align-self: flex-start;
     }
 
+    .heading-wrapper {
+        margin-bottom: 1.8rem;
+    }
+
     h1 {
-        font-size: 19px;
+        font-size: 15px;
+        font-weight: 600;
         --lines: 2;
     }
 

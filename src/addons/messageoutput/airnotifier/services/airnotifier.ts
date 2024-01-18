@@ -200,39 +200,39 @@ export class AddonMessageOutputAirnotifierProvider {
             }
 
             // Warn the admin.
-            const dontShowAgain = await CoreDomUtils.showPrompt(
-                Translate.instant('addon.messageoutput_airnotifier.pushdisabledwarning'),
-                undefined,
-                Translate.instant('core.dontshowagain'),
-                'checkbox',
-                [
-                    {
-                        text: Translate.instant('core.ok'),
-                    },
-                    {
-                        text: Translate.instant('core.goto', { $a: Translate.instant('core.settings.settings') }),
-                        handler: (data, resolve) => {
-                            resolve(data[0]);
+            // const dontShowAgain = await CoreDomUtils.showPrompt(
+            //     Translate.instant('addon.messageoutput_airnotifier.pushdisabledwarning'),
+            //     undefined,
+            //     Translate.instant('core.dontshowagain'),
+            //     'checkbox',
+            //     [
+            //         {
+            //             text: Translate.instant('core.ok'),
+            //         },
+            //         {
+            //             text: Translate.instant('core.goto', { $a: Translate.instant('core.settings.settings') }),
+            //             handler: (data, resolve) => {
+            //                 resolve(data[0]);
 
-                            const url = CorePath.concatenatePaths(
-                                site.getURL(),
-                                site.isVersionGreaterEqualThan('3.11') ?
-                                    'message/output/airnotifier/checkconfiguration.php' :
-                                    'admin/message.php',
-                            );
+            //                 const url = CorePath.concatenatePaths(
+            //                     site.getURL(),
+            //                     site.isVersionGreaterEqualThan('3.11') ?
+            //                         'message/output/airnotifier/checkconfiguration.php' :
+            //                         'admin/message.php',
+            //                 );
 
-                            // Don't try auto-login, admins cannot use it.
-                            CoreUtils.openInBrowser(url, {
-                                showBrowserWarning: false,
-                            });
-                        },
-                    },
-                ],
-            );
+            //                 // Don't try auto-login, admins cannot use it.
+            //                 CoreUtils.openInBrowser(url, {
+            //                     showBrowserWarning: false,
+            //                 });
+            //             },
+            //         },
+            //     ],
+            // );
 
-            if (dontShowAgain) {
-                await site.setLocalSiteConfig('AddonMessageOutputAirnotifierDontRemindDisabled', 1);
-            }
+            // if (dontShowAgain) {
+            //     await site.setLocalSiteConfig('AddonMessageOutputAirnotifierDontRemindDisabled', 1);
+            // }
         } catch {
             // Ignore errors.
         }

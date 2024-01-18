@@ -119,7 +119,7 @@ export class AddonProgramPage implements OnInit {
         // Manual enrolment.
         // Confirm before enrolling.
         try {
-            await CoreDomUtils.showConfirm('Are you sure you want to enrol in this program?', 'Enroll in program');
+            await CoreDomUtils.showConfirm('Are you sure you want to enrol in this program?', 'Enrol in program');
 
             this.enrol();
         } catch {
@@ -171,7 +171,7 @@ export class AddonProgramPage implements OnInit {
      */
     protected async enterKey(): Promise<HTMLIonAlertElement> {
         return CoreDomUtils.showAlertWithOptions({
-            header: 'Enroll in program',
+            header: 'Enrol in program',
             message: 'Enter the enrolment key to enrol in this program',
             inputs: [
                 {

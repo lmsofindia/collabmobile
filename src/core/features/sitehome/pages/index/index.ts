@@ -97,7 +97,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
     recommendedCourses: [] = [];
 
     myPrograms: [] = [];
-
+    myCourses: [] = [];
+    statuses: [] = [];
     certificates: Certificate[] = [];
 
     statistics: StatisticItem[] = [
@@ -249,6 +250,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
             this.loadCounts();
             this.fetchRecommendedCourses();
             this.fetchMyPrograms();
+            this.fetchMyCourses('0');
+            this.fetchStatuses();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -451,6 +454,44 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
     }
 
     /**
+     * Fetch the my courses.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchMyCourses(status: string): Promise<void> {
+        this.currentSite.read('local_course_catalogue_get_my', {
+            filters: {
+                learning_type: 'course',
+                status: status,
+            },
+        }).then((data: { courses: [] }) => {
+            this.myCourses = data.courses || [];
+
+            return;
+        }).catch(() => {
+            this.myCourses = [];
+        });
+    }
+
+    /**
+     * Fetch the my statuses.
+     *
+     * @returns Promise resolved when done.
+     */
+    protected async fetchStatuses(): Promise<void> {
+        this.currentSite.read('local_course_catalogue_get_filters', {
+            for: 'my',
+        }).then((data: any) => {
+            let statuses = data || [];
+            let filter = data.filter((status) => status.title === 'Status');
+            this.statuses = filter[0].options;
+            return;
+        }).catch(() => {
+            this.statuses = [];
+        });
+    }
+
+    /**
      * Fetch the badges.
      *
      * @returns Promise resolved when done.
@@ -562,6 +603,10 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
         this.updateSiteObserver.off();
 
         this.fetchInterval && clearInterval(this.fetchInterval);
+    }
+
+    triggerchange(e) {
+        this.fetchMyCourses(e.detail.value)
     }
 
 }

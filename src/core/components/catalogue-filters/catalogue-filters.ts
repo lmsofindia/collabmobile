@@ -118,6 +118,11 @@ export class CoreCatalogueFiltersComponent implements OnInit {
         return this.modalCtrl.dismiss(this.selectedFilters, 'confirm');
     }
 
+    reset(): Promise<boolean> {
+        this.selectedFilters = DEFAULT_FILTERS;
+        return this.modalCtrl.dismiss(this.selectedFilters, 'confirm');
+    }
+
     /**
      * @inheritdoc
      */

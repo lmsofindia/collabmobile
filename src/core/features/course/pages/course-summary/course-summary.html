@@ -109,9 +109,19 @@
                         <ion-label>
                             <h2 class="item-heading font-bold">Course content</h2>
                         </ion-label>
+                        <ion-buttons slot="end">
+                            <ion-button class="expandable-status-icon" (click)="isAllcollapsed = !isAllcollapsed">
+                                <div *ngIf="!isAllcollapsed">
+                                    <ion-icon class="expandable-status-icon" name="fas-chevron-down"></ion-icon>
+                                </div>
+                                <div *ngIf="isAllcollapsed">
+                                    <ion-icon class="expandable-status-icon" name="fas-chevron-up"></ion-icon>
+                                </div>
+                            </ion-button>
+                        </ion-buttons>
                     </ion-item>
 
-                    <accordion class="course-sections" *ngFor="let section of sections">
+                    <accordion class="course-sections" *ngFor="let section of sections" [expandAll]="isAllcollapsed">
                         <div class="section-heading" header>
                             <h2 class="item-heading wrap-text">{{section.name}}</h2>
                             <div class="duration">

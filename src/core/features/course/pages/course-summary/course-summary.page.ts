@@ -81,7 +81,7 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     @Input() courseId = 0;
 
     @ViewChild('courseThumb') courseThumb?: ElementRef;
-
+    isAllcollapsed: boolean = true;
     isEnrolled = false;
     canAccessCourse = true;
     selfEnrolInstances: CoreCourseEnrolmentMethod[] = [];
@@ -315,6 +315,7 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
             this.sections = await this.currentSite.read('local_course_catalogue_table_of_content', {
                 courseid: this.courseId,
             });
+            console.log(this.sections);
         } catch {
             this.sections = [];
         }

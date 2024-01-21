@@ -22,6 +22,12 @@ import { Component, Input } from '@angular/core';
 export class AccordionComponent {
 
     @Input() show = true;
+    @Input() expandAll: boolean=false;
+    ngOnChanges(val){
+        if(val.currentValue != this.show){
+            this.show = this.expandAll;
+        }
+    }
 
     toggleItem(): void {
         this.show = !this.show;

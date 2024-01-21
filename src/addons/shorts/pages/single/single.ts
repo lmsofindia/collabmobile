@@ -106,7 +106,7 @@ export class AddonShortsSinglePage implements OnInit {
                 this.short['is_disliked'] = data['is_disliked'];
                 this.short['dislikes'] = data['dislikes'];
 
-                CoreDomUtils.showAlert(undefined, data['message']);
+               // CoreDomUtils.showAlert(undefined, data['message']);
             }
 
             return;

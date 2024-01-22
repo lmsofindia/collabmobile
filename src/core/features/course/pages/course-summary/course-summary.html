@@ -110,13 +110,12 @@
                             <h2 class="item-heading font-bold">Course content</h2>
                         </ion-label>
                         <ion-buttons slot="end">
-                            <ion-button class="expandable-status-icon" (click)="isAllcollapsed = !isAllcollapsed">
-                                <div *ngIf="!isAllcollapsed">
-                                    <ion-icon class="expandable-status-icon" name="fas-chevron-down"></ion-icon>
-                                </div>
-                                <div *ngIf="isAllcollapsed">
-                                    <ion-icon class="expandable-status-icon" name="fas-chevron-up"></ion-icon>
-                                </div>
+                            <ion-button class="expandable-status-icon" (click)="isAllcollapsed = !isAllcollapsed"
+                                style="margin-inline-end: 0">
+                                <ion-icon style="margin-inline-end: 8px" class="expandable-status-icon" name="fas-chevron-down"
+                                    *ngIf="!isAllcollapsed"></ion-icon>
+                                <ion-icon style="margin-inline-end: 8px" class="expandable-status-icon" name="fas-chevron-up"
+                                    *ngIf="isAllcollapsed"></ion-icon>
                             </ion-button>
                         </ion-buttons>
                     </ion-item>

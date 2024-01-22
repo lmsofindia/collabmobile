@@ -98,7 +98,26 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
 
     myPrograms: [] = [];
     myCourses: [] = [];
-    statuses: [] = [];
+
+    statuses = [
+        {
+            label: 'All',
+            value: '0',
+        },
+        {
+            label: 'In Progress',
+            value: 'inprogress',
+        },
+        {
+            label: 'Completed',
+            value: 'completed',
+        },
+        {
+            label: 'Not Started',
+            value: 'notstarted',
+        },
+    ];
+
     certificates: Certificate[] = [];
 
     statistics: StatisticItem[] = [
@@ -251,7 +270,6 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
             this.fetchRecommendedCourses();
             this.fetchMyPrograms();
             this.fetchMyCourses('0');
-            this.fetchStatuses();
 
             if (!this.fetchSuccess) {
                 this.fetchSuccess = true;
@@ -474,24 +492,6 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
     }
 
     /**
-     * Fetch the my statuses.
-     *
-     * @returns Promise resolved when done.
-     */
-    protected async fetchStatuses(): Promise<void> {
-        this.currentSite.read('local_course_catalogue_get_filters', {
-            for: 'my',
-        }).then((data: any) => {
-            let statuses = data || [];
-            let filter = data.filter((status) => status.title === 'Status');
-            this.statuses = filter[0].options;
-            return;
-        }).catch(() => {
-            this.statuses = [];
-        });
-    }
-
-    /**
      * Fetch the badges.
      *
      * @returns Promise resolved when done.
@@ -605,8 +605,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
         this.fetchInterval && clearInterval(this.fetchInterval);
     }
 
-    triggerchange(e) {
-        this.fetchMyCourses(e.detail.value)
+    triggerchange(e): void {
+        this.fetchMyCourses(e.detail.value);
     }
 
 }

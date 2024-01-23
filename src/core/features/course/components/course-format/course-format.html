@@ -67,7 +67,7 @@
     <section *ngIf="!section.hiddenbynumsections && section.id != allSectionsId && section.id != stealthModulesSectionId"
         class="core-course-module-list-wrapper" [id]="section.id"
         [attr.aria-labelledby]="section.name ? 'core-section-name-' + section.id : null">
-        <accordion>
+        <accordion [expandAll]="sectionExpandAll">
             <div header class="course-section ion-text-wrap" [class.item-dimmed]="section.visible === 0 || section.uservisible === false">
                 <ion-label>
                     <h2 *ngIf="section.name" [id]="'core-section-name-' + section.id">

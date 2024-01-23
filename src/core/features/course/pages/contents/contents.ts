@@ -64,7 +64,7 @@ export class CoreCourseContentsPage implements OnInit, OnDestroy, CoreRefreshCon
     moduleId?: number;
     displayEnableDownload = false;
     displayRefresher = false;
-
+    isAllcollapsed = true;
     protected formatOptions?: Record<string, unknown>;
     protected completionObserver?: CoreEventObserver;
     protected manualCompletionObserver?: CoreEventObserver;

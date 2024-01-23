@@ -4,8 +4,19 @@
     </ion-refresher>
 
     <core-loading [hideUntil]="dataLoaded && !updatingData">
-        <core-course-format [course]="course" [sections]="sections" [initialSectionId]="sectionId" [initialSectionNumber]="sectionNumber"
-            [moduleId]="moduleId" class="core-course-format-{{course.format}}" *ngIf="dataLoaded && sections">
+        <ion-item class="ion-text-wrap">
+            <ion-buttons slot="end">
+                <ion-button class="expandable-status-icon" (click)="isAllcollapsed = !isAllcollapsed" style="margin-inline-end: 0">
+                    <ion-icon style="margin-inline-end: 8px" class="expandable-status-icon" name="fas-chevron-down"
+                        *ngIf="!isAllcollapsed"></ion-icon>
+                    <ion-icon style="margin-inline-end: 8px" class="expandable-status-icon" name="fas-chevron-up"
+                        *ngIf="isAllcollapsed"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+        <core-course-format [course]="course" [sections]="sections" [sectionExpandAll]="isAllcollapsed" [initialSectionId]="sectionId"
+            [initialSectionNumber]="sectionNumber" [moduleId]="moduleId" class="core-course-format-{{course.format}}"
+            *ngIf="dataLoaded && sections">
         </core-course-format>
     </core-loading>
 </ion-content>

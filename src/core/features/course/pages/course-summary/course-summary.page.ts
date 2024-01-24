@@ -89,7 +89,8 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     dataLoaded = false;
     isModal = false;
     contactsExpanded = false;
-
+    ratingExpanded = false;
+    ratingInfo =[];
     courseUrl = '';
     progress?: number;
 
@@ -215,6 +216,7 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         await this.loadMenuHandlers(refresh);
 
         await this.loadSections();
+        await this.loadRating();
 
         this.setMetaData();
 
@@ -661,6 +663,19 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         this.pageDestroyed = true;
         this.courseStatusObserver?.off();
         this.appResumeSubscription.unsubscribe();
+    }
+
+     /**
+     * Load course sections.
+     */
+     protected async loadRating(): Promise<void> {
+        try {
+            this.ratingInfo = await this.currentSite.read('local_course_catalogue_get_overall_rating', {
+                courseid: this.courseId,
+            });
+        } catch {
+            this.sections = [];
+        }
     }
 
 }

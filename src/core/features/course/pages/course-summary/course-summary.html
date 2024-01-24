@@ -103,7 +103,52 @@
                         </ion-card-content>
                     </ion-card>
                 </ion-list>
-
+                <div>
+                    <ion-item class="ion-text-wrap">
+                        <ion-label>
+                            <h2 class="item-heading font-bold">Course Rating</h2>
+                        </ion-label>
+                    </ion-item>
+                </div>
+                <accordion class="course-sections">
+                    <div class="section-heading" header>
+                        <h2 class="item-heading wrap-text">Course Overall Rating</h2>
+                    </div>
+                    <div class="content">
+                        <div class="course-review">
+                            <span class="rating">{{ratingInfo.course_rating}}</span>
+                            <div class="icons">
+                                <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" [name]="i <= ratingInfo.course_rating ? 'fas-star' : 'far-star'"
+                                    aria-hidden="true"></ion-icon>
+                            </div>
+                            <br />
+                            <div class="rating">Rating : {{ratingInfo.course_rating_count}}</div>
+                        </div>
+                        <ion-label>Reviews</ion-label>
+                        <ion-item *ngFor="let review of ratingInfo.reviews">
+                            <div class="content">
+                                <ion-label>
+                                    <h3 class="item-heading font-bold">{{review.username}}</h3> <br />
+                                </ion-label>
+                            </div>
+                            <div class="course-review">
+                                <ion-label>
+                                    <h2 class="item-heading font-bold">{{review.rating}}</h2>
+                                </ion-label>
+                                <div class="icons">
+                                    <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" [name]="i <= review.rating ? 'fas-star' : 'far-star'"
+                                        aria-hidden="true"></ion-icon>
+                                </div>
+                                <br />
+                                <div class="rating">{{review.timecreated | date}}</div>
+                            </div>
+                            <br />
+                            <div class="content">
+                                <p>{{review.content}}</p>
+                            </div>
+                        </ion-item>
+                    </div>
+                </accordion>
                 <div *ngIf="sections && sections.length">
                     <ion-item class="ion-text-wrap">
                         <ion-label>

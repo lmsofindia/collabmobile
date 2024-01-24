@@ -244,3 +244,40 @@
 .font-bold {
     font-weight: bold !important;
 }
+
+.course-review {
+    display: flex;
+    align-items: center;
+
+    .icons {
+        ion-icon {
+            margin-right: 5px;
+            font-size: 1.4rem;
+            color: #FFC107;
+            transition: color 0.25s ease;
+        }
+
+        &.edit {
+            ion-icon {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .edit-btn {
+        margin-left: 10px;
+
+        ion-icon {
+            font-size: 1.1rem;
+            transition: color 0.25s ease;
+        }
+    }
+
+    &.processing {
+        ion-icon {
+            color: var(--ion-text-color) !important;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    }
+}

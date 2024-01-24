@@ -49,12 +49,14 @@ export class CoreLoginSitesPage implements OnInit {
             this.add();
         }
 
-        this.accountsList = await CoreLoginHelper.getAccountsList();
+        this.add();
+
+        // this.accountsList = await CoreLoginHelper.getAccountsList();
         this.loaded = true;
 
-        if (this.accountsList.count == 0) {
-            this.add();
-        }
+        // if (this.accountsList.count == 0) {
+        //     this.add();
+        // }
     }
 
     /**

@@ -119,8 +119,21 @@ export class CoreCatalogueFiltersComponent implements OnInit {
     }
 
     reset(): Promise<boolean> {
-        this.selectedFilters = DEFAULT_FILTERS;
-        return this.modalCtrl.dismiss(this.selectedFilters, 'confirm');
+        return this.modalCtrl.dismiss({
+            search: null,
+            sort: 'latest',
+            rating: null,
+            courseduration: null,
+            coursecompliance: [],
+            level: [],
+            category: [],
+            skill: [],
+            learning_type: 'all',
+            status: null,
+            assignment_type: null,
+            overdue: null,
+            bookmarked: null,
+        }, 'confirm');
     }
 
     /**

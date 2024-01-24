@@ -480,7 +480,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
         this.currentSite.read('local_course_catalogue_get_my', {
             filters: {
                 learning_type: 'course',
-                status: status,
+                status,
+                sort: 'latest',
             },
         }).then((data: { courses: [] }) => {
             this.myCourses = data.courses || [];

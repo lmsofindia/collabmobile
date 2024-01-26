@@ -39,11 +39,12 @@
         </div>
         <h3 class="section-title">
             <span>My Courses</span>
-            <ion-select fill="clear" color="dark" size="small" class="ion-no-margin" (ionChange)="triggerchange($event)" value="0">
+            <ion-select fill="clear" color="dark" size="small" class="ion-no-margin" (ionChange)="triggerchange($event)" value="0"
+                label="Filter by status" title="Filter by status">
                 <ion-select-option *ngFor="let status of statuses" [value]="status.value">{{status.label}}</ion-select-option>
             </ion-select>
         </h3>
-        <div class="courses-wrapper horizontal-scroll-wrapper">
+        <div class="courses-wrapper horizontal-scroll-wrapper" id="mycourses-block">
             <core-collab-course *ngFor="let course of myCourses" [course]="course" viewmode="card"
                 contentType="course"></core-collab-course>
         </div>

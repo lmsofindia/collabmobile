@@ -101,20 +101,16 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
 
     statuses = [
         {
-            label: 'All',
+            label: 'All Courses',
             value: '0',
         },
         {
-            label: 'In Progress',
-            value: 'inprogress',
+            label: 'To Do',
+            value: 'todo',
         },
         {
             label: 'Completed',
             value: 'completed',
-        },
-        {
-            label: 'Not Started',
-            value: 'notstarted',
         },
     ];
 
@@ -606,8 +602,12 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
         this.fetchInterval && clearInterval(this.fetchInterval);
     }
 
-    triggerchange(e): void {
-        this.fetchMyCourses(e.detail.value);
+    triggerchange(event: CustomEvent): void {
+        this.fetchMyCourses(event.detail.value).finally(() => {
+            // Scroll #mycourses-block to beginning. #mycourses-block is horizontal scrollable.
+            const myCoursesBlock = document.getElementById('mycourses-block');
+            myCoursesBlock?.scrollTo({ left: 0, behavior: 'smooth' });
+        });
     }
 
 }

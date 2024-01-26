@@ -19,25 +19,6 @@ import { ModalController } from '@ionic/angular';
 import { CoreSites } from '@services/sites';
 import { CoreDomUtils } from '@services/utils/dom';
 
-const DEFAULT_FORM_DATA = {
-    name: '',
-    description: '',
-    category: [],
-    skills: [],
-    issued_date: '',
-    learning_hours: 0,
-};
-
-const DEFAULT_FORM_ERRORS = {
-    name: '',
-    description: '',
-    category: '',
-    skills: '',
-    issued_date: '',
-    learning_hours: '',
-    short_video: '',
-};
-
 type DropdownOption = {
     id: number|string;
     name: string;
@@ -57,9 +38,22 @@ export class AddonShortsUploadPage implements OnInit {
 
     protected currentSite: CoreSite;
 
-    formdata = Object.assign({}, DEFAULT_FORM_DATA);
+    formdata = {
+        name: '',
+        description: '',
+        category: [],
+        skills: [],
+        learning_hours: 0,
+    };
 
-    formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
+    formErrors = {
+        name: '',
+        description: '',
+        category: '',
+        skills: '',
+        learning_hours: '',
+        short_video: '',
+    };
 
     short_video: File|null = null;
 
@@ -123,33 +117,38 @@ export class AddonShortsUploadPage implements OnInit {
     async upload(): Promise<void> {
         // Validate form data.
         Object.keys(this.formdata).forEach((key) => {
-            if (key === 'category' || key === 'skills') {
-                if (this.formdata[key].length === 0) {
-                    this.formErrors[key] = 'Please select at least one option.';
+            try {
+                if (key === 'category' || key === 'skills') {
+                    if (this.formdata[key].length === 0) {
+                        this.formErrors[key] = 'Please select at least one option.';
+
+                        return;
+                    }
+                } else if (key === 'learning_hours') {
+                    if (this.formdata[key] <= 0) {
+                        this.formErrors[key] = 'Please enter a valid number.';
+
+                        return;
+                    }
+                } if (this.formdata[key] === '') {
+                    this.formErrors[key] = 'This field is required.';
 
                     return;
                 }
-            } else if (key === 'learning_hours') {
-                if (this.formdata[key] <= 0) {
-                    this.formErrors[key] = 'Please enter a valid number.';
 
-                    return;
-                }
-            } if (this.formdata[key] === '') {
-                this.formErrors[key] = 'This field is required.';
-
-                return;
+                this.formErrors[key] = '';
+            } catch  {
+                // DO NOTHING
             }
 
-            this.formErrors[key] = '';
         });
 
         if (this.short_video === null) {
             this.formErrors.short_video = 'Please select a file.';
         }
 
-        if (!this.isFormValid) {
-            return Promise.reject();
+        if (!this.isFormValid()) {
+            return;
         }
 
         this.isProcessing = true;
@@ -159,7 +158,7 @@ export class AddonShortsUploadPage implements OnInit {
         formData.append('description', this.formdata.description);
         formData.append('category', this.formdata.category.toString());
         formData.append('skills', this.formdata.skills.toString());
-        formData.append('issued_date', this.formdata.issued_date);
+        formData.append('issued_date', '');
         formData.append('learning_hours', this.formdata.learning_hours.toString());
         formData.append('short_video', this.short_video as Blob);
         formData.append('user_id', this.currentUserId.toString());
@@ -175,10 +174,23 @@ export class AddonShortsUploadPage implements OnInit {
 
             this.isProcessing = false;
 
-            if (response.status) {
-                this.formdata = Object.assign({}, DEFAULT_FORM_DATA);
+            if (response['status']) {
+                this.formdata = {
+                    name: '',
+                    description: '',
+                    category: [],
+                    skills: [],
+                    learning_hours: 0,
+                };
                 this.short_video = null;
-                this.formErrors = Object.assign({}, DEFAULT_FORM_ERRORS);
+                this.formErrors = {
+                    name: '',
+                    description: '',
+                    category: '',
+                    skills: '',
+                    learning_hours: '',
+                    short_video: '',
+                };
 
                 // reset skills
                 this.selectedSkills = [];
@@ -194,7 +206,7 @@ export class AddonShortsUploadPage implements OnInit {
                 return;
             }
 
-            if (response.errors) {
+            if (response['errors']) {
                 Object.keys(this.formErrors).forEach((key) => {
                     if (response.errors[key]) {
                         this.formErrors[key] = response.errors[key];
@@ -232,8 +244,8 @@ export class AddonShortsUploadPage implements OnInit {
         }
     }
 
-    get isFormValid(): boolean {
-        return Object.values(this.formErrors).every((error) => error === '');
+    isFormValid(): boolean {
+        return Object.values(this.formErrors).every((error) => error == '');
     }
 
 }

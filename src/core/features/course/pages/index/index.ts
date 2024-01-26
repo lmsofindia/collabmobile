@@ -30,7 +30,8 @@ import { CoreCoursesHelper, CoreCourseWithImageAndColor } from '@features/course
 import { CoreColors } from '@singletons/colors';
 import { CorePath } from '@singletons/path';
 import { CoreSites } from '@services/sites';
-
+import { ModalController } from '@ionic/angular';
+import { RatingModalComponent } from '@features/course/components/rating-modal/rating-modal.component';
 /**
  * Page that displays the list of courses the user is enrolled in.
  */
@@ -74,7 +75,7 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
         processing: true,
     };
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private modalCtrl: ModalController) {
         this.selectTabObserver = CoreEvents.on(CoreEvents.SELECT_COURSE_TAB, (data) => {
             if (!data.name) {
                 // If needed, set sectionId and sectionNumber. They'll only be used if the content tabs hasn't been loaded yet.
@@ -310,9 +311,17 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
     /**
      * Enable course rating edit.
      */
-    enableRatingEdit(): void {
-        this.ratingInfo.editMode = true;
-        this.ratingInfo.processing = false;
+    async enableRatingEdit(): Promise<void> {
+        // this.ratingInfo.editMode = true;
+        // this.ratingInfo.processing = false;
+        let this_ref = this;
+        const modal = await this.modalCtrl.create({
+            component: RatingModalComponent,
+            componentProps: {
+                'ratingInfo': this_ref.ratingInfo
+            }
+          });
+          return await modal.present();
     }
 
     /**

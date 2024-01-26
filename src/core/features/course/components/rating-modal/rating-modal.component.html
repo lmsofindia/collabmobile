@@ -2,28 +2,32 @@
   <ion-toolbar>
     <ion-title>Rating</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()" [strong]="true">
+      <ion-button (click)="cancel()" [strong]="true" [disabled]="processing">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <div class="course-review">
+  <div class="course-review" [class.processing]="processing">
     <div class="icons">
-      <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" (click)="selectRating(i)" name="far-star" aria-hidden="true"></ion-icon>
-    </div>
-    <div class="edit-btn">
-      <ion-icon name="fas-pencil" slot="start" aria-hidden="true" *ngIf="!ratingInfo.editMode" (click)="enableRatingEdit()"></ion-icon>
-      <ion-icon name="fas-circle-check" slot="start" aria-hidden="true" *ngIf="ratingInfo.editMode" (click)="saveRating()"></ion-icon>
+      <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" (click)="selectRating(i)" [name]="i <= rating ? 'fas-star' : 'far-star'"
+        aria-hidden="true"></ion-icon>
     </div>
 
+    <ion-item>
+      <ion-label>Review</ion-label>
+      <ion-textarea [(ngModel)]="review" rows="2" placeholder="Write a review..." [disabled]="processing"></ion-textarea>
+    </ion-item>
   </div>
-
 </ion-content>
+
 <ion-footer>
-  <div class="buttons">
-    <ion-button (click)="cancel()" fill="clear" expand="full" class="ion-no-margin">Cancel</ion-button>
-    <ion-button (click)="saveRating()" [strong]="true" color="primary" expand="full" class="ion-no-margin">Submit</ion-button>
+  <div class="buttons" style="display: flex;">
+    <ion-button (click)="cancel()" [disabled]="processing" fill="clear" expand="full" class="ion-no-margin"
+      style="flex: 1;">Cancel</ion-button>
+    <ion-button (click)="saveRating()" [disabled]="processing" [strong]="true" color="primary" expand="full" class="ion-no-margin"
+      style="flex: 1;">Submit</ion-button>
   </div>
 </ion-footer>

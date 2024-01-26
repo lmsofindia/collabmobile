@@ -69,10 +69,9 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
         pageParams: {},
     };
 
-    ratingInfo = {
+    myRating = {
         rating: 0,
-        editMode: false,
-        processing: true,
+        review: '',
     };
 
     constructor(private route: ActivatedRoute, private modalCtrl: ModalController) {
@@ -310,18 +309,29 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
 
     /**
      * Enable course rating edit.
+     *
+     * @returns Promise resolved when done.
      */
     async enableRatingEdit(): Promise<void> {
-        // this.ratingInfo.editMode = true;
-        // this.ratingInfo.processing = false;
-        let this_ref = this;
         const modal = await this.modalCtrl.create({
             component: RatingModalComponent,
             componentProps: {
-                'ratingInfo': this_ref.ratingInfo
-            }
-          });
-          return await modal.present();
+                ratingInfo: {
+                    rating: this.myRating.rating,
+                    review: this.myRating.review,
+                    courseid: this.course?.id,
+                },
+            },
+        });
+
+        modal.present();
+
+        const { data, role } = await modal.onWillDismiss();
+
+        if (role === 'confirm') {
+            this.myRating.rating = data.rating;
+            this.myRating.review = data.review;
+        }
     }
 
     /**
@@ -334,65 +344,16 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
             return;
         }
 
-        this.ratingInfo.processing = true;
-
         try {
-            const rating: {rating: number} = await CoreSites.getRequiredCurrentSite().read('local_course_catalogue_get_my_rating', {
-                courseid: this.course.id,
-            });
+            const rating: {rating: number; review: string} =
+                await CoreSites.getRequiredCurrentSite().read('local_course_catalogue_get_my_rating', {
+                    courseid: this.course.id,
+                });
 
-            this.ratingInfo.rating = rating.rating;
-
-            this.ratingInfo.processing = false;
+            this.myRating = rating;
         } catch {
             // Fail silently.
         }
-    }
-
-    /**
-     * Save course rating.
-     *
-     * @returns Promise resolved when done.
-     */
-    async saveRating(): Promise<void> {
-        if (!this.course) {
-            return;
-        }
-
-        this.ratingInfo.processing = true;
-
-        try {
-            const response: {
-                success: boolean;
-                message: string;
-            } = await CoreSites.getRequiredCurrentSite().write('local_course_catalogue_rate_course', {
-                courseid: this.course.id,
-                rating: this.ratingInfo.rating,
-            });
-
-            if (!response.success) {
-                throw new Error(response.message);
-            }
-
-            CoreDomUtils.showToast(response.message);
-
-            this.ratingInfo.editMode = false;
-            this.ratingInfo.processing = false;
-        } catch (error) {
-            CoreDomUtils.showErrorModal(error || 'Error saving rating');
-            this.ratingInfo.processing = false;
-        }
-    }
-
-    /**
-     * Select rating.
-     */
-    selectRating(rating: number): void {
-        if (!this.ratingInfo.editMode || this.ratingInfo.processing) {
-            return;
-        }
-
-        this.ratingInfo.rating = rating;
     }
 
     /**

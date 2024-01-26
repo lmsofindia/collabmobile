@@ -281,3 +281,101 @@
         }
     }
 }
+
+.course-rating-overview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .rating {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-right: 16px;
+    }
+
+    .icons {
+        ion-icon {
+            margin-right: 5px;
+            font-size: 1.4rem;
+            color: #FFC107;
+            transition: color 0.25s ease;
+        }
+    }
+}
+
+.user-reviews-wrapper {
+    .user-review {
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--ion-color-step-400);
+
+        .user-details-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+
+            .user-info {
+                flex: 1;
+            }
+
+            .avatar {
+                --size: 44px;
+                margin-right: 12px;
+
+                img {
+                    height: var(--size);
+                    width: var(--size);
+                    min-height: var(--size);
+                    min-width: var(--size);
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+
+            .user-name {
+                margin-top: 0;
+                margin-bottom: 5px;
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            .rating-date {
+                font-size: 0.8rem;
+                color: var(--ion-color-step-500);
+            }
+        }
+
+        .content {
+            margin-top: 0.4rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .user-rating {
+            display: flex;
+            align-items: center;
+            margin-top: 0.4rem;
+
+            .rating {
+                font-size: 1rem;
+                font-weight: bold;
+                margin-right: 12px;
+            }
+        }
+
+        .icons {
+            ion-icon {
+                margin-right: 5px;
+                font-size: 1.1rem;
+                color: #FFC107;
+                transition: color 0.25s ease;
+            }
+        }
+
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+    }
+}

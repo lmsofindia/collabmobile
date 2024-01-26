@@ -115,38 +115,41 @@
                         <h2 class="item-heading wrap-text">Course Overall Rating</h2>
                     </div>
                     <div class="content">
-                        <div class="course-review">
-                            <span class="rating">{{ratingInfo.course_rating}}</span>
-                            <div class="icons">
-                                <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" [name]="i <= ratingInfo.course_rating ? 'fas-star' : 'far-star'"
-                                    aria-hidden="true"></ion-icon>
-                            </div>
-                            <br />
-                            <div class="rating">Rating : {{ratingInfo.course_rating_count}}</div>
-                        </div>
-                        <ion-label>Reviews</ion-label>
-                        <ion-item *ngFor="let review of ratingInfo.reviews">
-                            <div class="content">
-                                <ion-label>
-                                    <h3 class="item-heading font-bold">{{review.username}}</h3> <br />
-                                </ion-label>
-                            </div>
-                            <div class="course-review">
-                                <ion-label>
-                                    <h2 class="item-heading font-bold">{{review.rating}}</h2>
-                                </ion-label>
+                        <div class="course-rating-overview">
+                            <div class="rating">{{ratingInfo['course_rating']}}</div>
+                            <div class="rating-info">
                                 <div class="icons">
-                                    <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" [name]="i <= review.rating ? 'fas-star' : 'far-star'"
-                                        aria-hidden="true"></ion-icon>
+                                    <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]"
+                                        [name]="i <= ratingInfo['course_rating'] ? 'fas-star' : 'far-star'" aria-hidden="true"></ion-icon>
                                 </div>
-                                <br />
-                                <div class="rating">{{review.timecreated | date}}</div>
+                                <div class="rating-text">{{ratingInfo['course_rating_count']}} ratings</div>
                             </div>
-                            <br />
-                            <div class="content">
-                                <p>{{review.content}}</p>
+                        </div>
+                        <div class="section-heading">
+                            <h2 class="item-heading wrap-text">Reviews</h2>
+                        </div>
+                        <div class="user-reviews-wrapper">
+                            <div class="user-review" *ngFor="let review of ratingInfo['reviews']">
+                                <div class="user-details-wrapper">
+                                    <div class="avatar">
+                                        <img [src]="review.userpic" [alt]="review.username">
+                                    </div>
+                                    <div class="user-info">
+                                        <div class="user-name">{{review.username}}</div>
+                                        <div class="rating-date">{{review.timecreated | date}}</div>
+                                    </div>
+                                </div>
+                                <div class="user-rating">
+                                    <div class="rating">{{review.rating}}</div>
+                                    <div class="icons">
+                                        <ion-icon *ngFor="let i of [1, 2, 3, 4, 5]" [name]="i <= review.rating ? 'fas-star' : 'far-star'"
+                                            aria-hidden="true"></ion-icon>
+                                    </div>
+                                </div>
+                                <p class="content">{{review.content}}</p>
                             </div>
-                        </ion-item>
+                        </div>
+
                     </div>
                 </accordion>
                 <div *ngIf="sections && sections.length">

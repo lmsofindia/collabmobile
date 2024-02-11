@@ -271,6 +271,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 return;
             }
         } catch (error) {
+            alert('Available error: ' + JSON.stringify(error));
             this.isLocked = false;
 
             return;
@@ -292,11 +293,14 @@ export class AppComponent implements OnInit, AfterViewInit {
                 disableBackup: true,
             });
 
+            alert('Got result: ' + JSON.stringify(result));
+
             if (result === 'OK') {
                 this.isLocked = false;
                 CoreEvents.trigger('biometricAuthenticated');
             }
         } catch (error) {
+            alert('Got error: ' + JSON.stringify(error));
             console.log(error);
             this.isLocked = true;
             this.canRetryBiometric = true;

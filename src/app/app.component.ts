@@ -34,6 +34,7 @@ import { CoreDom } from '@singletons/dom';
 import { CorePlatform } from '@services/platform';
 import { CoreUrl } from '@singletons/url';
 import { CoreLogger } from '@singletons/logger';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 const MOODLE_SITE_URL_PREFIX = 'url-';
 const MOODLE_VERSION_PREFIX = 'version-';
@@ -48,6 +49,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     @ViewChild(IonRouterOutlet) outlet?: IonRouterOutlet;
 
     protected logger = CoreLogger.getInstance('AppComponent');
+
+    isLocked = false;
+    canRetryBiometric = false;
+
+    constructor(private fingerprint: FingerprintAIO) { }
 
     /**
      * @inheritdoc
@@ -126,6 +132,8 @@ export class AppComponent implements OnInit, AfterViewInit {
             }
 
             this.loadCustomStrings();
+
+            await this.checkBiometricAuthentication();
         });
 
         // Site config is checked in login.
@@ -243,6 +251,56 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         // Set StatusBar properties.
         CoreApp.setStatusBarColor();
+    }
+
+    /**
+     * Check biomatric authentication.
+     */
+    async checkBiometricAuthentication(): Promise<void> {
+        this.isLocked = true;
+        this.canRetryBiometric = false;
+
+        await CorePlatform.ready();
+
+        try {
+            const available = await this.fingerprint.isAvailable();
+
+            if (available !== 'OK') {
+                this.isLocked = false;
+
+                return;
+            }
+        } catch (error) {
+            this.isLocked = false;
+
+            return;
+        }
+
+        // const userid = CoreSites.getCurrentSiteUserId();
+
+        // // Check if biomatric authentication is enabled.
+        // const enabled = localStorage.getItem('CoreLoginBiometricEnabled:' + userid);
+
+        // if (enabled !== 'true') {
+        //     this.isLocked = false;
+
+        //     return;
+        // }
+
+        try {
+            const result = await this.fingerprint.show({
+                disableBackup: true,
+            });
+
+            if (result === 'OK') {
+                this.isLocked = false;
+                CoreEvents.trigger('biometricAuthenticated');
+            }
+        } catch (error) {
+            console.log(error);
+            this.isLocked = true;
+            this.canRetryBiometric = true;
+        }
     }
 
     /**

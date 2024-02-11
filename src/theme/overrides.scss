@@ -398,3 +398,24 @@ addon-calendar-calendar {
 .alert-input.sc-ion-alert-md:focus {
     border-radius: 0 !important;
 }
+
+.biomatric-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #00000073;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 1.5rem;
+
+    ion-icon {
+        font-size: 30px;
+    }
+}

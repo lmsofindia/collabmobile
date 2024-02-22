@@ -45,6 +45,7 @@ import {
     AddonModQuizSyncProvider,
     AddonModQuizSyncResult,
 } from '../../services/quiz-sync';
+import { CoreTimeUtils } from '@services/utils/time';
 
 /**
  * Component that displays a quiz entry page.
@@ -256,6 +257,8 @@ export class AddonModQuizIndexComponent extends CoreCourseModuleMainActivityComp
         const attempts = await AddonModQuiz.getUserAttempts(quiz.id, { cmId: this.module.id });
 
         this.attempts = await this.treatAttempts(quiz, attempts);
+
+        console.log('attempts', this.attempts);
 
         // Check if user can create/continue attempts.
         if (this.attempts.length) {
@@ -621,6 +624,10 @@ export class AddonModQuizIndexComponent extends CoreCourseModuleMainActivityComp
         }));
 
         return formattedAttempts;
+    }
+
+    timestampToDate(timestamp: number): string {
+        return CoreTimeUtils.userDate(timestamp * 1000, 'core.strftimedate');
     }
 
     /**

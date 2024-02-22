@@ -16,10 +16,10 @@
         aria-hidden="true"></ion-icon>
     </div>
 
-    <ion-item>
-      <ion-label>Review</ion-label>
-      <ion-textarea [(ngModel)]="review" rows="2" placeholder="Write a review..." [disabled]="processing"></ion-textarea>
-    </ion-item>
+    <div class="review-wrapper">
+      <ion-title class="review-title">Review</ion-title>
+      <textarea [(ngModel)]="review" rows="2" placeholder="Write a review..." [disabled]="processing"></textarea>
+    </div>
   </div>
 </ion-content>
 

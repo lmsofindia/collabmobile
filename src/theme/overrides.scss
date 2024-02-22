@@ -419,3 +419,12 @@ addon-calendar-calendar {
         font-size: 30px;
     }
 }
+
+.half-screen-modal {
+    --height: 50%;
+    padding: 5%;
+
+    .modal-wrapper {
+        border-radius: 16px;
+    }
+}

@@ -315,6 +315,7 @@ export class CoreCourseIndexPage implements OnInit, OnDestroy {
     async enableRatingEdit(): Promise<void> {
         const modal = await this.modalCtrl.create({
             component: RatingModalComponent,
+            cssClass: 'half-screen-modal',
             componentProps: {
                 ratingInfo: {
                     rating: this.myRating.rating,

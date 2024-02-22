@@ -50,13 +50,14 @@
     <!-- List of user attempts. -->
     <ion-card class="addon-mod_quiz-table" *ngIf="quiz && attempts.length">
         <ion-card-header class="ion-text-wrap">
-            <ion-card-title style="font-size: 15px;">
+            <ion-card-title style="font-size: 16px;">
                 Attempt Summary
             </ion-card-title>
         </ion-card-header>
         <ion-card-content role="table">
             <!-- "Header" of the table -->
-            <ion-item class="ion-text-wrap addon-mod_quiz-table-header hide-detail" [detail]="true">
+            <ion-item class="ion-text-wrap addon-mod_quiz-table-header hide-detail" [detail]="true"
+                style="border-bottom: 1px solid var(--ion-color-step-450);">
                 <ion-label role="rowgroup">
                     <ion-row class="ion-align-items-center" role="row">
                         <ion-col class="ion-text-center" *ngIf="quiz.showAttemptColumn" role="columnheader">
@@ -76,7 +77,7 @@
                     </ion-row>
                 </ion-label>
             </ion-item>
-            <div role="rowgroup">
+            <div role="rowgroup" class="attempts-td">
                 <!-- List of attempts. -->
                 <ion-item button detail="true" *ngFor="let attempt of attempts" class="ion-text-wrap"
                     [ngClass]='{"addon-mod_quiz-highlighted": attempt.highlightGrade}' [attr.aria-label]="'core.seemoredetail' | translate"
@@ -90,7 +91,12 @@
                                 {{ attempt.attempt }}
                             </ion-col>
                             <ion-col size="7" role="cell">
-                                <p *ngFor="let sentence of attempt.readableState">{{ sentence }}</p>
+                                <p *ngIf="attempt.finished">
+                                    <strong>{{ timestampToDate(attempt.timefinish || 0) }}</strong>
+                                </p>
+                                <div *ngIf="!attempt.finished">
+                                    <p *ngFor="let sentence of attempt.readableState">{{ sentence }}</p>
+                                </div>
                             </ion-col>
                             <ion-col class="ion-text-center ion-hide-md-down" *ngIf="quiz.showMarkColumn" role="cell">
                                 <p>{{ attempt.readableMark }}</p>

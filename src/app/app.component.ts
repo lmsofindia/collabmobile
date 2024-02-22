@@ -133,7 +133,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
             this.loadCustomStrings();
 
-            await this.checkBiometricAuthentication();
+            // await this.checkBiometricAuthentication();
         });
 
         // Site config is checked in login.

@@ -345,7 +345,7 @@ export class AddonModQuizProvider {
                 if (dueDate) {
                     sentences.push(Translate.instant(
                         'addon.mod_quiz.stateoverduedetails',
-                        { $a: CoreTimeUtils.userDate(dueDate) },
+                        { $a: CoreTimeUtils.userDate(dueDate, 'core.strftimedate') },
                     ));
                 }
 
@@ -357,7 +357,7 @@ export class AddonModQuizProvider {
                     Translate.instant('addon.mod_quiz.statefinished'),
                     Translate.instant(
                         'addon.mod_quiz.statefinisheddetails',
-                        { $a: CoreTimeUtils.userDate((attempt.timefinish ?? 0) * 1000) },
+                        { $a: CoreTimeUtils.userDate((attempt.timefinish ?? 0) * 1000, 'core.strftimedate') },
                     ),
                 ];
 

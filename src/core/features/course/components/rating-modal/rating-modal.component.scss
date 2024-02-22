@@ -20,3 +20,27 @@
         }
     }
 }
+
+.review-wrapper {
+    text-align: left;
+    padding: 16px;
+
+    .review-title {
+        padding: 0;
+        margin-bottom: 12px;
+    }
+
+    textarea {
+        height: 150px;
+        width: 100%;
+        background: transparent;
+        border-color: var(--ion-color-step-400);
+        padding: 10px;
+        border-radius: 10px;
+        border-width: 1px;
+
+        &:focus {
+            border-color: var(--ion-color-step-600);
+        }
+    }
+}

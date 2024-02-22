@@ -4,7 +4,7 @@
         <ion-refresher-content pullingText="{{ 'core.pulltorefresh' | translate }}"></ion-refresher-content>
     </ion-refresher>
     <core-loading [hideUntil]="dataLoaded">
-        <h1 class="greetings">Welcome back, {{user?.fullname}}</h1>
+        <h1 class="greetings">Welcome, {{user?.fullname}}</h1>
         <h2 class="greetings-sub-title">You have spent <span>{{ timeSpent }}</span> in {{ thisMonthYear }}</h2>
         <div class="theme-mb2sliders" [innerHTML]="sliders" (click)="sliderClicked($event)"></div>
         <h3 class="section-title">

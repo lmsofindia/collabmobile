@@ -258,8 +258,6 @@ export class AddonModQuizIndexComponent extends CoreCourseModuleMainActivityComp
 
         this.attempts = await this.treatAttempts(quiz, attempts);
 
-        console.log('attempts', this.attempts);
-
         // Check if user can create/continue attempts.
         if (this.attempts.length) {
             const last = this.attempts[this.attempts.length - 1];
@@ -627,7 +625,7 @@ export class AddonModQuizIndexComponent extends CoreCourseModuleMainActivityComp
     }
 
     timestampToDate(timestamp: number): string {
-        return CoreTimeUtils.userDate(timestamp * 1000, 'core.strftimedate');
+        return CoreTimeUtils.userDate(timestamp * 1000, 'core.strftimedatetime');
     }
 
     /**

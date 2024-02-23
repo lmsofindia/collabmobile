@@ -18,7 +18,7 @@
                 <ion-icon name="fas-circle-exclamation" slot="icon-only" aria-hidden="true"></ion-icon>
             </ion-button>
             <ion-button *ngIf="navigation.length" [attr.aria-label]="'addon.mod_quiz.opentoc' | translate" (click)="openNavigation()">
-                <ion-icon name="fas-bookmark" slot="icon-only" aria-hidden="true"></ion-icon>
+                <ion-icon name="fas-circle-info" slot="icon-only" aria-hidden="true"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -53,7 +53,9 @@
                         </ion-label>
                         <div *ngIf="question.status || question.readableMark" slot="end"
                             class="ion-text-wrap ion-margin-horizontal addon-mod_quiz-question-note">
-                            <p *ngIf="question.status" class="block">{{question.status}}</p>
+                            <p *ngIf="question.status" class="block">
+                                {{question.status == 'Not yet answered' ? 'Not yet attempted' : question.status}}
+                            </p>
                             <p *ngIf="question.readableMark" [innerHTML]="question.readableMark"></p>
                         </div>
                     </ion-item-divider>

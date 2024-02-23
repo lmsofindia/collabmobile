@@ -45,7 +45,7 @@ export class CoreCourseCourseIndexComponent implements OnInit {
     highlighted?: string;
     sectionsToRender: CourseIndexSection[] = [];
     loaded = false;
-    expandedall: boolean= true;
+    expandedall= true;
 
     constructor(
         protected elementRef: ElementRef,
@@ -152,15 +152,18 @@ export class CoreCourseCourseIndexComponent implements OnInit {
      * @param event Event object.
      * @param section Section to expand / collapse.
      */
-    toggleExpandAll(expanded: boolean): void {
+    toggleExpandAll(event: Event, expanded: boolean): void {
+        event.stopPropagation();
+        event.preventDefault();
 
         this.sectionsToRender.forEach((section) => {
             section.expanded = expanded;
-       });
+        });
 
-       this.expandedall = !expanded;
+        this.expandedall = !expanded;
 
     }
+
     /**
      * Close the modal.
      */

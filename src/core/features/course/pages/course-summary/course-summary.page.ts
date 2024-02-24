@@ -41,6 +41,7 @@ import { CorePath } from '@singletons/path';
 import { CorePromisedValue } from '@classes/promised-value';
 import { CorePlatform } from '@services/platform';
 import { CoreSite } from '@classes/site';
+import { CoreTimeUtils } from '@services/utils/time';
 
 const ENROL_BROWSER_METHODS = ['fee', 'paypal'];
 
@@ -93,6 +94,7 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     ratingInfo =[];
     courseUrl = '';
     progress?: number;
+    skills = '';
 
     protected actionSheet?: HTMLIonActionSheetElement;
 
@@ -280,6 +282,10 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         this.courseData.resolve(this.course);
     }
 
+    timestampToDate(timestamp: number): string {
+        return CoreTimeUtils.userDate(timestamp * 1000, 'core.strftimedate');
+    }
+
     /**
      * Load some extra data for the course.
      */
@@ -294,6 +300,17 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
                 courseData.displayname = courseByField.displayname;
                 courseData.categoryname = courseByField.categoryname;
                 courseData.overviewfiles = courseByField.overviewfiles;
+
+                courseData.customfields?.forEach((field) => {
+                    if (field.shortname === 'skillsmenu') {
+                        this.skills = field.value;
+
+                        // remove skills from customfields
+                        courseData.customfields = courseData.customfields
+                            ?.filter((customfield) => customfield.shortname !== 'skillsmenu');
+                    }
+
+                });
             } else  {
                 this.course = courseByField;
                 this.courseData.resolve(courseByField);
@@ -665,10 +682,10 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
         this.appResumeSubscription.unsubscribe();
     }
 
-     /**
+    /**
      * Load course sections.
      */
-     protected async loadRating(): Promise<void> {
+    protected async loadRating(): Promise<void> {
         try {
             this.ratingInfo = await this.currentSite.read('local_course_catalogue_get_overall_rating', {
                 courseid: this.courseId,

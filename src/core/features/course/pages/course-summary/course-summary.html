@@ -65,11 +65,31 @@
                     </ion-label>
                 </ion-item>
 
+                <ion-item class="ion-text-wrap" detail="false" *ngIf="skills" style="--min-height: 0;">
+                    <ion-label style="margin-bottom: 0;">
+                        <h2 class="item-heading font-bold" style="margin: 0;">
+                            Skills
+                        </h2>
+                    </ion-label>
+                </ion-item>
+
+                <ion-item class="ion-text-wrap" detail="false" *ngIf="skills">
+                    <ion-label>
+                        <core-format-text [text]="skills" class="course-summary" collapsible-item contextLevel="course"
+                            [contextInstanceId]="course.id">
+                        </core-format-text>
+                    </ion-label>
+                </ion-item>
+
                 <ion-card class="meta-data">
                     <ion-card-content>
                         <div class="meta-item" *ngFor="let customfield of customfields">
                             <div class="title">{{customfield.name}}</div>
                             <div class="value">{{customfield.value}}</div>
+                        </div>
+                        <div class="meta-item" *ngIf="course.enddate">
+                            <div class="title">End Date</div>
+                            <div class="value">{{timestampToDate(course.enddate)}}</div>
                         </div>
                     </ion-card-content>
                 </ion-card>

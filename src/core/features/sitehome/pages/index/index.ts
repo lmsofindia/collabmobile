@@ -183,6 +183,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
 
     fetchInterval: NodeJS.Timeout|null = null;
 
+    wstoken = '';
+
     constructor() {
         // Refresh the enabled flags if site is updated.
         this.updateSiteObserver = CoreEvents.on(CoreEvents.SITE_UPDATED, () => {
@@ -209,6 +211,8 @@ export class CoreSiteHomeIndexPage implements OnInit, OnDestroy, OnDestroy {
 
         this.currentSite = CoreSites.getRequiredCurrentSite();
         this.siteHomeId = CoreSites.getCurrentSiteHomeId();
+
+        this.wstoken = this.currentSite.getToken();
 
         try {
             this.user = await CoreUser.getProfile(this.currentUserId);

@@ -300,17 +300,6 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
                 courseData.displayname = courseByField.displayname;
                 courseData.categoryname = courseByField.categoryname;
                 courseData.overviewfiles = courseByField.overviewfiles;
-
-                courseData.customfields?.forEach((field) => {
-                    if (field.shortname === 'skillsmenu') {
-                        this.skills = field.value;
-
-                        // remove skills from customfields
-                        courseData.customfields = courseData.customfields
-                            ?.filter((customfield) => customfield.shortname !== 'skillsmenu');
-                    }
-
-                });
             } else  {
                 this.course = courseByField;
                 this.courseData.resolve(courseByField);
@@ -340,7 +329,15 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
     }
 
     protected setMetaData(): void {
-        this.course?.customfields?.forEach((field) => {
+        this.customfields = [];
+
+        if(!this.course || !this.course.customfields) {
+            return;
+        }
+
+        const newCustomFields: CoreCourseCustomField[] = [];
+
+        this.course.customfields.forEach((field) => {
             if (field.shortname === 'courseduration') {
 
                 if (field.value) {
@@ -351,7 +348,7 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
 
                     field.value = `${hours}h ${minutes - (hours * 60)}m`;
 
-                    this.customfields.push(field);
+                    newCustomFields.push(field);
                 }
 
                 return;
@@ -374,14 +371,22 @@ export class CoreCourseSummaryPage implements OnInit, OnDestroy {
                 return;
             }
 
+            if (field.shortname === 'skillsmenu') {
+                this.skills = field.value;
+
+                return;
+            }
+
             const onlyfields = ['coursecompliance', 'courseduration', 'level', 'skillsmenu'];
 
             if (!onlyfields.includes(field.shortname)) {
                 return;
             }
 
-            this.customfields.push(field);
+            newCustomFields.push(field);
         });
+
+        this.customfields = newCustomFields;
     }
 
     /**

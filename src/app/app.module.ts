@@ -33,11 +33,14 @@ import { CoreCronDelegate } from '@services/cron';
 import { CoreSiteInfoCronHandler } from '@services/handlers/site-info-cron';
 import { moodleTransitionAnimation } from '@classes/page-transition';
 import { TestingModule } from '@/testing/testing.module';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+// import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 // For translate loader. AoT requires an exported function for factories.
 /**
+ * Create a loader for translations.
  *
+ * @param http HttpClient.
+ * @returns TranslateHttpLoader.
  */
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, './assets/lang/', '.json');
@@ -77,7 +80,7 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
                 CoreCronDelegate.register(CoreSiteInfoCronHandler.instance);
             },
         },
-        FingerprintAIO,
+        // FingerprintAIO,
     ],
     bootstrap: [AppComponent],
 })

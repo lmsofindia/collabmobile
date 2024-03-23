@@ -34,7 +34,7 @@ import { CoreDom } from '@singletons/dom';
 import { CorePlatform } from '@services/platform';
 import { CoreUrl } from '@singletons/url';
 import { CoreLogger } from '@singletons/logger';
-import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
+// import { FingerprintAIO } from '@ionic-native/fingerprint-aio/ngx';
 
 const MOODLE_SITE_URL_PREFIX = 'url-';
 const MOODLE_VERSION_PREFIX = 'version-';
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     isLocked = false;
     canRetryBiometric = false;
 
-    constructor(private fingerprint: FingerprintAIO) { }
+    // constructor(private fingerprint: FingerprintAIO) { }
 
     /**
      * @inheritdoc
@@ -253,59 +253,63 @@ export class AppComponent implements OnInit, AfterViewInit {
         CoreApp.setStatusBarColor();
     }
 
+    checkBiometricAuthentication(): void {
+        // this.isLocked = true;
+    }
+
     /**
      * Check biomatric authentication.
      */
-    async checkBiometricAuthentication(): Promise<void> {
-        this.isLocked = true;
-        this.canRetryBiometric = false;
+    // async checkBiometricAuthentication(): Promise<void> {
+    //     this.isLocked = true;
+    //     this.canRetryBiometric = false;
 
-        await CorePlatform.ready();
+    //     await CorePlatform.ready();
 
-        try {
-            const available = await this.fingerprint.isAvailable();
+    //     try {
+    //         const available = await this.fingerprint.isAvailable();
 
-            if (available !== 'OK') {
-                this.isLocked = false;
+    //         if (available !== 'OK') {
+    //             this.isLocked = false;
 
-                return;
-            }
-        } catch (error) {
-            alert('Available error: ' + JSON.stringify(error));
-            this.isLocked = false;
+    //             return;
+    //         }
+    //     } catch (error) {
+    //         alert('Available error: ' + JSON.stringify(error));
+    //         this.isLocked = false;
 
-            return;
-        }
+    //         return;
+    //     }
 
-        // const userid = CoreSites.getCurrentSiteUserId();
+    //     // const userid = CoreSites.getCurrentSiteUserId();
 
-        // // Check if biomatric authentication is enabled.
-        // const enabled = localStorage.getItem('CoreLoginBiometricEnabled:' + userid);
+    //     // // Check if biomatric authentication is enabled.
+    //     // const enabled = localStorage.getItem('CoreLoginBiometricEnabled:' + userid);
 
-        // if (enabled !== 'true') {
-        //     this.isLocked = false;
+    //     // if (enabled !== 'true') {
+    //     //     this.isLocked = false;
 
-        //     return;
-        // }
+    //     //     return;
+    //     // }
 
-        try {
-            const result = await this.fingerprint.show({
-                disableBackup: true,
-            });
+    //     try {
+    //         const result = await this.fingerprint.show({
+    //             disableBackup: true,
+    //         });
 
-            alert('Got result: ' + JSON.stringify(result));
+    //         alert('Got result: ' + JSON.stringify(result));
 
-            if (result === 'OK') {
-                this.isLocked = false;
-                CoreEvents.trigger('biometricAuthenticated');
-            }
-        } catch (error) {
-            alert('Got error: ' + JSON.stringify(error));
-            console.log(error);
-            this.isLocked = true;
-            this.canRetryBiometric = true;
-        }
-    }
+    //         if (result === 'OK') {
+    //             this.isLocked = false;
+    //             CoreEvents.trigger('biometricAuthenticated');
+    //         }
+    //     } catch (error) {
+    //         alert('Got error: ' + JSON.stringify(error));
+    //         console.log(error);
+    //         this.isLocked = true;
+    //         this.canRetryBiometric = true;
+    //     }
+    // }
 
     /**
      * Load custom lang strings. This cannot be done inside the lang provider because it causes circular dependencies.

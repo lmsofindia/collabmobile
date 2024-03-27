@@ -105,23 +105,23 @@ export class CoreLoginCredentialsPage implements OnInit, OnDestroy {
 
     splashScreens = [
         {
-            title: 'Welcome to Collabera Academy',
+            title: 'Welcome to Collabera Digital Learning Hub',
             description: 'A place to learn and grow',
             image: 'assets/img/splash-screens/1.jpg',
             active: true,
         },
-        {
-            title: 'Learn from the best',
-            description: 'We have industry experts to teach you',
-            image: 'assets/img/splash-screens/2.jpg',
-            active: false,
-        },
-        {
-            title: 'Wide range of courses',
-            description: 'We have courses from various domains with industry standard content',
-            image: 'assets/img/splash-screens/3.jpg',
-            active: false,
-        },
+        // {
+        //     title: 'Learn from the best',
+        //     description: 'We have industry experts to teach you',
+        //     image: 'assets/img/splash-screens/2.jpg',
+        //     active: false,
+        // },
+        // {
+        //     title: 'Wide range of courses',
+        //     description: 'We have courses from various domains with industry standard content',
+        //     image: 'assets/img/splash-screens/3.jpg',
+        //     active: false,
+        // },
     ];
 
     currentSplashScreen = {};
